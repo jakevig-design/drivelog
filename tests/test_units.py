@@ -216,3 +216,24 @@ def test_ios_and_android_demo_exports_give_the_same_drives():
     assert all(d.utc_offset_min == -600 for d in android)
     # iOS path times are minute offsets, Android's are exact: the point counts match, positions agree.
     assert [len(d.points) for d in ios] == [len(d.points) for d in android]
+
+
+def test_disk_estimate_reproduces_a_measured_build(tmp_path):
+    """Sizes (bytes) from a real build: 3.26 GB of extracts + 8.0 GB added grew the folder by 44.2 GB."""
+    from drivelog.cli import disk_estimate
+
+    def put(rel, n):
+        f = tmp_path / rel
+        f.parent.mkdir(parents=True, exist_ok=True)
+        with f.open("wb") as fh:
+            fh.truncate(n)  # sparse: takes no real disk
+
+    put("src/a.osm.pbf", 3_260_000_000)
+    put("merged.osm.pbf", 3_224_123_629)
+    put("valhalla_tiles/t.gph", 3_640_000_000)
+    put("valhalla_tiles.tar", 3_644_508_160)
+    put("admins.sqlite", 11_202_560)
+    put("timezones.sqlite", 122_478_592)
+    extra, peak = disk_estimate(tmp_path, 8_000_000_000)
+    assert abs(extra - 44.2e9) < 1.5e9
+    assert peak > extra + 30e9

@@ -321,9 +321,31 @@ def _gb(n) -> str:
     return f"{n / 1e9:,.2f} GB" if n is not None else "?"
 
 
-# Measured on this project's v1 build: everything under data/valhalla (source PBFs, merged PBF, tiles,
-# admin and time-zone DBs) came to about 3.3x the source PBF size. Used to estimate a new build.
-FOOTPRINT_PER_PBF_BYTE = 3.3
+# Disk model, measured on a 19-region build (11.2 GB of source extracts): per source byte, the merged
+# PBF is 1.02x, the tile folder and the tile archive the container serves 1.25x each, so the steady
+# state is ~4.5x the sources. A rebuild keeps the previous build for rollback, and the build itself
+# writes temporary files of ~3.2x the sources until it finishes. Predicted +44.1 GB for that build;
+# it grew +44.2 GB.
+STEADY_PER_SRC_BYTE = 4.5
+BUILD_TEMP_PER_SRC_BYTE = 3.2
+BUILT = ("valhalla_tiles", "valhalla_tiles.tar", "admins.sqlite")
+
+
+def _size(path) -> int:
+    if not path.exists():
+        return 0
+    return path.stat().st_size if path.is_file() else sum(f.stat().st_size for f in path.rglob("*") if f.is_file())
+
+
+def disk_estimate(vdir, new_bytes: int) -> tuple[int, int]:
+    """(extra bytes once finished, extra bytes at the peak of the tile build) for adding new_bytes of
+    extracts to the Valhalla data under vdir."""
+    current = _size(vdir)
+    src_after = _size(vdir / "src") + new_bytes
+    keep_previous = sum(_size(vdir / b) for b in BUILT)  # moved to previous/, replacing any older copy
+    final = STEADY_PER_SRC_BYTE * src_after + keep_previous + _size(vdir / "timezones.sqlite")
+    extra = int(final - current)
+    return extra, int(extra + BUILD_TEMP_PER_SRC_BYTE * src_after)
 
 
 def print_plan(plan) -> None:
@@ -335,8 +357,9 @@ def print_plan(plan) -> None:
         for it in plan.items:
             print(f"  {it.region.path:<40} {it.region.tier:<12} {it.points:>7,} {len(it.drives):>7,} {_gb(it.size_bytes):>11}")
         total = sum(it.size_bytes or 0 for it in plan.items)
-        print(f"\n  Download: {_gb(total)}   estimated extra disk for tiles and merged data: "
-              f"{_gb(total * FOOTPRINT_PER_PBF_BYTE)}")
+        extra, peak = disk_estimate(load_config().valhalla_dir, total)
+        print(f"\n  Download: {_gb(total)}   extra disk when done: ~{_gb(extra)} "
+              f"(~{_gb(peak)} at the peak of the tile build)")
     if plan.skipped:
         print(f"\nSkipped (fewer than 2 points each): " + ", ".join(f"{i.region.path} ({i.points})" for i in plan.skipped))
     if plan.unresolved_points:
