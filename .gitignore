@@ -1,0 +1,27 @@
+# Your location data: never commit
+Timeline*.json
+# ...but the synthetic demo exports are meant to be committed (git matches case-insensitively on macOS)
+!demo/timeline_ios.json
+!demo/timeline_android.json
+location-history*.json
+data/
+*.duckdb
+*.duckdb.wal
+/config.toml
+
+# Generated from config by `drivelog valhalla compose` / `drivelog demo`
+docker-compose.yml
+docker-compose.*.yml
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Front end
+web/node_modules/
+web/dist/
+
+.DS_Store
+.claude/settings.local.json

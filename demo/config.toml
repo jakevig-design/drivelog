@@ -1,0 +1,32 @@
+# Configuration for `drivelog demo`: synthetic drives on Oahu, Hawaii. Separate database, routing
+# tiles and Valhalla container (port 8003) from your own setup, so the demo never touches your data.
+
+[input]
+timeline_path = "demo/timeline_ios.json"   # `drivelog demo --format android` uses demo/timeline_android.json
+
+[time]
+fallback_tz = "Pacific/Honolulu"
+
+[storage]
+db_path = "data/demo/drivelog.duckdb"
+
+[extract]
+drive_types = ["in passenger vehicle", "motorcycling"]
+min_points = 2
+min_distance_m = 500
+
+[fill]
+stationary_m = 100
+
+[valhalla]
+url = "http://localhost:8003"
+data_dir = "data/demo/valhalla"
+compose_file = "docker-compose.demo.yml"
+container = "drivelog-demo-valhalla"
+extracts = [
+    "north-america/us/hawaii",
+]
+workers = 2
+gps_accuracy = 50
+search_radius = 150
+breakage_distance = 10000

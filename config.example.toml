@@ -1,0 +1,34 @@
+# Drivelog configuration. Copy to config.toml and edit; paths are relative to the project root.
+
+[input]
+timeline_path = "Timeline.json"      # your exported Timeline file (iPhone or Android format)
+
+[time]
+# Used only when a source timestamp has no UTC offset.
+fallback_tz = "America/New_York"
+
+[storage]
+db_path = "data/drivelog.duckdb"
+
+[extract]
+drive_types = ["in passenger vehicle", "motorcycling"]
+min_points = 2
+min_distance_m = 500
+
+[fill]
+# A drive's moving window starts once it is this far from its first point, and ends once it is back
+# within this distance of its last point. Parked minutes outside it don't count toward route timing.
+stationary_m = 100
+
+[valhalla]
+url = "http://localhost:8002"
+# Geofabrik extract paths covering where you drive. `drivelog coverage plan` suggests them from your
+# data; `drivelog coverage apply` adds them here and rebuilds the routing tiles.
+# Example: extracts = ["north-america/us/oregon", "europe/netherlands"]
+extracts = []
+workers = 4
+gps_accuracy = 50
+search_radius = 150
+# Gaps between GPS points wider than this are routed by the fill stage instead of the matcher.
+# 10 km needs ~10 GB for Docker; use 5000 with Docker's default memory (see README).
+breakage_distance = 10000

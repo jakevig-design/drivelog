@@ -1,0 +1,4773 @@
+[
+ {
+  "startTime": "2016-02-29T07:36:19.000-10:00",
+  "endTime": "2016-02-29T08:03:57.758-10:00",
+  "activity": {
+   "start": "geo:21.393374,-157.739787",
+   "end": "geo:21.306772,-157.858384",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-02-29T07:36:00.000-10:00",
+  "endTime": "2016-02-29T08:03:57.758-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393457,-157.739969",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393581,-157.739965",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.393729,-157.740098",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.393602,-157.739995",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.381432,-157.755701",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.378913,-157.777135",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.373515,-157.781964",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.368033,-157.783618",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.356039,-157.808113",
+    "durationMinutesOffsetFromStartTime": "17"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-02-29T08:03:57.758-10:00",
+  "endTime": "2016-02-29T17:13:21.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-02-29T17:13:21.000-10:00",
+  "endTime": "2016-02-29T17:34:11.155-10:00",
+  "activity": {
+   "start": "geo:21.306913,-157.858481",
+   "end": "geo:21.393385,-157.740009",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-02-29T17:13:00.000-10:00",
+  "endTime": "2016-02-29T17:34:11.155-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.317599,-157.851734",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.330937,-157.843569",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.337287,-157.838024",
+    "durationMinutesOffsetFromStartTime": "5"
+   },
+   {
+    "point": "geo:21.378833,-157.773385",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.379888,-157.757124",
+    "durationMinutesOffsetFromStartTime": "18"
+   },
+   {
+    "point": "geo:21.385986,-157.751366",
+    "durationMinutesOffsetFromStartTime": "19"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-02-29T17:34:11.155-10:00",
+  "endTime": "2016-03-01T07:45:02.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-01T07:45:02.000-10:00",
+  "endTime": "2016-03-01T08:09:26.601-10:00",
+  "activity": {
+   "start": "geo:21.393704,-157.739858",
+   "end": "geo:21.306936,-157.858349",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-01T07:45:00.000-10:00",
+  "endTime": "2016-03-01T08:09:26.601-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393608,-157.739943",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393833,-157.740216",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.392327,-157.746664",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.378553,-157.771739",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.36988,-157.786424",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.362502,-157.800677",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.353802,-157.813192",
+    "durationMinutesOffsetFromStartTime": "15"
+   },
+   {
+    "point": "geo:21.336905,-157.838754",
+    "durationMinutesOffsetFromStartTime": "19"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-01T08:09:26.601-10:00",
+  "endTime": "2016-03-01T17:22:07.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-01T17:22:07.000-10:00",
+  "endTime": "2016-03-01T17:40:49.598-10:00",
+  "activity": {
+   "start": "geo:21.306875,-157.858404",
+   "end": "geo:21.39373,-157.740124",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-01T17:22:00.000-10:00",
+  "endTime": "2016-03-01T17:40:49.598-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.326223,-157.845288",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.378941,-157.776827",
+    "durationMinutesOffsetFromStartTime": "14"
+   },
+   {
+    "point": "geo:21.378611,-157.758398",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.385414,-157.751818",
+    "durationMinutesOffsetFromStartTime": "17"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-01T17:40:49.598-10:00",
+  "endTime": "2016-03-01T18:45:26.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-01T18:45:26.000-10:00",
+  "endTime": "2016-03-01T19:01:05.915-10:00",
+  "activity": {
+   "start": "geo:21.393605,-157.739997",
+   "end": "geo:21.417727,-157.802991",
+   "distanceMeters": "9171.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-01T18:45:00.000-10:00",
+  "endTime": "2016-03-01T19:01:05.915-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393588,-157.739986",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393524,-157.739943",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.393973,-157.740269",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.393506,-157.739939",
+    "durationMinutesOffsetFromStartTime": "4"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-01T19:01:05.915-10:00",
+  "endTime": "2016-03-01T19:49:36.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-gym",
+    "placeLocation": "geo:21.418,-157.803"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-01T19:49:36.000-10:00",
+  "endTime": "2016-03-01T20:04:29.561-10:00",
+  "activity": {
+   "start": "geo:21.417936,-157.803067",
+   "end": "geo:21.393445,-157.739861",
+   "distanceMeters": "9145.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-01T19:49:00.000-10:00",
+  "endTime": "2016-03-01T20:04:29.561-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.407117,-157.795102",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.405964,-157.790556",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.411182,-157.774977",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.406222,-157.764393",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.406482,-157.75874",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.395679,-157.744375",
+    "durationMinutesOffsetFromStartTime": "14"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-01T20:04:29.561-10:00",
+  "endTime": "2016-03-02T07:38:42.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-02T07:38:42.000-10:00",
+  "endTime": "2016-03-02T08:02:26.041-10:00",
+  "activity": {
+   "start": "geo:21.393662,-157.740016",
+   "end": "geo:21.306719,-157.85839",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-02T07:38:00.000-10:00",
+  "endTime": "2016-03-02T08:02:26.041-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.381408,-157.755705",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.373669,-157.781886",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.364715,-157.796223",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.355942,-157.807796",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.353616,-157.815063",
+    "durationMinutesOffsetFromStartTime": "14"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-02T08:02:26.041-10:00",
+  "endTime": "2016-03-02T17:13:29.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-02T17:13:29.000-10:00",
+  "endTime": "2016-03-02T17:35:41.699-10:00",
+  "activity": {
+   "start": "geo:21.306848,-157.858449",
+   "end": "geo:21.393668,-157.74003",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-02T17:13:00.000-10:00",
+  "endTime": "2016-03-02T17:35:41.699-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.306986,-157.858533",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.306912,-157.858387",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.318026,-157.851378",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.371091,-157.782204",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.378246,-157.77767",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.383317,-157.75386",
+    "durationMinutesOffsetFromStartTime": "20"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-02T17:35:41.699-10:00",
+  "endTime": "2016-03-02T18:59:21.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-02T18:59:21.000-10:00",
+  "endTime": "2016-03-02T19:03:05.706-10:00",
+  "activity": {
+   "start": "geo:21.393478,-157.73995",
+   "end": "geo:21.400827,-157.744749",
+   "distanceMeters": "1572.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-02T18:59:00.000-10:00",
+  "endTime": "2016-03-02T19:03:05.706-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.394308,-157.743305",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.397312,-157.746132",
+    "durationMinutesOffsetFromStartTime": "2"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-02T19:03:05.706-10:00",
+  "endTime": "2016-03-02T19:40:10.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-grocery",
+    "placeLocation": "geo:21.401,-157.7445"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-02T19:40:10.000-10:00",
+  "endTime": "2016-03-02T19:43:45.870-10:00",
+  "activity": {
+   "start": "geo:21.400874,-157.744748",
+   "end": "geo:21.39356,-157.739966",
+   "distanceMeters": "1533.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-02T19:40:00.000-10:00",
+  "endTime": "2016-03-02T19:43:45.870-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.394044,-157.742195",
+    "durationMinutesOffsetFromStartTime": "3"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-02T19:43:45.870-10:00",
+  "endTime": "2016-03-03T07:39:23.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-03T07:39:23.000-10:00",
+  "endTime": "2016-03-03T08:02:24.857-10:00",
+  "activity": {
+   "start": "geo:21.393551,-157.739981",
+   "end": "geo:21.306808,-157.858439",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-03T07:39:00.000-10:00",
+  "endTime": "2016-03-03T08:02:24.857-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393529,-157.740005",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393666,-157.739976",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.393693,-157.740023",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.393533,-157.739961",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.384277,-157.753168",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.378198,-157.760036",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.377668,-157.778416",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.318169,-157.851508",
+    "durationMinutesOffsetFromStartTime": "21"
+   },
+   {
+    "point": "geo:21.306677,-157.858515",
+    "durationMinutesOffsetFromStartTime": "23"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-03T08:02:24.857-10:00",
+  "endTime": "2016-03-03T17:18:34.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-03T17:18:34.000-10:00",
+  "endTime": "2016-03-03T17:42:15.851-10:00",
+  "activity": {
+   "start": "geo:21.306947,-157.858414",
+   "end": "geo:21.393631,-157.739914",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-03T17:18:00.000-10:00",
+  "endTime": "2016-03-03T17:42:15.851-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.306826,-157.85843",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.306971,-157.8584",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.311573,-157.857564",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.336169,-157.839444",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.347604,-157.828131",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.35758,-157.80658",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.364271,-157.78092",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.37779,-157.778211",
+    "durationMinutesOffsetFromStartTime": "18"
+   },
+   {
+    "point": "geo:21.378332,-157.770725",
+    "durationMinutesOffsetFromStartTime": "19"
+   },
+   {
+    "point": "geo:21.377199,-157.762477",
+    "durationMinutesOffsetFromStartTime": "20"
+   },
+   {
+    "point": "geo:21.381387,-157.755619",
+    "durationMinutesOffsetFromStartTime": "21"
+   },
+   {
+    "point": "geo:21.387282,-157.75016",
+    "durationMinutesOffsetFromStartTime": "22"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-03T17:42:15.851-10:00",
+  "endTime": "2016-03-03T18:28:31.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-03T18:28:31.000-10:00",
+  "endTime": "2016-03-03T18:42:19.888-10:00",
+  "activity": {
+   "start": "geo:21.39356,-157.73998",
+   "end": "geo:21.417776,-157.803169",
+   "distanceMeters": "9171.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-03T18:28:00.000-10:00",
+  "endTime": "2016-03-03T18:42:19.888-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393735,-157.739874",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393689,-157.740057",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.414014,-157.800403",
+    "durationMinutesOffsetFromStartTime": "13"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-03T18:42:19.888-10:00",
+  "endTime": "2016-03-03T19:52:50.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-gym",
+    "placeLocation": "geo:21.418,-157.803"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-03T19:52:50.000-10:00",
+  "endTime": "2016-03-03T20:07:28.867-10:00",
+  "activity": {
+   "start": "geo:21.417846,-157.803075",
+   "end": "geo:21.393624,-157.739998",
+   "distanceMeters": "9145.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-03T19:52:00.000-10:00",
+  "endTime": "2016-03-03T20:07:28.867-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.418112,-157.803051",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.418027,-157.803127",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.413392,-157.800044",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.409203,-157.796911",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.405794,-157.786216",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.408643,-157.780511",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.41106,-157.774469",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.405818,-157.761935",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.406125,-157.751087",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.40027,-157.747937",
+    "durationMinutesOffsetFromStartTime": "13"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-03T20:07:28.867-10:00",
+  "endTime": "2016-03-04T07:31:47.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-04T07:31:47.000-10:00",
+  "endTime": "2016-03-04T08:00:13.373-10:00",
+  "activity": {
+   "start": "geo:21.393682,-157.739918",
+   "end": "geo:21.306786,-157.858461",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-04T07:31:00.000-10:00",
+  "endTime": "2016-03-04T08:00:13.373-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393599,-157.739961",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393402,-157.739874",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.393443,-157.74008",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.393393,-157.739982",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.387115,-157.750512",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.377672,-157.761034",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.374871,-157.781071",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.365781,-157.794235",
+    "durationMinutesOffsetFromStartTime": "15"
+   },
+   {
+    "point": "geo:21.352739,-157.818958",
+    "durationMinutesOffsetFromStartTime": "19"
+   },
+   {
+    "point": "geo:21.339201,-157.835619",
+    "durationMinutesOffsetFromStartTime": "22"
+   },
+   {
+    "point": "geo:21.322444,-157.847022",
+    "durationMinutesOffsetFromStartTime": "25"
+   },
+   {
+    "point": "geo:21.307291,-157.860576",
+    "durationMinutesOffsetFromStartTime": "28"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-04T08:00:13.373-10:00",
+  "endTime": "2016-03-04T17:16:56.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-04T17:16:56.000-10:00",
+  "endTime": "2016-03-04T17:40:13.970-10:00",
+  "activity": {
+   "start": "geo:21.306957,-157.858353",
+   "end": "geo:21.393688,-157.740037",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-04T17:16:00.000-10:00",
+  "endTime": "2016-03-04T17:40:13.970-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.311104,-157.857305",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.316384,-157.852784",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.328166,-157.845576",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.344868,-157.830913",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.353995,-157.810939",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.359402,-157.8058",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.366676,-157.792805",
+    "durationMinutesOffsetFromStartTime": "13"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-04T17:40:13.970-10:00",
+  "endTime": "2016-03-04T19:00:33.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-04T19:00:33.000-10:00",
+  "endTime": "2016-03-04T19:27:20.007-10:00",
+  "activity": {
+   "start": "geo:21.393603,-157.739966",
+   "end": "geo:21.277068,-157.825842",
+   "distanceMeters": "23782.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-04T19:00:00.000-10:00",
+  "endTime": "2016-03-04T19:27:20.007-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.379577,-157.757387",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.377116,-157.765215",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.375753,-157.78026",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.366842,-157.783079",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.364445,-157.796689",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.353363,-157.817887",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.338118,-157.837013",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.332305,-157.842703",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.325381,-157.845465",
+    "durationMinutesOffsetFromStartTime": "18"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-04T19:27:20.007-10:00",
+  "endTime": "2016-03-04T22:39:19.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-waikiki",
+    "placeLocation": "geo:21.277,-157.826"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-04T22:39:19.000-10:00",
+  "endTime": "2016-03-04T23:07:10.952-10:00",
+  "activity": {
+   "start": "geo:21.276892,-157.825854",
+   "end": "geo:21.393763,-157.740074",
+   "distanceMeters": "24055.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-04T22:39:00.000-10:00",
+  "endTime": "2016-03-04T23:07:10.952-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.276927,-157.82577",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.276798,-157.825922",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.277064,-157.825784",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.276754,-157.825791",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.289683,-157.832283",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.298156,-157.829029",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.301977,-157.835554",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.309707,-157.851884",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.338887,-157.835911",
+    "durationMinutesOffsetFromStartTime": "14"
+   },
+   {
+    "point": "geo:21.346014,-157.829991",
+    "durationMinutesOffsetFromStartTime": "15"
+   },
+   {
+    "point": "geo:21.353737,-157.813005",
+    "durationMinutesOffsetFromStartTime": "17"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-04T23:07:10.952-10:00",
+  "endTime": "2016-03-05T09:26:30.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-05T09:26:30.000-10:00",
+  "endTime": "2016-03-05T09:29:56.912-10:00",
+  "activity": {
+   "start": "geo:21.393437,-157.73987",
+   "end": "geo:21.400925,-157.744788",
+   "distanceMeters": "1572.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-05T09:26:00.000-10:00",
+  "endTime": "2016-03-05T09:29:56.912-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.400645,-157.74626",
+    "durationMinutesOffsetFromStartTime": "3"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-05T09:29:56.912-10:00",
+  "endTime": "2016-03-05T10:09:54.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-grocery",
+    "placeLocation": "geo:21.401,-157.7445"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-05T10:09:54.000-10:00",
+  "endTime": "2016-03-05T10:13:03.338-10:00",
+  "activity": {
+   "start": "geo:21.400895,-157.744759",
+   "end": "geo:21.393756,-157.739937",
+   "distanceMeters": "1533.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-05T10:09:00.000-10:00",
+  "endTime": "2016-03-05T10:13:03.338-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393542,-157.740557",
+    "durationMinutesOffsetFromStartTime": "3"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-05T10:13:03.338-10:00",
+  "endTime": "2016-03-05T11:41:27.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-05T11:41:27.000-10:00",
+  "endTime": "2016-03-05T12:32:19.169-10:00",
+  "activity": {
+   "start": "geo:21.393469,-157.739932",
+   "end": "geo:21.592826,-158.103405",
+   "distanceMeters": "61678.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-05T11:41:00.000-10:00",
+  "endTime": "2016-03-05T12:32:19.169-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393586,-157.739968",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393643,-157.739945",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.393461,-157.74",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.393599,-157.739988",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.404639,-157.849056",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.40668,-157.861506",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.391822,-157.974591",
+    "durationMinutesOffsetFromStartTime": "28"
+   },
+   {
+    "point": "geo:21.419359,-157.993739",
+    "durationMinutesOffsetFromStartTime": "31"
+   },
+   {
+    "point": "geo:21.462047,-157.997103",
+    "durationMinutesOffsetFromStartTime": "35"
+   },
+   {
+    "point": "geo:21.559177,-158.067123",
+    "durationMinutesOffsetFromStartTime": "46"
+   },
+   {
+    "point": "geo:21.582904,-158.104382",
+    "durationMinutesOffsetFromStartTime": "50"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-05T12:32:19.169-10:00",
+  "endTime": "2016-03-05T16:21:07.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-north_shore",
+    "placeLocation": "geo:21.593,-158.103"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-05T16:21:07.000-10:00",
+  "endTime": "2016-03-05T17:11:27.663-10:00",
+  "activity": {
+   "start": "geo:21.592983,-158.103391",
+   "end": "geo:21.39343,-157.740064",
+   "distanceMeters": "62707.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-05T16:21:00.000-10:00",
+  "endTime": "2016-03-05T17:11:27.663-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.566036,-158.079987",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.561426,-158.069157",
+    "durationMinutesOffsetFromStartTime": "5"
+   },
+   {
+    "point": "geo:21.540917,-158.04341",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.529968,-158.040136",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.490442,-158.028571",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.47521,-158.017987",
+    "durationMinutesOffsetFromStartTime": "15"
+   },
+   {
+    "point": "geo:21.444459,-157.992396",
+    "durationMinutesOffsetFromStartTime": "19"
+   },
+   {
+    "point": "geo:21.412921,-157.990531",
+    "durationMinutesOffsetFromStartTime": "22"
+   },
+   {
+    "point": "geo:21.394411,-157.981276",
+    "durationMinutesOffsetFromStartTime": "24"
+   },
+   {
+    "point": "geo:21.392524,-157.958772",
+    "durationMinutesOffsetFromStartTime": "26"
+   },
+   {
+    "point": "geo:21.386857,-157.936212",
+    "durationMinutesOffsetFromStartTime": "28"
+   },
+   {
+    "point": "geo:21.379669,-157.904498",
+    "durationMinutesOffsetFromStartTime": "32"
+   },
+   {
+    "point": "geo:21.399809,-157.876733",
+    "durationMinutesOffsetFromStartTime": "35"
+   },
+   {
+    "point": "geo:21.405917,-157.866762",
+    "durationMinutesOffsetFromStartTime": "36"
+   },
+   {
+    "point": "geo:21.404963,-157.820262",
+    "durationMinutesOffsetFromStartTime": "40"
+   },
+   {
+    "point": "geo:21.38611,-157.812253",
+    "durationMinutesOffsetFromStartTime": "42"
+   },
+   {
+    "point": "geo:21.378919,-157.803401",
+    "durationMinutesOffsetFromStartTime": "43"
+   },
+   {
+    "point": "geo:21.402925,-157.768233",
+    "durationMinutesOffsetFromStartTime": "47"
+   },
+   {
+    "point": "geo:21.406768,-157.758031",
+    "durationMinutesOffsetFromStartTime": "48"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-05T17:11:27.663-10:00",
+  "endTime": "2016-03-06T08:50:56.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-06T08:50:56.000-10:00",
+  "endTime": "2016-03-06T09:03:54.631-10:00",
+  "activity": {
+   "start": "geo:21.393592,-157.73997",
+   "end": "geo:21.343027,-157.711774",
+   "distanceMeters": "9250.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-06T08:50:00.000-10:00",
+  "endTime": "2016-03-06T09:03:54.631-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393465,-157.73992",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393579,-157.739966",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.3924,-157.746552",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.38636,-157.751229",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.38057,-157.755923",
+    "durationMinutesOffsetFromStartTime": "5"
+   },
+   {
+    "point": "geo:21.376621,-157.749043",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.371586,-157.742973",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.359133,-157.73401",
+    "durationMinutesOffsetFromStartTime": "9"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-06T09:03:54.631-10:00",
+  "endTime": "2016-03-06T12:39:35.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-waimanalo",
+    "placeLocation": "geo:21.342,-157.712"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-06T12:39:35.000-10:00",
+  "endTime": "2016-03-06T12:54:13.720-10:00",
+  "activity": {
+   "start": "geo:21.343365,-157.711967",
+   "end": "geo:21.393522,-157.739981",
+   "distanceMeters": "9116.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-06T12:39:00.000-10:00",
+  "endTime": "2016-03-06T12:54:13.720-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.343041,-157.711855",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.343051,-157.711922",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.348101,-157.722189",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.366295,-157.738959",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.375996,-157.747955",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.389099,-157.74847",
+    "durationMinutesOffsetFromStartTime": "13"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-06T12:54:13.720-10:00",
+  "endTime": "2016-03-06T13:54:15.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-06T13:54:15.000-10:00",
+  "endTime": "2016-03-06T14:21:19.445-10:00",
+  "activity": {
+   "start": "geo:21.393631,-157.739988",
+   "end": "geo:21.291721,-157.842771",
+   "distanceMeters": "21231.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-06T13:54:00.000-10:00",
+  "endTime": "2016-03-06T14:21:19.445-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.387101,-157.750529",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.381832,-157.755416",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.377628,-157.761242",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.367848,-157.781439",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.366585,-157.782795",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.362286,-157.801251",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.357643,-157.806516",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.352538,-157.819844",
+    "durationMinutesOffsetFromStartTime": "15"
+   },
+   {
+    "point": "geo:21.344129,-157.831563",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.333753,-157.84166",
+    "durationMinutesOffsetFromStartTime": "19"
+   },
+   {
+    "point": "geo:21.32789,-157.845651",
+    "durationMinutesOffsetFromStartTime": "20"
+   },
+   {
+    "point": "geo:21.310808,-157.854011",
+    "durationMinutesOffsetFromStartTime": "23"
+   },
+   {
+    "point": "geo:21.295418,-157.847918",
+    "durationMinutesOffsetFromStartTime": "26"
+   },
+   {
+    "point": "geo:21.291623,-157.843405",
+    "durationMinutesOffsetFromStartTime": "27"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-06T14:21:19.445-10:00",
+  "endTime": "2016-03-06T16:42:12.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-mall",
+    "placeLocation": "geo:21.2913,-157.843"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-06T16:42:12.000-10:00",
+  "endTime": "2016-03-06T17:04:54.042-10:00",
+  "activity": {
+   "start": "geo:21.291612,-157.842868",
+   "end": "geo:21.393516,-157.739978",
+   "distanceMeters": "21450.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-06T16:42:00.000-10:00",
+  "endTime": "2016-03-06T17:04:54.042-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.312381,-157.852716",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.319465,-157.850299",
+    "durationMinutesOffsetFromStartTime": "5"
+   },
+   {
+    "point": "geo:21.333493,-157.841709",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.339442,-157.835337",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.351116,-157.822447",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.35374,-157.814115",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.367097,-157.792197",
+    "durationMinutesOffsetFromStartTime": "14"
+   },
+   {
+    "point": "geo:21.366899,-157.780393",
+    "durationMinutesOffsetFromStartTime": "16"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-06T17:04:54.042-10:00",
+  "endTime": "2016-03-07T07:50:03.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-07T07:50:03.000-10:00",
+  "endTime": "2016-03-07T08:11:13.927-10:00",
+  "activity": {
+   "start": "geo:21.393487,-157.7399",
+   "end": "geo:21.306702,-157.858543",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-07T07:50:00.000-10:00",
+  "endTime": "2016-03-07T08:11:13.927-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393543,-157.739974",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.39338,-157.740131",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.377915,-157.769143",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.370372,-157.782149",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.368574,-157.788908",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.359982,-157.805335",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.351886,-157.821082",
+    "durationMinutesOffsetFromStartTime": "14"
+   },
+   {
+    "point": "geo:21.333992,-157.841596",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.31945,-157.850603",
+    "durationMinutesOffsetFromStartTime": "19"
+   },
+   {
+    "point": "geo:21.306354,-157.85961",
+    "durationMinutesOffsetFromStartTime": "21"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-07T08:11:13.927-10:00",
+  "endTime": "2016-03-07T17:21:59.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-07T17:21:59.000-10:00",
+  "endTime": "2016-03-07T17:43:34.944-10:00",
+  "activity": {
+   "start": "geo:21.307033,-157.858564",
+   "end": "geo:21.393564,-157.739977",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-07T17:21:00.000-10:00",
+  "endTime": "2016-03-07T17:43:34.944-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.323011,-157.846472",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.330074,-157.844398",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.347867,-157.827974",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.357688,-157.806368",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.366617,-157.79302",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.36449,-157.780405",
+    "durationMinutesOffsetFromStartTime": "14"
+   },
+   {
+    "point": "geo:21.378277,-157.777831",
+    "durationMinutesOffsetFromStartTime": "16"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-07T17:43:34.944-10:00",
+  "endTime": "2016-03-08T07:42:44.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-08T07:42:44.000-10:00",
+  "endTime": "2016-03-08T08:04:28.722-10:00",
+  "activity": {
+   "start": "geo:21.393841,-157.740059",
+   "end": "geo:21.307034,-157.858596",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-08T07:42:00.000-10:00",
+  "endTime": "2016-03-08T08:04:28.722-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.385879,-157.75167",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.377071,-157.764715",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.368938,-157.782182",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.361648,-157.80305",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.35381,-157.816408",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.333965,-157.841509",
+    "durationMinutesOffsetFromStartTime": "17"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-08T08:04:28.722-10:00",
+  "endTime": "2016-03-08T17:26:21.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-08T17:26:21.000-10:00",
+  "endTime": "2016-03-08T17:50:01.880-10:00",
+  "activity": {
+   "start": "geo:21.306744,-157.858458",
+   "end": "geo:21.393643,-157.740019",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-08T17:26:00.000-10:00",
+  "endTime": "2016-03-08T17:50:01.880-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.327813,-157.845618",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.338583,-157.836236",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.352664,-157.819455",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.353814,-157.81203",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.365928,-157.793979",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.375167,-157.780562",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.377395,-157.767376",
+    "durationMinutesOffsetFromStartTime": "19"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-08T17:50:01.880-10:00",
+  "endTime": "2016-03-08T18:51:49.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-08T18:51:49.000-10:00",
+  "endTime": "2016-03-08T19:03:33.468-10:00",
+  "activity": {
+   "start": "geo:21.393467,-157.740016",
+   "end": "geo:21.418041,-157.803025",
+   "distanceMeters": "9171.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-08T18:51:00.000-10:00",
+  "endTime": "2016-03-08T19:03:33.468-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.39669,-157.745703",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.408634,-157.753538",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.406548,-157.75934",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.410859,-157.772987",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.409052,-157.779789",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.409157,-157.797572",
+    "durationMinutesOffsetFromStartTime": "10"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-08T19:03:33.468-10:00",
+  "endTime": "2016-03-08T19:59:35.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-gym",
+    "placeLocation": "geo:21.418,-157.803"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-08T19:59:35.000-10:00",
+  "endTime": "2016-03-08T20:13:07.932-10:00",
+  "activity": {
+   "start": "geo:21.417879,-157.803067",
+   "end": "geo:21.393479,-157.73996",
+   "distanceMeters": "9145.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-08T19:59:00.000-10:00",
+  "endTime": "2016-03-08T20:13:07.932-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.409447,-157.797789",
+    "durationMinutesOffsetFromStartTime": "2"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-08T20:13:07.932-10:00",
+  "endTime": "2016-03-09T07:40:38.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-09T07:40:38.000-10:00",
+  "endTime": "2016-03-09T08:04:32.492-10:00",
+  "activity": {
+   "start": "geo:21.39355,-157.739957",
+   "end": "geo:21.306875,-157.858387",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-09T07:40:00.000-10:00",
+  "endTime": "2016-03-09T08:04:32.492-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.392676,-157.746203",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.38142,-157.755665",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.373808,-157.781733",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.367274,-157.783407",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.36501,-157.795716",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.351994,-157.821404",
+    "durationMinutesOffsetFromStartTime": "15"
+   },
+   {
+    "point": "geo:21.342489,-157.832675",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.337339,-157.83797",
+    "durationMinutesOffsetFromStartTime": "18"
+   },
+   {
+    "point": "geo:21.325754,-157.845347",
+    "durationMinutesOffsetFromStartTime": "20"
+   },
+   {
+    "point": "geo:21.320433,-157.849892",
+    "durationMinutesOffsetFromStartTime": "21"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-09T08:04:32.492-10:00",
+  "endTime": "2016-03-09T17:18:46.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-09T17:18:46.000-10:00",
+  "endTime": "2016-03-09T17:43:05.698-10:00",
+  "activity": {
+   "start": "geo:21.306975,-157.858522",
+   "end": "geo:21.393487,-157.739931",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-09T17:18:00.000-10:00",
+  "endTime": "2016-03-09T17:43:05.698-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.326985,-157.845481",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.337924,-157.837085",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.353616,-157.814029",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.361469,-157.802842",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.368016,-157.783742",
+    "durationMinutesOffsetFromStartTime": "15"
+   },
+   {
+    "point": "geo:21.372397,-157.781851",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.37682,-157.763961",
+    "durationMinutesOffsetFromStartTime": "20"
+   },
+   {
+    "point": "geo:21.384841,-157.752308",
+    "durationMinutesOffsetFromStartTime": "22"
+   },
+   {
+    "point": "geo:21.390394,-157.747744",
+    "durationMinutesOffsetFromStartTime": "23"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-09T17:43:05.698-10:00",
+  "endTime": "2016-03-09T18:55:01.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-09T18:55:01.000-10:00",
+  "endTime": "2016-03-09T18:59:19.853-10:00",
+  "activity": {
+   "start": "geo:21.393653,-157.739912",
+   "end": "geo:21.400667,-157.744807",
+   "distanceMeters": "1572.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-09T18:55:00.000-10:00",
+  "endTime": "2016-03-09T18:59:19.853-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.394087,-157.74295",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.401155,-157.745472",
+    "durationMinutesOffsetFromStartTime": "4"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-09T18:59:19.853-10:00",
+  "endTime": "2016-03-09T19:47:03.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-grocery",
+    "placeLocation": "geo:21.401,-157.7445"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-09T19:47:03.000-10:00",
+  "endTime": "2016-03-09T19:50:02.349-10:00",
+  "activity": {
+   "start": "geo:21.400767,-157.744806",
+   "end": "geo:21.393571,-157.739974",
+   "distanceMeters": "1533.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-09T19:47:00.000-10:00",
+  "endTime": "2016-03-09T19:50:02.349-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.395412,-157.74409",
+    "durationMinutesOffsetFromStartTime": "2"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-09T19:50:02.349-10:00",
+  "endTime": "2016-03-10T07:37:04.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-10T07:37:04.000-10:00",
+  "endTime": "2016-03-10T07:58:46.292-10:00",
+  "activity": {
+   "start": "geo:21.393593,-157.739969",
+   "end": "geo:21.306804,-157.858428",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-10T07:37:00.000-10:00",
+  "endTime": "2016-03-10T07:58:46.292-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393531,-157.739979",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393587,-157.739973",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.391687,-157.747357",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.379056,-157.77725",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.369617,-157.787246",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.361268,-157.803426",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.353429,-157.818427",
+    "durationMinutesOffsetFromStartTime": "14"
+   },
+   {
+    "point": "geo:21.342554,-157.83262",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.321853,-157.847546",
+    "durationMinutesOffsetFromStartTime": "19"
+   },
+   {
+    "point": "geo:21.309455,-157.860221",
+    "durationMinutesOffsetFromStartTime": "21"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-10T07:58:46.292-10:00",
+  "endTime": "2016-03-10T17:27:13.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-10T17:27:13.000-10:00",
+  "endTime": "2016-03-10T17:50:55.670-10:00",
+  "activity": {
+   "start": "geo:21.306973,-157.858528",
+   "end": "geo:21.393754,-157.739988",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-10T17:27:00.000-10:00",
+  "endTime": "2016-03-10T17:50:55.670-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.310855,-157.857257",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.316109,-157.853006",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.327475,-157.845571",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.338808,-157.836388",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.377356,-157.767559",
+    "durationMinutesOffsetFromStartTime": "19"
+   },
+   {
+    "point": "geo:21.387905,-157.749572",
+    "durationMinutesOffsetFromStartTime": "22"
+   },
+   {
+    "point": "geo:21.393543,-157.744909",
+    "durationMinutesOffsetFromStartTime": "23"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-10T17:50:55.670-10:00",
+  "endTime": "2016-03-10T18:50:32.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-10T18:50:32.000-10:00",
+  "endTime": "2016-03-10T19:05:08.328-10:00",
+  "activity": {
+   "start": "geo:21.393619,-157.739951",
+   "end": "geo:21.417964,-157.803082",
+   "distanceMeters": "9171.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-10T18:50:00.000-10:00",
+  "endTime": "2016-03-10T19:05:08.328-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.400459,-157.748046",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.409305,-157.755017",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.409725,-157.770461",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.408326,-157.78121",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.405776,-157.792142",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.416361,-157.801263",
+    "durationMinutesOffsetFromStartTime": "14"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-10T19:05:08.328-10:00",
+  "endTime": "2016-03-10T19:49:54.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-gym",
+    "placeLocation": "geo:21.418,-157.803"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-10T19:49:54.000-10:00",
+  "endTime": "2016-03-10T20:05:25.362-10:00",
+  "activity": {
+   "start": "geo:21.418144,-157.803001",
+   "end": "geo:21.393354,-157.740134",
+   "distanceMeters": "9145.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-10T19:49:00.000-10:00",
+  "endTime": "2016-03-10T20:05:25.362-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.417955,-157.803082",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.417861,-157.803126",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.404511,-157.750137",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.394373,-157.743065",
+    "durationMinutesOffsetFromStartTime": "15"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-10T20:05:25.362-10:00",
+  "endTime": "2016-03-11T05:40:34.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-11T05:40:34.000-10:00",
+  "endTime": "2016-03-11T06:11:43.633-10:00",
+  "activity": {
+   "start": "geo:21.393587,-157.739991",
+   "end": "geo:21.330875,-157.920915",
+   "distanceMeters": "31847.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-11T05:40:00.000-10:00",
+  "endTime": "2016-03-11T06:11:43.633-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.38387,-157.753464",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.377767,-157.76063",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.377318,-157.778794",
+    "durationMinutesOffsetFromStartTime": "5"
+   },
+   {
+    "point": "geo:21.386168,-157.789477",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.380384,-157.796768",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.379988,-157.805919",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.395844,-157.812853",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.403991,-157.834899",
+    "durationMinutesOffsetFromStartTime": "14"
+   },
+   {
+    "point": "geo:21.40288,-157.873093",
+    "durationMinutesOffsetFromStartTime": "18"
+   },
+   {
+    "point": "geo:21.330948,-157.92232",
+    "durationMinutesOffsetFromStartTime": "31"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-11T06:11:43.633-10:00",
+  "endTime": "2016-03-11T06:49:49.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-airport",
+    "placeLocation": "geo:21.331,-157.921"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-11T06:49:49.000-10:00",
+  "endTime": "2016-03-11T07:10:52.628-10:00",
+  "activity": {
+   "start": "geo:21.331095,-157.920968",
+   "end": "geo:21.396803,-157.975175",
+   "distanceMeters": "13992.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-11T06:49:00.000-10:00",
+  "endTime": "2016-03-11T07:10:52.628-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.337775,-157.916148",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.338609,-157.922477",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.344222,-157.932834",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.350199,-157.93291",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.392345,-157.963859",
+    "durationMinutesOffsetFromStartTime": "19"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-11T07:10:52.628-10:00",
+  "endTime": "2016-03-11T07:43:21.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-11T07:43:21.000-10:00",
+  "endTime": "2016-03-11T08:06:59.096-10:00",
+  "activity": {
+   "start": "geo:21.393572,-157.739976",
+   "end": "geo:21.306908,-157.858493",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-11T07:43:00.000-10:00",
+  "endTime": "2016-03-11T08:06:59.096-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393575,-157.739978",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393525,-157.740002",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.393758,-157.739989",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.39344,-157.739858",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.384616,-157.752801",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.371639,-157.782026",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.36472,-157.781257",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.364964,-157.795689",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.353135,-157.818712",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.348753,-157.826764",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.336327,-157.839583",
+    "durationMinutesOffsetFromStartTime": "19"
+   },
+   {
+    "point": "geo:21.315054,-157.85411",
+    "durationMinutesOffsetFromStartTime": "22"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-11T08:06:59.096-10:00",
+  "endTime": "2016-03-11T08:01:24.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-pearl_city",
+    "placeLocation": "geo:21.397,-157.975"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-11T08:01:24.000-10:00",
+  "endTime": "2016-03-11T08:28:46.734-10:00",
+  "activity": {
+   "start": "geo:21.396856,-157.975174",
+   "end": "geo:21.393674,-157.74004",
+   "distanceMeters": "32004.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-11T08:01:00.000-10:00",
+  "endTime": "2016-03-11T08:28:46.734-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.396733,-157.975168",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.396837,-157.975182",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.396713,-157.975113",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.396773,-157.975214",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.391414,-157.964047",
+    "durationMinutesOffsetFromStartTime": "5"
+   },
+   {
+    "point": "geo:21.386107,-157.952144",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.375236,-157.928867",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.391831,-157.892984",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.403039,-157.845265",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.402825,-157.832046",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.405057,-157.819947",
+    "durationMinutesOffsetFromStartTime": "18"
+   },
+   {
+    "point": "geo:21.384136,-157.810546",
+    "durationMinutesOffsetFromStartTime": "20"
+   },
+   {
+    "point": "geo:21.399709,-157.770778",
+    "durationMinutesOffsetFromStartTime": "24"
+   },
+   {
+    "point": "geo:21.405674,-157.75101",
+    "durationMinutesOffsetFromStartTime": "26"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-11T08:28:46.734-10:00",
+  "endTime": "2016-03-11T17:19:15.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-11T17:19:15.000-10:00",
+  "endTime": "2016-03-11T17:39:06.129-10:00",
+  "activity": {
+   "start": "geo:21.306777,-157.858409",
+   "end": "geo:21.393459,-157.739927",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-11T17:19:00.000-10:00",
+  "endTime": "2016-03-11T17:39:06.129-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.31213,-157.857284",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.338425,-157.83638",
+    "durationMinutesOffsetFromStartTime": "5"
+   },
+   {
+    "point": "geo:21.392142,-157.746772",
+    "durationMinutesOffsetFromStartTime": "19"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-11T17:39:06.129-10:00",
+  "endTime": "2016-03-11T19:05:58.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-11T19:05:58.000-10:00",
+  "endTime": "2016-03-11T19:33:07.673-10:00",
+  "activity": {
+   "start": "geo:21.393616,-157.739975",
+   "end": "geo:21.277088,-157.825724",
+   "distanceMeters": "23782.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-11T19:05:00.000-10:00",
+  "endTime": "2016-03-11T19:33:07.673-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.385905,-157.751646",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.379881,-157.757078",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.368891,-157.782175",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.365036,-157.795699",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.355504,-157.808435",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.353796,-157.816398",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.333996,-157.841517",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.320958,-157.849028",
+    "durationMinutesOffsetFromStartTime": "19"
+   },
+   {
+    "point": "geo:21.303911,-157.843928",
+    "durationMinutesOffsetFromStartTime": "22"
+   },
+   {
+    "point": "geo:21.301866,-157.835925",
+    "durationMinutesOffsetFromStartTime": "23"
+   },
+   {
+    "point": "geo:21.289572,-157.835251",
+    "durationMinutesOffsetFromStartTime": "25"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-11T19:33:07.673-10:00",
+  "endTime": "2016-03-11T22:19:23.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-waikiki",
+    "placeLocation": "geo:21.277,-157.826"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-11T22:19:23.000-10:00",
+  "endTime": "2016-03-11T22:50:04.533-10:00",
+  "activity": {
+   "start": "geo:21.277081,-157.825803",
+   "end": "geo:21.393385,-157.739909",
+   "distanceMeters": "24055.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-11T22:19:00.000-10:00",
+  "endTime": "2016-03-11T22:50:04.533-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.276946,-157.82582",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.277033,-157.825807",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.287024,-157.831985",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.293921,-157.830562",
+    "durationMinutesOffsetFromStartTime": "5"
+   },
+   {
+    "point": "geo:21.300026,-157.830368",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.302099,-157.836896",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.304251,-157.84473",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.367639,-157.791275",
+    "durationMinutesOffsetFromStartTime": "21"
+   },
+   {
+    "point": "geo:21.368918,-157.783995",
+    "durationMinutesOffsetFromStartTime": "22"
+   },
+   {
+    "point": "geo:21.365774,-157.779814",
+    "durationMinutesOffsetFromStartTime": "23"
+   },
+   {
+    "point": "geo:21.378774,-157.777161",
+    "durationMinutesOffsetFromStartTime": "25"
+   },
+   {
+    "point": "geo:21.377342,-157.76153",
+    "durationMinutesOffsetFromStartTime": "27"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-11T22:50:04.533-10:00",
+  "endTime": "2016-03-12T09:27:22.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-12T09:27:22.000-10:00",
+  "endTime": "2016-03-12T09:35:20.282-10:00",
+  "activity": {
+   "start": "geo:21.393736,-157.739964",
+   "end": "geo:21.400906,-157.744753",
+   "distanceMeters": "1572.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-12T09:27:00.000-10:00",
+  "endTime": "2016-03-12T09:35:20.282-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393613,-157.740008",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393489,-157.739901",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.393503,-157.740038",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.393593,-157.739997",
+    "durationMinutesOffsetFromStartTime": "4"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-12T09:35:20.282-10:00",
+  "endTime": "2016-03-12T10:10:02.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-grocery",
+    "placeLocation": "geo:21.401,-157.7445"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-12T10:10:02.000-10:00",
+  "endTime": "2016-03-12T10:17:13.589-10:00",
+  "activity": {
+   "start": "geo:21.40078,-157.744719",
+   "end": "geo:21.393487,-157.739958",
+   "distanceMeters": "1533.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-12T10:10:00.000-10:00",
+  "endTime": "2016-03-12T10:17:13.589-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.400996,-157.744732",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.400608,-157.744791",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.400874,-157.744744",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.400926,-157.744728",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.399043,-157.747349",
+    "durationMinutesOffsetFromStartTime": "5"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-12T10:17:13.589-10:00",
+  "endTime": "2016-03-12T11:39:22.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-12T11:39:22.000-10:00",
+  "endTime": "2016-03-12T12:18:35.691-10:00",
+  "activity": {
+   "start": "geo:21.393511,-157.73992",
+   "end": "geo:21.335159,-158.057827",
+   "distanceMeters": "47973.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-12T11:39:00.000-10:00",
+  "endTime": "2016-03-12T12:18:35.691-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393647,-157.739903",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393638,-157.739906",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.389079,-157.748745",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.377557,-157.768223",
+    "durationMinutesOffsetFromStartTime": "5"
+   },
+   {
+    "point": "geo:21.376727,-157.77923",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.383034,-157.793467",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.369808,-157.917103",
+    "durationMinutesOffsetFromStartTime": "21"
+   },
+   {
+    "point": "geo:21.385619,-157.933702",
+    "durationMinutesOffsetFromStartTime": "23"
+   },
+   {
+    "point": "geo:21.393494,-157.957105",
+    "durationMinutesOffsetFromStartTime": "25"
+   },
+   {
+    "point": "geo:21.394183,-157.980248",
+    "durationMinutesOffsetFromStartTime": "27"
+   },
+   {
+    "point": "geo:21.392623,-158.01403",
+    "durationMinutesOffsetFromStartTime": "30"
+   },
+   {
+    "point": "geo:21.381866,-158.035776",
+    "durationMinutesOffsetFromStartTime": "32"
+   },
+   {
+    "point": "geo:21.36974,-158.056777",
+    "durationMinutesOffsetFromStartTime": "34"
+   },
+   {
+    "point": "geo:21.350415,-158.0691",
+    "durationMinutesOffsetFromStartTime": "36"
+   },
+   {
+    "point": "geo:21.339057,-158.068834",
+    "durationMinutesOffsetFromStartTime": "38"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-12T12:18:35.691-10:00",
+  "endTime": "2016-03-12T16:37:28.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-kapolei",
+    "placeLocation": "geo:21.335,-158.058"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-12T16:37:28.000-10:00",
+  "endTime": "2016-03-12T17:17:41.811-10:00",
+  "activity": {
+   "start": "geo:21.335112,-158.057918",
+   "end": "geo:21.393596,-157.739989",
+   "distanceMeters": "48222.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-12T16:37:00.000-10:00",
+  "endTime": "2016-03-12T17:17:41.811-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.347757,-158.071432",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.366122,-158.060411",
+    "durationMinutesOffsetFromStartTime": "5"
+   },
+   {
+    "point": "geo:21.389573,-158.022062",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.394402,-158.011921",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.385905,-157.897656",
+    "durationMinutesOffsetFromStartTime": "22"
+   },
+   {
+    "point": "geo:21.398031,-157.879333",
+    "durationMinutesOffsetFromStartTime": "24"
+   },
+   {
+    "point": "geo:21.404717,-157.870217",
+    "durationMinutesOffsetFromStartTime": "25"
+   },
+   {
+    "point": "geo:21.402937,-157.825619",
+    "durationMinutesOffsetFromStartTime": "29"
+   },
+   {
+    "point": "geo:21.382577,-157.808953",
+    "durationMinutesOffsetFromStartTime": "32"
+   },
+   {
+    "point": "geo:21.38484,-157.789362",
+    "durationMinutesOffsetFromStartTime": "34"
+   },
+   {
+    "point": "geo:21.405291,-157.766622",
+    "durationMinutesOffsetFromStartTime": "37"
+   },
+   {
+    "point": "geo:21.408436,-157.756151",
+    "durationMinutesOffsetFromStartTime": "38"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-12T17:17:41.811-10:00",
+  "endTime": "2016-03-13T09:11:41.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-13T09:11:41.000-10:00",
+  "endTime": "2016-03-13T09:24:58.136-10:00",
+  "activity": {
+   "start": "geo:21.39376,-157.739932",
+   "end": "geo:21.343196,-157.711812",
+   "distanceMeters": "9250.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-13T09:11:00.000-10:00",
+  "endTime": "2016-03-13T09:24:58.136-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393009,-157.745361",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.383438,-157.753861",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.371989,-157.743242",
+    "durationMinutesOffsetFromStartTime": "6"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-13T09:24:58.136-10:00",
+  "endTime": "2016-03-13T12:21:01.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-waimanalo",
+    "placeLocation": "geo:21.342,-157.712"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-13T12:21:01.000-10:00",
+  "endTime": "2016-03-13T12:35:10.844-10:00",
+  "activity": {
+   "start": "geo:21.343277,-157.711826",
+   "end": "geo:21.393496,-157.740014",
+   "distanceMeters": "9116.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-13T12:21:00.000-10:00",
+  "endTime": "2016-03-13T12:35:10.844-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.343064,-157.711812",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.343064,-157.711768",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.348228,-157.722726",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.350904,-157.729058",
+    "durationMinutesOffsetFromStartTime": "5"
+   },
+   {
+    "point": "geo:21.362029,-157.735919",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.381034,-157.755745",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.39161,-157.747198",
+    "durationMinutesOffsetFromStartTime": "13"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-13T12:35:10.844-10:00",
+  "endTime": "2016-03-13T14:02:10.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-13T14:02:10.000-10:00",
+  "endTime": "2016-03-13T14:30:28.477-10:00",
+  "activity": {
+   "start": "geo:21.39344,-157.74004",
+   "end": "geo:21.291473,-157.842923",
+   "distanceMeters": "21231.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-13T14:02:00.000-10:00",
+  "endTime": "2016-03-13T14:30:28.477-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.382322,-157.754757",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.379088,-157.774073",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.369974,-157.782208",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.363972,-157.797673",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.355696,-157.808329",
+    "durationMinutesOffsetFromStartTime": "14"
+   },
+   {
+    "point": "geo:21.351702,-157.821873",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.333209,-157.842297",
+    "durationMinutesOffsetFromStartTime": "20"
+   },
+   {
+    "point": "geo:21.327354,-157.845665",
+    "durationMinutesOffsetFromStartTime": "21"
+   },
+   {
+    "point": "geo:21.316549,-157.852861",
+    "durationMinutesOffsetFromStartTime": "23"
+   },
+   {
+    "point": "geo:21.30538,-157.85732",
+    "durationMinutesOffsetFromStartTime": "25"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-13T14:30:28.477-10:00",
+  "endTime": "2016-03-13T16:38:49.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-mall",
+    "placeLocation": "geo:21.2913,-157.843"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-13T16:38:49.000-10:00",
+  "endTime": "2016-03-13T17:05:03.322-10:00",
+  "activity": {
+   "start": "geo:21.291557,-157.842919",
+   "end": "geo:21.393588,-157.739964",
+   "distanceMeters": "21450.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-13T16:38:00.000-10:00",
+  "endTime": "2016-03-13T17:05:03.322-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.300554,-157.840432",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.314951,-157.853874",
+    "durationMinutesOffsetFromStartTime": "5"
+   },
+   {
+    "point": "geo:21.364373,-157.781472",
+    "durationMinutesOffsetFromStartTime": "18"
+   },
+   {
+    "point": "geo:21.369906,-157.782197",
+    "durationMinutesOffsetFromStartTime": "19"
+   },
+   {
+    "point": "geo:21.377045,-157.765089",
+    "durationMinutesOffsetFromStartTime": "22"
+   },
+   {
+    "point": "geo:21.393837,-157.741638",
+    "durationMinutesOffsetFromStartTime": "26"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-13T17:05:03.322-10:00",
+  "endTime": "2016-03-14T07:42:07.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-14T07:42:07.000-10:00",
+  "endTime": "2016-03-14T08:02:24.644-10:00",
+  "activity": {
+   "start": "geo:21.393697,-157.739901",
+   "end": "geo:21.306839,-157.85843",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-14T07:42:00.000-10:00",
+  "endTime": "2016-03-14T08:02:24.644-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.377272,-157.767094",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.373461,-157.781928",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.365572,-157.779842",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.362399,-157.800978",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.353651,-157.815218",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.345626,-157.83052",
+    "durationMinutesOffsetFromStartTime": "14"
+   },
+   {
+    "point": "geo:21.333042,-157.84225",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.312709,-157.856695",
+    "durationMinutesOffsetFromStartTime": "19"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-14T08:02:24.644-10:00",
+  "endTime": "2016-03-14T17:31:21.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-14T17:31:21.000-10:00",
+  "endTime": "2016-03-14T17:53:20.642-10:00",
+  "activity": {
+   "start": "geo:21.30679,-157.858435",
+   "end": "geo:21.393572,-157.739977",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-14T17:31:00.000-10:00",
+  "endTime": "2016-03-14T17:53:20.642-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.311515,-157.857553",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.3227,-157.846621",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.329621,-157.84475",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.34716,-157.828794",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.353679,-157.814371",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.365577,-157.794495",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.369153,-157.787318",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.36515,-157.782037",
+    "durationMinutesOffsetFromStartTime": "14"
+   },
+   {
+    "point": "geo:21.376317,-157.77948",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.376826,-157.764633",
+    "durationMinutesOffsetFromStartTime": "18"
+   },
+   {
+    "point": "geo:21.385722,-157.751766",
+    "durationMinutesOffsetFromStartTime": "20"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-14T17:53:20.642-10:00",
+  "endTime": "2016-03-15T07:41:57.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-15T07:41:57.000-10:00",
+  "endTime": "2016-03-15T08:06:16.680-10:00",
+  "activity": {
+   "start": "geo:21.393426,-157.739998",
+   "end": "geo:21.307085,-157.858637",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-15T07:41:00.000-10:00",
+  "endTime": "2016-03-15T08:06:16.680-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.365815,-157.794517",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.362448,-157.801031",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.349264,-157.826134",
+    "durationMinutesOffsetFromStartTime": "16"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-15T08:06:16.680-10:00",
+  "endTime": "2016-03-15T17:30:40.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-15T17:30:40.000-10:00",
+  "endTime": "2016-03-15T17:55:58.516-10:00",
+  "activity": {
+   "start": "geo:21.30706,-157.858593",
+   "end": "geo:21.393341,-157.740126",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-15T17:30:00.000-10:00",
+  "endTime": "2016-03-15T17:55:58.516-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.30694,-157.858505",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.306868,-157.858408",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.306895,-157.858385",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.306908,-157.858426",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.317642,-157.852046",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.323315,-157.846253",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.336557,-157.838815",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.352337,-157.820138",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.354041,-157.811898",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.363123,-157.799076",
+    "durationMinutesOffsetFromStartTime": "15"
+   },
+   {
+    "point": "geo:21.367401,-157.791936",
+    "durationMinutesOffsetFromStartTime": "16"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-15T17:55:58.516-10:00",
+  "endTime": "2016-03-15T18:52:20.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-15T18:52:20.000-10:00",
+  "endTime": "2016-03-15T19:08:44.928-10:00",
+  "activity": {
+   "start": "geo:21.393444,-157.739979",
+   "end": "geo:21.418184,-157.802925",
+   "distanceMeters": "9171.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-15T18:52:00.000-10:00",
+  "endTime": "2016-03-15T19:08:44.928-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393662,-157.739998",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393748,-157.739991",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.393543,-157.739957",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.393441,-157.740102",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.402188,-157.749069",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.407929,-157.752564",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.406539,-157.76461",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.41077,-157.777472",
+    "durationMinutesOffsetFromStartTime": "11"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-15T19:08:44.928-10:00",
+  "endTime": "2016-03-15T20:06:05.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-gym",
+    "placeLocation": "geo:21.418,-157.803"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-15T20:06:05.000-10:00",
+  "endTime": "2016-03-15T20:22:14.546-10:00",
+  "activity": {
+   "start": "geo:21.418215,-157.802923",
+   "end": "geo:21.393608,-157.740002",
+   "distanceMeters": "9145.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-15T20:06:00.000-10:00",
+  "endTime": "2016-03-15T20:22:14.546-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.417927,-157.803045",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.417895,-157.803035",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.418004,-157.803101",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.417963,-157.803079",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.405859,-157.78519",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.409294,-157.779483",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.410691,-157.772845",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.403549,-157.749779",
+    "durationMinutesOffsetFromStartTime": "14"
+   },
+   {
+    "point": "geo:21.39758,-157.746428",
+    "durationMinutesOffsetFromStartTime": "15"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-15T20:22:14.546-10:00",
+  "endTime": "2016-03-16T07:28:42.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-16T07:28:42.000-10:00",
+  "endTime": "2016-03-16T07:51:30.266-10:00",
+  "activity": {
+   "start": "geo:21.393531,-157.740003",
+   "end": "geo:21.307043,-157.858318",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-16T07:28:00.000-10:00",
+  "endTime": "2016-03-16T07:51:30.266-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.38087,-157.756417",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.377345,-157.763133",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.378487,-157.771017",
+    "durationMinutesOffsetFromStartTime": "5"
+   },
+   {
+    "point": "geo:21.37149,-157.782063",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.364823,-157.780326",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.369773,-157.785211",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.309482,-157.860219",
+    "durationMinutesOffsetFromStartTime": "22"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-16T07:51:30.266-10:00",
+  "endTime": "2016-03-16T17:24:12.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-16T17:24:12.000-10:00",
+  "endTime": "2016-03-16T17:46:56.710-10:00",
+  "activity": {
+   "start": "geo:21.306971,-157.85839",
+   "end": "geo:21.393646,-157.740005",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-16T17:24:00.000-10:00",
+  "endTime": "2016-03-16T17:46:56.710-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.306778,-157.858439",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.306601,-157.858559",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.368646,-157.789529",
+    "durationMinutesOffsetFromStartTime": "14"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-16T17:46:56.710-10:00",
+  "endTime": "2016-03-16T19:08:53.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-16T19:08:53.000-10:00",
+  "endTime": "2016-03-16T19:13:01.762-10:00",
+  "activity": {
+   "start": "geo:21.39363,-157.73998",
+   "end": "geo:21.400763,-157.744725",
+   "distanceMeters": "1572.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-16T19:08:00.000-10:00",
+  "endTime": "2016-03-16T19:13:01.762-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.401263,-157.745022",
+    "durationMinutesOffsetFromStartTime": "4"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-16T19:13:01.762-10:00",
+  "endTime": "2016-03-16T19:57:43.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-grocery",
+    "placeLocation": "geo:21.401,-157.7445"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-16T19:57:43.000-10:00",
+  "endTime": "2016-03-16T20:00:44.702-10:00",
+  "activity": {
+   "start": "geo:21.400884,-157.744748",
+   "end": "geo:21.393493,-157.739999",
+   "distanceMeters": "1533.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-16T19:57:00.000-10:00",
+  "endTime": "2016-03-16T20:00:44.702-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.395497,-157.744368",
+    "durationMinutesOffsetFromStartTime": "2"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-16T20:00:44.702-10:00",
+  "endTime": "2016-03-17T07:49:43.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-17T07:49:43.000-10:00",
+  "endTime": "2016-03-17T08:11:30.337-10:00",
+  "activity": {
+   "start": "geo:21.393604,-157.739979",
+   "end": "geo:21.306792,-157.858421",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-17T07:49:00.000-10:00",
+  "endTime": "2016-03-17T08:11:30.337-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.350748,-157.823883",
+    "durationMinutesOffsetFromStartTime": "14"
+   },
+   {
+    "point": "geo:21.345742,-157.830354",
+    "durationMinutesOffsetFromStartTime": "15"
+   },
+   {
+    "point": "geo:21.334177,-157.841361",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.315015,-157.85421",
+    "durationMinutesOffsetFromStartTime": "20"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-17T08:11:30.337-10:00",
+  "endTime": "2016-03-17T17:30:37.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-17T17:30:37.000-10:00",
+  "endTime": "2016-03-17T17:51:05.239-10:00",
+  "activity": {
+   "start": "geo:21.306869,-157.858425",
+   "end": "geo:21.393568,-157.739974",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-17T17:30:00.000-10:00",
+  "endTime": "2016-03-17T17:51:05.239-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.324301,-157.845603",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.343762,-157.8316",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.35349,-157.817671",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.354825,-157.809175",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.365278,-157.782181",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.377024,-157.778816",
+    "durationMinutesOffsetFromStartTime": "15"
+   },
+   {
+    "point": "geo:21.378305,-157.770999",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.377114,-157.762313",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.387952,-157.749469",
+    "durationMinutesOffsetFromStartTime": "19"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-17T17:51:05.239-10:00",
+  "endTime": "2016-03-17T18:33:37.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-17T18:33:37.000-10:00",
+  "endTime": "2016-03-17T18:52:10.577-10:00",
+  "activity": {
+   "start": "geo:21.393542,-157.73997",
+   "end": "geo:21.417865,-157.802985",
+   "distanceMeters": "9171.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-17T18:33:00.000-10:00",
+  "endTime": "2016-03-17T18:52:10.577-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393561,-157.739968",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393869,-157.740037",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.393634,-157.740017",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.393563,-157.739975",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.40045,-157.748064",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.409519,-157.754858",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.406539,-157.76555",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.410789,-157.77624",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.408798,-157.79533",
+    "durationMinutesOffsetFromStartTime": "16"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-17T18:52:10.577-10:00",
+  "endTime": "2016-03-17T20:10:19.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-gym",
+    "placeLocation": "geo:21.418,-157.803"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-17T20:10:19.000-10:00",
+  "endTime": "2016-03-17T20:23:53.284-10:00",
+  "activity": {
+   "start": "geo:21.417917,-157.803104",
+   "end": "geo:21.393788,-157.739827",
+   "distanceMeters": "9145.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-17T20:10:00.000-10:00",
+  "endTime": "2016-03-17T20:23:53.284-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.404569,-157.750403",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.399092,-157.747392",
+    "durationMinutesOffsetFromStartTime": "12"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-17T20:23:53.284-10:00",
+  "endTime": "2016-03-18T07:41:32.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-18T07:41:32.000-10:00",
+  "endTime": "2016-03-18T08:06:07.513-10:00",
+  "activity": {
+   "start": "geo:21.393618,-157.739953",
+   "end": "geo:21.307017,-157.858506",
+   "distanceMeters": "19041.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-18T07:41:00.000-10:00",
+  "endTime": "2016-03-18T08:06:07.513-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393703,-157.739847",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393608,-157.739972",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.393508,-157.739969",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.393706,-157.739979",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.351601,-157.82204",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.34014,-157.834781",
+    "durationMinutesOffsetFromStartTime": "19"
+   },
+   {
+    "point": "geo:21.327556,-157.845667",
+    "durationMinutesOffsetFromStartTime": "21"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-18T08:06:07.513-10:00",
+  "endTime": "2016-03-18T17:17:07.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-work",
+    "placeLocation": "geo:21.3069,-157.8583"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-18T17:17:07.000-10:00",
+  "endTime": "2016-03-18T17:39:00.833-10:00",
+  "activity": {
+   "start": "geo:21.306735,-157.858405",
+   "end": "geo:21.393633,-157.739985",
+   "distanceMeters": "18776.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-18T17:17:00.000-10:00",
+  "endTime": "2016-03-18T17:39:00.833-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.322909,-157.8466",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.329736,-157.844585",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.341085,-157.833633",
+    "durationMinutesOffsetFromStartTime": "6"
+   },
+   {
+    "point": "geo:21.347434,-157.828737",
+    "durationMinutesOffsetFromStartTime": "7"
+   },
+   {
+    "point": "geo:21.351769,-157.821614",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.362198,-157.80137",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.369447,-157.786956",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.370113,-157.782192",
+    "durationMinutesOffsetFromStartTime": "15"
+   },
+   {
+    "point": "geo:21.380181,-157.756609",
+    "durationMinutesOffsetFromStartTime": "19"
+   },
+   {
+    "point": "geo:21.386073,-157.751234",
+    "durationMinutesOffsetFromStartTime": "20"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-18T17:39:00.833-10:00",
+  "endTime": "2016-03-19T09:20:08.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-19T09:20:08.000-10:00",
+  "endTime": "2016-03-19T09:24:28.072-10:00",
+  "activity": {
+   "start": "geo:21.39367,-157.740035",
+   "end": "geo:21.401043,-157.744888",
+   "distanceMeters": "1572.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-19T09:20:00.000-10:00",
+  "endTime": "2016-03-19T09:24:28.072-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.396373,-157.745341",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.398891,-157.747296",
+    "durationMinutesOffsetFromStartTime": "3"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-19T09:24:28.072-10:00",
+  "endTime": "2016-03-19T10:15:29.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-grocery",
+    "placeLocation": "geo:21.401,-157.7445"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-19T10:15:29.000-10:00",
+  "endTime": "2016-03-19T10:19:14.261-10:00",
+  "activity": {
+   "start": "geo:21.400823,-157.744723",
+   "end": "geo:21.393606,-157.739944",
+   "distanceMeters": "1533.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-19T10:15:00.000-10:00",
+  "endTime": "2016-03-19T10:19:14.261-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.396722,-157.745606",
+    "durationMinutesOffsetFromStartTime": "2"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-19T10:19:14.261-10:00",
+  "endTime": "2016-03-19T11:25:50.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-19T11:25:50.000-10:00",
+  "endTime": "2016-03-19T12:19:22.104-10:00",
+  "activity": {
+   "start": "geo:21.393658,-157.739905",
+   "end": "geo:21.592752,-158.103586",
+   "distanceMeters": "61678.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-19T11:25:00.000-10:00",
+  "endTime": "2016-03-19T12:19:22.104-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393536,-157.739958",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393485,-157.739976",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.377094,-157.76561",
+    "durationMinutesOffsetFromStartTime": "5"
+   },
+   {
+    "point": "geo:21.379471,-157.798438",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.401465,-157.8149",
+    "durationMinutesOffsetFromStartTime": "12"
+   },
+   {
+    "point": "geo:21.406744,-157.858256",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.405062,-157.869439",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.398483,-157.878461",
+    "durationMinutesOffsetFromStartTime": "18"
+   },
+   {
+    "point": "geo:21.386794,-157.897065",
+    "durationMinutesOffsetFromStartTime": "20"
+   },
+   {
+    "point": "geo:21.379389,-157.905228",
+    "durationMinutesOffsetFromStartTime": "21"
+   },
+   {
+    "point": "geo:21.387601,-157.93777",
+    "durationMinutesOffsetFromStartTime": "25"
+   },
+   {
+    "point": "geo:21.394598,-157.981007",
+    "durationMinutesOffsetFromStartTime": "29"
+   },
+   {
+    "point": "geo:21.499486,-158.029487",
+    "durationMinutesOffsetFromStartTime": "41"
+   },
+   {
+    "point": "geo:21.516605,-158.039722",
+    "durationMinutesOffsetFromStartTime": "43"
+   },
+   {
+    "point": "geo:21.526994,-158.039175",
+    "durationMinutesOffsetFromStartTime": "44"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-19T12:19:22.104-10:00",
+  "endTime": "2016-03-19T16:24:40.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-north_shore",
+    "placeLocation": "geo:21.593,-158.103"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-19T16:24:40.000-10:00",
+  "endTime": "2016-03-19T17:06:31.060-10:00",
+  "activity": {
+   "start": "geo:21.592908,-158.10345",
+   "end": "geo:21.393419,-157.739858",
+   "distanceMeters": "62707.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-19T16:24:00.000-10:00",
+  "endTime": "2016-03-19T17:06:31.060-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.562715,-158.07099",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.441912,-157.993833",
+    "durationMinutesOffsetFromStartTime": "16"
+   },
+   {
+    "point": "geo:21.428965,-157.996588",
+    "durationMinutesOffsetFromStartTime": "17"
+   },
+   {
+    "point": "geo:21.394104,-157.980685",
+    "durationMinutesOffsetFromStartTime": "20"
+   },
+   {
+    "point": "geo:21.389808,-157.967059",
+    "durationMinutesOffsetFromStartTime": "21"
+   },
+   {
+    "point": "geo:21.392931,-157.953285",
+    "durationMinutesOffsetFromStartTime": "22"
+   },
+   {
+    "point": "geo:21.379606,-157.92915",
+    "durationMinutesOffsetFromStartTime": "24"
+   },
+   {
+    "point": "geo:21.370413,-157.922456",
+    "durationMinutesOffsetFromStartTime": "25"
+   },
+   {
+    "point": "geo:21.373454,-157.909582",
+    "durationMinutesOffsetFromStartTime": "26"
+   },
+   {
+    "point": "geo:21.393422,-157.890781",
+    "durationMinutesOffsetFromStartTime": "28"
+   },
+   {
+    "point": "geo:21.398973,-157.877742",
+    "durationMinutesOffsetFromStartTime": "29"
+   },
+   {
+    "point": "geo:21.405953,-157.865814",
+    "durationMinutesOffsetFromStartTime": "30"
+   },
+   {
+    "point": "geo:21.40319,-157.837445",
+    "durationMinutesOffsetFromStartTime": "32"
+   },
+   {
+    "point": "geo:21.37876,-157.799831",
+    "durationMinutesOffsetFromStartTime": "36"
+   },
+   {
+    "point": "geo:21.402342,-157.768884",
+    "durationMinutesOffsetFromStartTime": "39"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-19T17:06:31.060-10:00",
+  "endTime": "2016-03-20T08:52:03.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-home",
+    "placeLocation": "geo:21.3935,-157.74"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-20T08:52:03.000-10:00",
+  "endTime": "2016-03-20T09:08:29.908-10:00",
+  "activity": {
+   "start": "geo:21.393484,-157.739993",
+   "end": "geo:21.343174,-157.711816",
+   "distanceMeters": "9250.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-20T08:52:00.000-10:00",
+  "endTime": "2016-03-20T09:08:29.908-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.393646,-157.739962",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.393641,-157.739963",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.393569,-157.739974",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.39367,-157.739916",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.378711,-157.75212",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.374732,-157.746293",
+    "durationMinutesOffsetFromStartTime": "9"
+   },
+   {
+    "point": "geo:21.364232,-157.737726",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.353314,-157.729486",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.348527,-157.725678",
+    "durationMinutesOffsetFromStartTime": "14"
+   }
+  ]
+ },
+ {
+  "startTime": "2016-03-20T09:08:29.908-10:00",
+  "endTime": "2016-03-20T12:27:32.000-10:00",
+  "visit": {
+   "hierarchyLevel": "0",
+   "probability": "0.900000",
+   "topCandidate": {
+    "probability": "0.800000",
+    "semanticType": "Unknown",
+    "placeID": "demo-waimanalo",
+    "placeLocation": "geo:21.342,-157.712"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-20T12:27:32.000-10:00",
+  "endTime": "2016-03-20T12:43:54.128-10:00",
+  "activity": {
+   "start": "geo:21.343219,-157.711842",
+   "end": "geo:21.393734,-157.739907",
+   "distanceMeters": "9116.000000",
+   "topCandidate": {
+    "type": "in passenger vehicle",
+    "probability": "0.000000"
+   }
+  }
+ },
+ {
+  "startTime": "2016-03-20T12:27:00.000-10:00",
+  "endTime": "2016-03-20T12:43:54.128-10:00",
+  "timelinePath": [
+   {
+    "point": "geo:21.342903,-157.711813",
+    "durationMinutesOffsetFromStartTime": "1"
+   },
+   {
+    "point": "geo:21.343158,-157.711821",
+    "durationMinutesOffsetFromStartTime": "2"
+   },
+   {
+    "point": "geo:21.343351,-157.711635",
+    "durationMinutesOffsetFromStartTime": "3"
+   },
+   {
+    "point": "geo:21.343326,-157.711675",
+    "durationMinutesOffsetFromStartTime": "4"
+   },
+   {
+    "point": "geo:21.356329,-157.731191",
+    "durationMinutesOffsetFromStartTime": "8"
+   },
+   {
+    "point": "geo:21.366928,-157.739323",
+    "durationMinutesOffsetFromStartTime": "10"
+   },
+   {
+    "point": "geo:21.372348,-157.743447",
+    "durationMinutesOffsetFromStartTime": "11"
+   },
+   {
+    "point": "geo:21.380148,-157.754864",
+    "durationMinutesOffsetFromStartTime": "13"
+   },
+   {
+    "point": "geo:21.390381,-157.747663",
+    "durationMinutesOffsetFromStartTime": "15"
+   }
+  ]
+ }
+]
