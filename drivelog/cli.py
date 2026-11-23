@@ -154,15 +154,27 @@ def cmd_aggregate(a):
 
 
 def cmd_rebuild(a):
-    from . import aggregate, extract, match
+    from . import aggregate, extract, match, split
+    from .db import connect as _connect
 
-    print("[1/3] extract")
+    print("[1/4] extract")
     s = extract.run()
     print(f"      {s['inserted']:,} new drives ({s['drives']:,} total)")
-    print("[2/3] match + fill (new drives only)")
+    print("[2/4] split stitched drives (new drives only)")
+    con = _connect()
+    pending = [r[0] for r in con.execute("SELECT drive_id FROM drives WHERE match_status = 'pending'").fetchall()]
+    con.close()
+    print(f"      {split.run(drive_ids=pending, match_after=False, progress=False)}")
+    print("[3/4] match + fill (new drives only)")
     print(f"      {match.run(rematch=False)}")
-    print("[3/3] aggregate")
+    print("[4/4] aggregate")
     print(f"      {aggregate.run()}")
+
+
+def cmd_split(a):
+    from .split import run
+
+    print(run(dry_run=a.dry_run))
 
 
 def cmd_valhalla(a):
@@ -322,12 +334,13 @@ def _gb(n) -> str:
 
 
 # Disk model, measured on a 19-region build (11.2 GB of source extracts): per source byte, the merged
-# PBF is 1.02x, the tile folder and the tile archive the container serves 1.25x each, so the steady
-# state is ~4.5x the sources. A rebuild keeps the previous build for rollback, and the build itself
-# writes temporary files of ~3.2x the sources until it finishes. Predicted +44.1 GB for that build;
-# it grew +44.2 GB.
-STEADY_PER_SRC_BYTE = 4.5
-BUILD_TEMP_PER_SRC_BYTE = 3.2
+# PBF is 1.02x and the tile archive the container serves 1.25x, so the steady state is ~3.3x the
+# sources. The build also writes an unpacked tile folder (1.25x, deleted once the archive is packed:
+# DECISIONS.md, v3 Phase 1) and temporary files of ~3.2x the sources until it finishes. A rebuild keeps
+# the previous build for rollback. The v2 build, which kept the tile folder, grew +44.2 GB (the model
+# with the folder kept predicts +44.1 GB).
+STEADY_PER_SRC_BYTE = 3.25
+BUILD_TEMP_PER_SRC_BYTE = 3.2 + 1.25
 BUILT = ("valhalla_tiles", "valhalla_tiles.tar", "admins.sqlite")
 
 
@@ -452,7 +465,10 @@ def main(argv=None):
     sp.add_argument("--refill", action="store_true", help="redo fills for all matched drives")
     sp.set_defaults(fn=cmd_fill)
     sub.add_parser("aggregate", help="rebuild road statistics and GeoJSON").set_defaults(fn=cmd_aggregate)
-    sub.add_parser("rebuild", help="extract + match new drives + aggregate").set_defaults(fn=cmd_rebuild)
+    sub.add_parser("rebuild", help="extract + split + match new drives + aggregate").set_defaults(fn=cmd_rebuild)
+    sp = sub.add_parser("split", help="split drives the export stitched across a 10+ minute stop, then rematch them")
+    sp.add_argument("--dry-run", action="store_true", help="only report what would be split")
+    sp.set_defaults(fn=cmd_split)
 
     sp = sub.add_parser("valhalla", help="Valhalla helpers")
     sp.add_argument("action", choices=["fetch", "compose", "configure", "health"])

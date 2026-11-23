@@ -40,7 +40,7 @@ def ensure_valhalla(cfg: Config) -> None:
 
 
 def run(fmt: str = "ios", serve: bool = True, port: int = 8765) -> None:
-    from . import aggregate, areas, extract, fill, match
+    from . import aggregate, areas, extract, fill, match, split
 
     cfg = demo_config(fmt)
     print("[1/5] routing tiles")
@@ -49,6 +49,7 @@ def run(fmt: str = "ios", serve: bool = True, port: int = 8765) -> None:
     print(f"[2/5] extract ({fmt} export)")
     s = extract.run(cfg)
     print(f"      {s['drives']} drives")
+    split.run(cfg, match_after=False, progress=False)  # stitched activities -> drives (none in the demo)
     print("[3/5] match + fill")
     print(f"      {match.run(cfg=cfg, progress=False)}")
     # Calibrate gap timing to the demo driver's pace (a first fill has nothing to calibrate against).

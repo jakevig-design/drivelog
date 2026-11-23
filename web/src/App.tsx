@@ -20,7 +20,7 @@ import Patterns, { type Scope } from "./Patterns";
 import Year from "./Year";
 
 type MLMap = maplibregl.Map;
-type Mode = "roads" | "day" | "drive" | "area" | "patterns" | "year";
+type Mode = "roads" | "explore" | "day" | "drive" | "area" | "patterns" | "year";
 
 /** Something drawn on the map in one colour: a whole day, a single drive, an area's roads, a year's new roads. */
 type MapLayer = {
@@ -38,6 +38,34 @@ const STYLES = {
   dark: "https://tiles.openfreemap.org/styles/dark",
 };
 type Theme = keyof typeof STYLES;
+type Basemap = "map" | "satellite";
+
+// Satellite: Esri World Imagery, keyless raster tiles (terms in DECISIONS.md, v3 Phase 4). Only tile
+// coordinates go to the server; our own layers are lines, so the style needs no glyphs or sprites.
+const SATELLITE: maplibregl.StyleSpecification = {
+  version: 8,
+  sources: {
+    imagery: {
+      type: "raster",
+      tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
+      tileSize: 256,
+      maxzoom: 19,
+      attribution: "Imagery © Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+    },
+  },
+  layers: [{ id: "imagery", type: "raster", source: "imagery" }],
+};
+const styleFor = (theme: Theme, basemap: Basemap) => (basemap === "satellite" ? SATELLITE : STYLES[theme]);
+/** Map overlays are drawn for a light or a dark ground: imagery is dark. */
+const groundOf = (theme: Theme, basemap: Basemap): Theme => (basemap === "satellite" ? "dark" : theme);
+
+// Frequency map: one hue (orange, clear of the blue water and of the first layer colour), light to dark
+// on a light ground; on a dark ground the order flips so the busiest roads are the brightest.
+const RAMP = {
+  light: ["#ef8a4c", "#df6118", "#c2410c", "#963009", "#661f05"], // starts darker than the basemap's pale road fills
+  dark: ["#8a3405", "#c2500a", "#ee7424", "#fca15e", "#fed3a8"],
+};
+type Freq = "drives" | "mi" | "off";
 
 // Each thing put on the map gets the next unused colour.
 const COLORS = ["#2563eb", "#f97316", "#16a34a", "#9333ea", "#dc2626", "#0891b2", "#db2777", "#a16207"];
@@ -57,6 +85,27 @@ function segDist(p: Pt, a: Pt, b: Pt): number {
   const len2 = dx * dx + dy * dy;
   const t = len2 ? Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / len2)) : 0;
   return Math.hypot(p.x - (a.x + t * dx), p.y - (a.y + t * dy));
+}
+
+function stored<T extends string>(key: string, allowed: readonly T[], fallback: T): T {
+  try {
+    const v = localStorage.getItem(key);
+    if (v && (allowed as readonly string[]).includes(v)) return v as T;
+  } catch {
+    /* storage unavailable */
+  }
+  return fallback;
+}
+
+/** Hash deep links: "#day=2016-03-05", "#explore=2016-03&sat", "#area=zip:96734&map". */
+function hashParams(): Map<string, string> {
+  const m = new Map<string, string>();
+  for (const part of decodeURIComponent(window.location.hash.slice(1)).split("&")) {
+    if (!part) continue;
+    const i = part.indexOf("=");
+    m.set(i < 0 ? part : part.slice(0, i), i < 0 ? "" : part.slice(i + 1));
+  }
+  return m;
 }
 
 function initialTheme(): Theme {
@@ -99,10 +148,22 @@ export default function App() {
   const mapDiv = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MLMap | null>(null);
   const [theme, setTheme] = useState<Theme>(initialTheme);
+  const [basemap, setBasemap] = useState<Basemap>(() =>
+    hashParams().has("sat") ? "satellite" : hashParams().has("map") ? "map" : stored("drivelog-basemap", ["map", "satellite"] as const, "map"));
+  const [freq, setFreq] = useState<Freq>(() => {
+    const f = hashParams().get("freq");
+    return f === "mi" || f === "drives" || f === "off" ? f : stored("drivelog-freq", ["drives", "mi", "off"] as const, "drives");
+  });
+  const ground = groundOf(theme, basemap);
+  const groundRef = useRef<Theme>(ground);
+  groundRef.current = ground;
+  const [yrange, setYrange] = useState<[number, number]>([0, 0]); // indexes into trafficYears
+  const [month, setMonth] = useState(0); // explore: index into explore.months
+  const [playing, setPlaying] = useState(false);
+  const [speed, setSpeed] = useState(1);
   const [meta, setMeta] = useState<Meta | null>(null);
   const [roads, setRoads] = useState<GeoJSON.FeatureCollection | null>(null);
   const [trav, setTrav] = useState<Traversals | null>(null);
-  const [range, setRange] = useState<[number, number]>([0, 0]);
   const [road, setRoad] = useState<Road | null>(null);
   const [roadLoading, setRoadLoading] = useState(false);
   const [query, setQuery] = useState("");
@@ -121,7 +182,7 @@ export default function App() {
   const [layersVer, setLayersVer] = useState(0); // bumps once our map layers are installed on that style
   const [loadMs, setLoadMs] = useState<number | null>(null);
   const t0 = useRef(performance.now());
-  const appliedTheme = useRef<Theme>(theme);
+  const appliedStyle = useRef(`${theme}:${basemap}`);
   const themeRef = useRef<Theme>(theme);
   themeRef.current = theme;
   const loadTimed = useRef(false);
@@ -140,37 +201,120 @@ export default function App() {
       if (m.bbox) mapRef.current?.fitBounds(m.bbox, { padding: PAD, animate: false });
       setRoads(r);
       setTrav(t);
-      setRange([0, t.days.length - 1]);
+      const ys = new Set(t.days.map((d) => d.slice(0, 4)));
+      setYrange([0, Math.max(0, ys.size - 1)]);
       setDay(t.days[t.days.length - 1] ?? "");
     });
   }, []);
 
+  // Years with driving, for the year-range slider.
+  const trafficYears = useMemo(() => (trav ? [...new Set(trav.days.map((d) => +d.slice(0, 4)))] : []), [trav]);
+  // The slider's years as a range of day indexes (trav.days is sorted).
+  const range = useMemo<[number, number]>(() => {
+    if (!trav || !trafficYears.length) return [0, 0];
+    const lo = String(trafficYears[yrange[0]] ?? trafficYears[0]);
+    const hi = String(trafficYears[yrange[1]] ?? trafficYears[trafficYears.length - 1]);
+    let a = trav.days.findIndex((d) => d.startsWith(lo));
+    let b = -1;
+    for (let i = trav.days.length - 1; i >= 0; i--) if (trav.days[i].startsWith(hi)) { b = i; break; }
+    if (a < 0) a = 0;
+    if (b < 0) b = trav.days.length - 1;
+    return [a, b];
+  }, [trav, trafficYears, yrange]);
   const since = trav?.days[range[0]];
   const until = trav?.days[range[1]];
 
-  // Drives per road within the date range (drives which roads are clickable, and the range summary).
+  // Drives and miles per road within the year range: they colour the frequency map, decide which roads
+  // are clickable, and give the range summary.
   const counts = useMemo(() => {
     if (!trav || !roads) return null;
     const c = new Uint32Array(roads.features.length);
+    const m = new Float64Array(roads.features.length);
     const drives = new Set<number>();
     let total = 0;
     const [lo, hi] = range;
     for (let i = 0; i < trav.feature.length; i++) {
       const d = trav.day[i];
       if (d < lo || d > hi) continue;
-      c[trav.feature[i]]++;
+      const f = trav.feature[i];
+      c[f]++;
+      m[f] += trav.length[i] / 1609.344;
       drives.add(trav.drive[i]);
       total += trav.length[i];
     }
-    return { c, drives: drives.size, mi: total / 1609.344 };
+    let maxC = 0;
+    let maxM = 0;
+    for (let i = 0; i < c.length; i++) {
+      if (c[i] > maxC) maxC = c[i];
+      if (m[i] > maxM) maxM = m[i];
+    }
+    return { c, m, maxC, maxM, drives: drives.size, mi: total / 1609.344 };
   }, [trav, roads, range]);
+
+  // Explored over time: the month each road was first driven, and the running total of distinct road
+  // miles (each way counted once, at its longest traversal, as in the Year tab's "new miles").
+  const explore = useMemo(() => {
+    if (!trav || !roads || !trav.days.length) return null;
+    const n = roads.features.length;
+    const firstDay = new Int32Array(n).fill(-1);
+    const len = new Float64Array(n);
+    for (let i = 0; i < trav.feature.length; i++) {
+      const f = trav.feature[i];
+      const d = trav.day[i];
+      if (firstDay[f] < 0 || d < firstDay[f]) firstDay[f] = d;
+      if (trav.length[i] > len[f]) len[f] = trav.length[i];
+    }
+    const months: string[] = [];
+    let [y, mo] = trav.days[0].split("-").map(Number);
+    const last = trav.days[trav.days.length - 1].slice(0, 7);
+    for (;;) {
+      const key = `${y}-${String(mo).padStart(2, "0")}`;
+      months.push(key);
+      if (key >= last) break;
+      mo = mo === 12 ? 1 : mo + 1;
+      if (mo === 1) y++;
+    }
+    const idx = new Map(months.map((k, i) => [k, i]));
+    const fm = new Int32Array(n).fill(1e9);
+    const addMi = new Float64Array(months.length);
+    const addN = new Uint32Array(months.length);
+    for (let f = 0; f < n; f++) {
+      if (firstDay[f] < 0) continue;
+      const k = idx.get(trav.days[firstDay[f]].slice(0, 7))!;
+      fm[f] = k;
+      addMi[k] += len[f] / 1609.344;
+      addN[k]++;
+    }
+    const cumMi = new Float64Array(months.length);
+    const cumN = new Uint32Array(months.length);
+    for (let k = 0; k < months.length; k++) {
+      cumMi[k] = (k ? cumMi[k - 1] : 0) + addMi[k];
+      cumN[k] = (k ? cumN[k - 1] : 0) + addN[k];
+    }
+    return { months, fm, addN, cumMi, cumN };
+  }, [trav, roads]);
+
+  // Play: one month per tick, 3 months a second at 1x.
+  useEffect(() => {
+    if (!playing || !explore) return;
+    const h = setInterval(() => {
+      setMonth((m) => {
+        if (m >= explore.months.length - 1) {
+          setPlaying(false);
+          return m;
+        }
+        return m + 1;
+      });
+    }, 1000 / (3 * speed));
+    return () => clearInterval(h);
+  }, [playing, speed, explore]);
 
   // ---------------------------------------------------------------- map setup
   useEffect(() => {
     if (!mapDiv.current) return;
     const map = new maplibregl.Map({
       container: mapDiv.current,
-      style: STYLES[theme],
+      style: styleFor(theme, basemap),
       center: [0, 20],
       zoom: 1.5, // until /api/meta says where the drives are
       attributionControl: { compact: true },
@@ -187,23 +331,26 @@ export default function App() {
   useEffect(() => {
     try {
       localStorage.setItem("drivelog-theme", theme);
+      localStorage.setItem("drivelog-basemap", basemap);
+      localStorage.setItem("drivelog-freq", freq);
     } catch {
       /* ignore */
     }
     document.documentElement.dataset.theme = theme;
     const map = mapRef.current;
-    if (map && appliedTheme.current !== theme) {
-      appliedTheme.current = theme;
-      map.setStyle(STYLES[theme], { diff: false });
+    const key = `${theme}:${basemap}`;
+    if (map && appliedStyle.current !== key) {
+      appliedStyle.current = key;
+      map.setStyle(styleFor(theme, basemap), { diff: false });
     }
-  }, [theme]);
+  }, [theme, basemap, freq]);
 
   // Install sources and layers after each basemap style load. Only runs after a style.load
   // (styleTick), never on a bare theme change, and never writes styleTick, so it can't loop.
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !roads || !styleTick || map.getSource("roads")) return;
-    const theme = themeRef.current;
+    const theme = groundRef.current; // overlay colours follow the ground (imagery counts as dark)
     const casing = theme === "dark" ? "#0b0f17" : "#ffffff";
     const offset = ["get", "offset"] as unknown as maplibregl.ExpressionSpecification;
     map.addSource("roads", { type: "geojson", data: roads });
@@ -215,6 +362,15 @@ export default function App() {
       paint: { "fill-color": OUTLINE[theme], "fill-opacity": 0.06 } });
     map.addLayer({ id: "area-edge", type: "line", source: "area-outline",
       paint: { "line-color": OUTLINE[theme], "line-width": 2, "line-dasharray": [2, 1.5], "line-opacity": 0.8 } });
+    // Frequency map: every road driven in the year range, coloured and weighted by how often (paint set
+    // by the effect below). The busiest roads draw on top.
+    map.addLayer({ id: "freq", type: "line", source: "roads",
+      layout: { "line-cap": "round", "line-join": "round", "line-sort-key": ["get", "dc"] },
+      paint: { "line-opacity": 0 } });
+    // Explored over time: roads appear in the month they were first driven (paint set below).
+    map.addLayer({ id: "explored", type: "line", source: "roads",
+      layout: { "line-cap": "round", "line-join": "round", visibility: "none" },
+      paint: { "line-opacity": 0 } });
     // Every road you've driven, invisible: the map stays clean but roads are still clickable.
     map.addLayer({ id: "roads", type: "line", source: "roads",
       paint: { "line-color": "#000", "line-width": ["interpolate", ["linear"], ["zoom"], 8, 3, 14, 8], "line-opacity": 0 } });
@@ -240,11 +396,13 @@ export default function App() {
     setLayersVer((v) => v + 1);
   }, [roads, styleTick]);
 
-  // Push drive counts into feature state (roads with no drives in the range aren't clickable).
+  // Push drive counts and miles into feature state (roads with no drives in the range aren't clickable),
+  // plus the month each road was first driven (explore).
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !counts || !map.getSource("roads")) return;
-    for (let i = 0; i < counts.c.length; i++) map.setFeatureState({ source: "roads", id: i }, { c: counts.c[i] });
+    for (let i = 0; i < counts.c.length; i++)
+      map.setFeatureState({ source: "roads", id: i }, { c: counts.c[i], m: counts.m[i], fm: explore ? explore.fm[i] : 1e9 });
     if (!loadTimed.current) {
       loadTimed.current = true;
       const done = () => {
@@ -262,7 +420,40 @@ export default function App() {
         map.on("sourcedata", onData);
       }
     }
-  }, [counts, layersVer]);
+  }, [counts, explore, layersVer]);
+
+  // Frequency map paint: a log scale normalised to the busiest road in the range (so a short range still
+  // uses the whole ramp), on drive count or miles. It dims while routes are on the map so they stay legible.
+  const freqOn = freq !== "off" && mode === "roads"; // other views have their own layers on the map
+  const freqMax = counts ? (freq === "mi" ? counts.maxM : counts.maxC) : 0;
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !map.getLayer("freq")) return;
+    map.setLayoutProperty("freq", "visibility", freqOn ? "visible" : "none");
+    if (!freqOn) return;
+    const key = freq === "mi" ? "m" : "c";
+    const v = ["coalesce", ["feature-state", key], 0] as unknown as maplibregl.ExpressionSpecification;
+    const t = ["/", ["ln", ["+", 1, v]], Math.log(1 + Math.max(freqMax, 1))] as unknown as maplibregl.ExpressionSpecification;
+    const r = RAMP[ground];
+    map.setPaintProperty("freq", "line-color", ["interpolate", ["linear"], t, 0, r[0], 0.25, r[1], 0.5, r[2], 0.75, r[3], 1, r[4]]);
+    map.setPaintProperty("freq", "line-width", ["interpolate", ["linear"], ["zoom"],
+      6, ["+", 0.5, ["*", 1.5, t]], 10, ["+", 0.8, ["*", 3, t]], 15, ["+", 1.5, ["*", 7, t]]]);
+    map.setPaintProperty("freq", "line-opacity", ["case", [">", v, 0], layers.length ? 0.35 : 0.92, 0]);
+  }, [freqOn, freq, freqMax, ground, layers.length, layersVer]);
+
+  // Explore paint: roads first driven up to the current month; that month's new ones highlighted.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !map.getLayer("explored")) return;
+    map.setLayoutProperty("explored", "visibility", mode === "explore" ? "visible" : "none");
+    if (mode !== "explore") return;
+    const fm = ["coalesce", ["feature-state", "fm"], 1e9] as unknown as maplibregl.ExpressionSpecification;
+    const fresh = ["==", fm, month] as unknown as maplibregl.ExpressionSpecification;
+    map.setPaintProperty("explored", "line-opacity", ["case", ["<=", fm, month], 0.95, 0]);
+    map.setPaintProperty("explored", "line-color", ["case", fresh, NEW_COLOR, RAMP[ground][2]]);
+    map.setPaintProperty("explored", "line-width", ["interpolate", ["linear"], ["zoom"],
+      6, ["case", fresh, 4, 1], 12, ["case", fresh, 7, 2.2], 15, ["case", fresh, 10, 4]]);
+  }, [mode, month, ground, layersVer]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -482,16 +673,26 @@ export default function App() {
   useEffect(() => {
     if (linked.current || !trav || !layersVer) return;
     linked.current = true;
-    const [k, v] = decodeURIComponent(window.location.hash.slice(1)).split("=");
-    if (k === "day" && v) {
-      setDay(v);
+    const h = hashParams();
+    const yrs = h.get("years")?.split("-").map(Number); // #years=2019-2022
+    if (yrs && trafficYears.length) {
+      const a = trafficYears.indexOf(yrs[0]);
+      const b = trafficYears.indexOf(yrs[1] ?? yrs[0]);
+      if (a >= 0 && b >= a) setYrange([a, b]);
+    }
+    if (h.get("day")) {
+      setDay(h.get("day")!);
       setMode("day");
-    } else if (k === "road" && v) openRoad({ key: v });
-    else if (k === "area" && v) openArea(v);
-    else if (k === "patterns") setMode("patterns");
-    else if (k === "year") {
-      if (v) setYear(+v);
+    } else if (h.get("road")) openRoad({ key: h.get("road")! });
+    else if (h.get("area")) openArea(h.get("area")!);
+    else if (h.has("patterns")) setMode("patterns");
+    else if (h.has("year")) {
+      if (h.get("year")) setYear(+h.get("year")!);
       setMode("year");
+    } else if (h.has("explore") && explore) {
+      const k = explore.months.indexOf(h.get("explore") ?? "");
+      setMonth(k >= 0 ? k : explore.months.length - 1);
+      setMode("explore");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trav, layersVer]);
@@ -544,12 +745,16 @@ export default function App() {
         </div>
         <div className="tabs">
           <button className={mode === "roads" ? "on" : ""} onClick={() => setMode("roads")}>Roads</button>
+          <button className={mode === "explore" ? "on" : ""} title="Roads appearing the month you first drove them"
+            onClick={() => { if (mode !== "explore" && explore) setMonth(explore.months.length - 1); setMode("explore"); }}>Explored</button>
           <button className={mode === "day" ? "on" : ""} onClick={() => setMode("day")}>Day</button>
           <button className={mode === "patterns" ? "on" : ""} onClick={() => setMode("patterns")}>Patterns</button>
           <button className={mode === "year" ? "on" : ""} onClick={() => setMode("year")}>Year</button>
           {drive && <button className={mode === "drive" ? "on" : ""} onClick={() => setMode("drive")}>Drive</button>}
           {area && <button className={mode === "area" ? "on" : ""} onClick={() => openArea(area.area_id)}>Area</button>}
         </div>
+        <button className={`theme basemap${basemap === "satellite" ? " on" : ""}`} onClick={() => setBasemap(basemap === "map" ? "satellite" : "map")}
+          title={basemap === "map" ? "Satellite imagery" : "Street map"}>{basemap === "map" ? "Satellite" : "Map"}</button>
         <button className="theme" onClick={() => setTheme(theme === "light" ? "dark" : "light")} title="Toggle theme">
           {theme === "light" ? "☾" : "☀"}
         </button>
@@ -587,20 +792,79 @@ export default function App() {
 
       {mode === "roads" && trav && (
         <div className="range panel">
-          <div className="range-labels">
-            <span>{since}</span>
+          <div className="range-head">
+            <div className="seg-toggle small" role="group" aria-label="Colour roads by">
+              <button className={freq === "drives" ? "on" : ""} onClick={() => setFreq("drives")} title="Colour roads by how many drives used them">Drives</button>
+              <button className={freq === "mi" ? "on" : ""} onClick={() => setFreq("mi")} title="Colour roads by miles driven on them">Miles</button>
+              <button className={freq === "off" ? "on" : ""} onClick={() => setFreq("off")} title="Plain map">Off</button>
+            </div>
             <span className="muted">
               {counts ? `${counts.drives.toLocaleString()} drives · ${Math.round(counts.mi).toLocaleString()} mi` : ""}
             </span>
-            <span>{until}</span>
           </div>
-          <div className="dual">
-            <input type="range" min={0} max={trav.days.length - 1} value={range[0]}
-              onChange={(e) => setRange([Math.min(+e.target.value, range[1]), range[1]])} />
-            <input type="range" min={0} max={trav.days.length - 1} value={range[1]}
-              onChange={(e) => setRange([range[0], Math.max(+e.target.value, range[0])])} />
-          </div>
+          {freqOn && counts && freqMax > 0 && (
+            <div className="freq-legend" aria-label={`Colour scale: ${freq === "mi" ? "miles" : "drives"} per road`}>
+              <span className="bar" style={{ background: `linear-gradient(90deg, ${RAMP[ground].join(", ")})` }} />
+              <div className="ticks">
+                {[0, 0.5, 1].map((t) => {
+                  const v = Math.exp(t * Math.log(1 + freqMax)) - 1;
+                  const lab = freq === "mi" ? (v < 1 ? "< 1 mi" : `${v < 10 ? v.toFixed(1) : Math.round(v).toLocaleString()} mi`) : `${Math.max(1, Math.round(v)).toLocaleString()}`;
+                  return <span key={t} style={{ left: `${t * 100}%` }}>{lab}{t === 1 ? (freq === "mi" ? "" : " drives") : ""}</span>;
+                })}
+              </div>
+              <div className="legend-note muted">{freq === "mi" ? "miles driven on each road" : "drives on each road"} · log scale · click a road for its dates</div>
+            </div>
+          )}
+          {trafficYears.length > 1 ? (
+            <>
+              <div className="dual years" title="Years shown on the map">
+                <input type="range" min={0} max={trafficYears.length - 1} value={yrange[0]} aria-label="First year"
+                  onChange={(e) => setYrange([Math.min(+e.target.value, yrange[1]), yrange[1]])} />
+                <input type="range" min={0} max={trafficYears.length - 1} value={yrange[1]} aria-label="Last year"
+                  onChange={(e) => setYrange([yrange[0], Math.max(+e.target.value, yrange[0])])} />
+              </div>
+              <div className="year-ticks">
+                {trafficYears.map((y, i) => (
+                  <button key={y} className={i >= yrange[0] && i <= yrange[1] ? "in" : ""} style={{ left: `${(i / (trafficYears.length - 1)) * 100}%` }}
+                    onClick={() => setYrange([i, i])} title={`Only ${y}`}>{trafficYears.length > 12 && i % 2 ? "" : y}</button>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="muted small">{trafficYears[0]}</div>
+          )}
         </div>
+      )}
+
+      {mode === "explore" && explore && (
+        <>
+          <div className="counter panel" aria-live="off">
+            <div className="big">{Math.round(explore.cumMi[month]).toLocaleString()}</div>
+            <div className="muted">miles of road explored</div>
+            <div className="small muted">{explore.cumN[month].toLocaleString()} road segments · +{explore.addN[month].toLocaleString()} this month</div>
+          </div>
+          <div className="range panel explore">
+            <div className="range-head">
+              <button className="play" onClick={() => {
+                if (!playing && month >= explore.months.length - 1) setMonth(0);
+                setPlaying(!playing);
+              }} title={playing ? "Pause" : "Play"} aria-label={playing ? "Pause" : "Play"}>{playing ? "❚❚" : "▶"}</button>
+              <b className="month">{new Date(explore.months[month] + "-15").toLocaleDateString(undefined, { month: "long", year: "numeric" })}</b>
+              <div className="seg-toggle small" role="group" aria-label="Speed">
+                {[1, 2, 4].map((x) => (
+                  <button key={x} className={speed === x ? "on" : ""} onClick={() => setSpeed(x)}>{x}×</button>
+                ))}
+              </div>
+            </div>
+            <input className="scrub" type="range" min={0} max={explore.months.length - 1} value={month} aria-label="Month"
+              onChange={(e) => { setPlaying(false); setMonth(+e.target.value); }} />
+            <div className="range-labels muted"><span>{explore.months[0]}</span><span>{explore.months[explore.months.length - 1]}</span></div>
+            <div className="legend-note muted">
+              <span className="swatch" style={{ background: NEW_COLOR }} /> first driven this month
+              <span className="swatch" style={{ background: RAMP[ground][2], marginLeft: 10 }} /> earlier
+            </div>
+          </div>
+        </>
       )}
 
       {mode === "roads" && (road || roadLoading) && (

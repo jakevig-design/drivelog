@@ -105,3 +105,18 @@ def test_way_crossing_boundary_counts_toward_both_by_length(con):
     assert us["kind"] == "country" and _frac(con, 3, us["area_id"]) == pytest.approx(1.0)
     driven = {r["name"]: r["mi"] for r in areas.areas_driven(con)}
     assert driven["Betastate"] == pytest.approx(2000 / 1609.344, rel=1e-3)
+
+
+def test_area_layer_is_clipped_to_the_boundary_and_miles_are_unchanged(con):
+    """Way 2 runs from x = 4 to 6 across the 99901 / 99902 line: each zip draws only its own half, way 1
+    (wholly inside 99901) passes through untouched, and the zip's miles still come from way_areas."""
+    before = areas.area_summary(con, "zip:99901")["mi"]
+    fc = areas.area_roads_geojson(con, "zip:99901")
+    lines = {f["properties"]["way_id"]: f["geometry"]["coordinates"] for f in fc["features"]}
+    assert lines["1"] == [[2, 6.5], [2, 7.5]]
+    xs = [c[0] for c in lines["2"]]
+    assert min(xs) == pytest.approx(4) and max(xs) == pytest.approx(5, abs=1e-6)
+    other = {f["properties"]["way_id"]: f["geometry"]["coordinates"]
+             for f in areas.area_roads_geojson(con, "zip:99902")["features"]}
+    assert min(c[0] for c in other["2"]) == pytest.approx(5, abs=1e-6)
+    assert areas.area_summary(con, "zip:99901")["mi"] == before

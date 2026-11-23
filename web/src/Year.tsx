@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { api, fmtDate, fmtMi, type Review } from "./api";
+import { api, fmtDate, fmtMi, type Patterns, type Review } from "./api";
+import { niceMax, short, useTip } from "./Tip";
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 type Props = {
   years: number[];
@@ -21,6 +24,12 @@ function Change({ v }: { v: number | null }) {
 
 export default function Year({ years, year, setYear, onRoad, onDay, onDrive, onNewRoads, driveColor, newRoadsColor }: Props) {
   const [r, setR] = useState<Review | null>(null);
+  const [pat, setPat] = useState<Patterns | null>(null);
+  const [tip, bind] = useTip();
+
+  useEffect(() => {
+    api.patterns({}).then(setPat);
+  }, []);
 
   useEffect(() => {
     if (year == null) return;
@@ -58,6 +67,28 @@ export default function Year({ years, year, setYear, onRoad, onDay, onDrive, onN
             vs {year - 1}: {fmtMi(r.previous.mi, 0)} mi · {r.previous.drives.toLocaleString()} drives ·{" "}
             {Math.round(r.previous.hours).toLocaleString()} h · {r.previous.days} days
           </div>}
+
+          {pat && (() => {
+            const ms = MONTHS.map((_, k) => pat.months.find((m) => m.month === `${year}-${String(k + 1).padStart(2, "0")}`) ?? { month: "", mi: 0, drives: 0 });
+            const max = niceMax(Math.max(1, ...ms.map((m) => m.mi)));
+            return (
+              <>
+                <h3>Miles by month</h3>
+                <div className="chart">
+                  <div className="yaxis muted" aria-hidden><span>{short(max)}</span><span>{short(max / 2)}</span><span>0</span></div>
+                  <div className="mbars year" role="img" aria-label={`Miles per month in ${year}`}>
+                    <span className="gridline" style={{ bottom: "50%" }} />
+                    {ms.map((m, k) => (
+                      <div key={k} className="mcol" {...bind(`${MONTHS[k]} ${year} · ${fmtMi(m.mi, 0)} mi · ${m.drives.toLocaleString()} drive${m.drives === 1 ? "" : "s"}`)}>
+                        <span className="mbar" style={{ height: `${(m.mi / max) * 100}%` }} />
+                        <span className="mlab muted">{MONTHS[k][0]}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            );
+          })()}
 
           <h3>New roads</h3>
           <div className="newroads">
@@ -107,6 +138,7 @@ export default function Year({ years, year, setYear, onRoad, onDay, onDrive, onN
           </ol>
         </>
       )}
+      {tip}
     </>
   );
 }

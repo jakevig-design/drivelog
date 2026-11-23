@@ -217,6 +217,20 @@ def wait_ready(cfg: Config, timeout_s: float, max_restarts: int = 3, what: str =
 
 # Files valhalla-scripted derives from the PBF. Moving them aside makes the next start rebuild them.
 BUILT = ["valhalla_tiles.tar", "valhalla_tiles", "admins.sqlite", "file_hashes.txt"]
+# The build writes tiles to this folder and then packs them into valhalla_tiles.tar. The service reads
+# only the tar (and the container starts without rebuilding while the tar exists), so the folder is a
+# duplicate (~13 GB here) and is removed once a build succeeds (DECISIONS.md, v3 Phase 1).
+TILE_DIR = "valhalla_tiles"
+
+
+def drop_tile_dir(vdir: Path) -> bool:
+    """Delete the unpacked tile folder when the tar it was packed into exists. True if removed."""
+    import shutil
+
+    if (vdir / "valhalla_tiles.tar").is_file() and (vdir / TILE_DIR).is_dir():
+        shutil.rmtree(vdir / TILE_DIR)
+        return True
+    return False
 
 
 def rebuild_tiles(cfg: Config | None = None, timeout_s: float = 6 * 3600) -> None:
@@ -229,7 +243,9 @@ def rebuild_tiles(cfg: Config | None = None, timeout_s: float = 6 * 3600) -> Non
     prev = vdir / "previous"
     shutil.rmtree(prev, ignore_errors=True)
     prev.mkdir()
-    subprocess.run(compose(cfg, "down"), cwd=ROOT, check=True)
+    if cfg.compose_path.exists():  # a fresh clone has no compose file yet, so nothing is running
+        subprocess.run(compose(cfg, "down"), cwd=ROOT, check=True)
+    drop_tile_dir(vdir)  # the tar is the rollback copy; no need to keep both
     for name in BUILT:
         if (vdir / name).exists():
             shutil.move(str(vdir / name), str(prev / name))
@@ -252,6 +268,7 @@ def rebuild_tiles(cfg: Config | None = None, timeout_s: float = 6 * 3600) -> Non
     if changes:
         subprocess.run(compose(cfg, "restart"), cwd=ROOT, check=True)
         wait_ready(cfg, 900)
+    drop_tile_dir(vdir)
 
 
 def disk_usage(path: Path | None = None) -> int:

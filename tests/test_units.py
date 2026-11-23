@@ -219,7 +219,8 @@ def test_ios_and_android_demo_exports_give_the_same_drives():
 
 
 def test_disk_estimate_reproduces_a_measured_build(tmp_path):
-    """Sizes (bytes) from a real build: 3.26 GB of extracts + 8.0 GB added grew the folder by 44.2 GB."""
+    """Sizes (bytes) from a real build: 3.26 GB of extracts + 8.0 GB added grew the folder by 44.2 GB,
+    of which ~14.1 GB was the unpacked tile folder that rebuilds now delete (v3 Phase 1)."""
     from drivelog.cli import disk_estimate
 
     def put(rel, n):
@@ -235,5 +236,5 @@ def test_disk_estimate_reproduces_a_measured_build(tmp_path):
     put("admins.sqlite", 11_202_560)
     put("timezones.sqlite", 122_478_592)
     extra, peak = disk_estimate(tmp_path, 8_000_000_000)
-    assert abs(extra - 44.2e9) < 1.5e9
-    assert peak > extra + 30e9
+    assert abs(extra - (44.2e9 - 14.1e9)) < 1.5e9
+    assert peak > extra + 45e9

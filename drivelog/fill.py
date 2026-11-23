@@ -243,6 +243,11 @@ def run(drive_ids: list[str] | None = None, refill: bool = False, cfg: Config | 
     info = {r[0]: r[1:] for r in con.execute(
         """SELECT drive_id, reported_distance_m, match_detail, moving_start, moving_end FROM drives
            WHERE drive_id IN (SELECT unnest(?))""", [drive_ids]).fetchall()}
+    # Drives split after a hidden stop start at an estimated departure time (drivelog.split): a gap
+    # timed from it would fit by construction, so it's treated as untimed.
+    est_first = dict(con.execute(
+        """SELECT d.drive_id, min(p.ts) FROM drives d JOIN drive_points p USING (drive_id)
+           WHERE d.est_start AND d.drive_id IN (SELECT unnest(?)) GROUP BY 1""", [drive_ids]).fetchall())
     counts: dict[str, int] = {}
     batch = 300
     for start in range(0, len(drive_ids), batch):
@@ -250,7 +255,10 @@ def run(drive_ids: list[str] | None = None, refill: bool = False, cfg: Config | 
         gap_rows: dict[str, list] = {}
         for row in con.execute("""SELECT drive_id, seq, a_lng, a_lat, a_ts, b_lng, b_lat, b_ts FROM drive_gaps
                                   WHERE drive_id IN (SELECT unnest(?)) ORDER BY drive_id, seq""", [ids]).fetchall():
-            gap_rows.setdefault(row[0], []).append((row[1], _gap_from_row(row)))
+            g = _gap_from_row(row)
+            if row[0] in est_first and row[4] == est_first[row[0]]:
+                g.a_ts = None
+            gap_rows.setdefault(row[0], []).append((row[1], g))
         results: dict[str, list] = {}
         with ThreadPoolExecutor(cfg.valhalla.get("workers", 4)) as pool:
             futs = {pool.submit(fill_drive, m, habit, gap_rows[d], (_utc(info[d][2]), _utc(info[d][3])), pace): d

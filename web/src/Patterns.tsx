@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api, fmtMi, type AreaHit, type Patterns as P, type SearchHit } from "./api";
+import { niceMax, short, useTip } from "./Tip";
 
 /** What the patterns are filtered to: everything, one road, or one area. */
 export type Scope = { kind: "all" } | { kind: "road"; key: string; label: string } | { kind: "area"; key: string; label: string };
@@ -17,6 +18,7 @@ export default function Patterns({ scope, setScope }: { scope: Scope; setScope: 
   const [unit, setUnit] = useState<Unit>("drives");
   const [q, setQ] = useState("");
   const [hits, setHits] = useState<{ roads: SearchHit[]; areas: AreaHit[] } | null>(null);
+  const [tip, bind] = useTip();
 
   useEffect(() => {
     setData(null);
@@ -38,7 +40,7 @@ export default function Patterns({ scope, setScope }: { scope: Scope; setScope: 
   const grid = data?.grid[unit];
   const gmax = grid ? Math.max(1, ...grid.flat()) : 1;
   const months = data?.months ?? [];
-  const mmax = Math.max(1, ...months.map((m) => m[unit]));
+  const mmax = niceMax(Math.max(1, ...months.map((m) => m[unit])));
   const lmax = Math.max(1, ...(data?.lengths.map((b) => b.drives) ?? [1]));
 
   return (
@@ -89,14 +91,15 @@ export default function Patterns({ scope, setScope }: { scope: Scope; setScope: 
           <div className="heat" role="table" aria-label={`${unit} by hour and weekday`}>
             <span />
             {Array.from({ length: 24 }, (_, h) => (
-              <span key={h} className="hh muted">{h % 6 === 0 ? h : ""}</span>
+              <span key={h} className="hh muted">{h % 6 === 0 ? ["12a", "6a", "12p", "6p"][h / 6] : ""}</span>
             ))}
             {grid!.map((row, d) => (
               <div key={d} className="heat-row" role="row">
                 <span className="dd muted">{data.days[d]}</span>
                 {row.map((v, h) => (
                   <span key={h} className="cell" role="cell" style={{ background: shade(v, gmax) }}
-                    title={`${data.days[d]} ${String(h).padStart(2, "0")}:00–${String(h).padStart(2, "0")}:59 · ${fmt(v, unit)}`} />
+                    aria-label={`${data.days[d]} ${h}:00 ${fmt(v, unit)}`}
+                    {...bind(`${data.days[d]} ${String(h).padStart(2, "0")}:00–${String(h).padStart(2, "0")}:59 · ${fmt(v, unit)}`)} />
                 ))}
               </div>
             ))}
@@ -108,19 +111,23 @@ export default function Patterns({ scope, setScope }: { scope: Scope; setScope: 
           </div>
 
           <h3>{unit === "mi" ? "Miles" : "Drives"} per month</h3>
-          <div className="mbars" role="img" aria-label={`${unit} per month`}>
-            {months.map((m, i) => (
-              <div key={m.month} className="mcol" title={`${m.month} · ${fmt(m[unit], unit)}`}>
-                <span className="mbar" style={{ height: `${(m[unit] / mmax) * 100}%` }} />
-                {(i === 0 || m.month.endsWith("-01")) && <span className="mlab muted">{m.month.slice(0, 4)}</span>}
-              </div>
-            ))}
+          <div className="chart">
+            <div className="yaxis muted" aria-hidden><span>{short(mmax)}</span><span>{short(mmax / 2)}</span><span>0</span></div>
+            <div className="mbars" role="img" aria-label={`${unit} per month`}>
+              <span className="gridline" style={{ bottom: "50%" }} />
+              {months.map((m, i) => (
+                <div key={m.month} className="mcol" {...bind(`${new Date(m.month + "-15").toLocaleDateString(undefined, { month: "long", year: "numeric" })} · ${fmt(m[unit], unit)}`)}>
+                  <span className="mbar" style={{ height: `${(m[unit] / mmax) * 100}%` }} />
+                  {(m.month.endsWith("-01") || (i === 0 && m.month.slice(5) <= "06")) && <span className="mlab muted">{m.month.slice(0, 4)}</span>}
+                </div>
+              ))}
+            </div>
           </div>
 
           <h3>Drive length <span className="muted">(whole drive)</span></h3>
           <ul className="hbars">
             {data.lengths.map((b) => (
-              <li key={b.label} title={`${b.label} mi · ${b.drives.toLocaleString()} drives`}>
+              <li key={b.label} {...bind(`${b.label} mi · ${b.drives.toLocaleString()} drive${b.drives === 1 ? "" : "s"}`)}>
                 <span className="lab muted">{b.label} mi</span>
                 <span className="track"><span className="fill" style={{ width: `${(b.drives / lmax) * 100}%` }} /></span>
                 <span className="val">{b.drives.toLocaleString()}</span>
@@ -129,6 +136,7 @@ export default function Patterns({ scope, setScope }: { scope: Scope; setScope: 
           </ul>
         </>
       )}
+      {tip}
     </>
   );
 }

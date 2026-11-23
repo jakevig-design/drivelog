@@ -41,7 +41,7 @@ button, input { font: inherit; color: inherit; }
   z-index: 2;
 }
 
-.topbar { top: 12px; left: 12px; right: 12px; max-width: 760px; display: flex; gap: 10px; align-items: center; padding: 8px 10px; }
+.topbar { top: 12px; left: 12px; right: 12px; max-width: 920px; display: flex; gap: 10px; align-items: center; padding: 8px 10px; }
 .brand { font-weight: 700; letter-spacing: 0.02em; padding: 0 4px; }
 .search { position: relative; flex: 1; }
 .search input { width: 100%; padding: 7px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--bg); }
@@ -222,3 +222,44 @@ button, input { font: inherit; color: inherit; }
 .hbars .fill { display: block; height: 100%; background: var(--seq); border-radius: 0 4px 4px 0; min-width: 1px; }
 .hbars .val { text-align: right; }
 .hbars li:hover .fill { background: var(--fg); }
+
+/* ---- v3: frequency map, year range, explore, basemap ---- */
+.basemap { font-size: 13px; padding: 5px 10px; }
+.basemap.on { background: var(--fg); color: var(--bg); }
+.range-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 12px; font-variant-numeric: tabular-nums; }
+.seg-toggle.small { margin-top: 0; }
+.seg-toggle.small button { padding: 3px 10px; font-size: 12px; }
+.freq-legend { margin-top: 10px; }
+.freq-legend .bar { display: block; height: 8px; border-radius: 4px; }
+.freq-legend .ticks { position: relative; height: 16px; font-size: 11px; font-variant-numeric: tabular-nums; }
+.freq-legend .ticks span { position: absolute; top: 2px; transform: translateX(-50%); white-space: nowrap; }
+.freq-legend .ticks span:first-child { transform: none; }
+.freq-legend .ticks span:last-child { transform: translateX(-100%); }
+.legend-note { font-size: 11px; margin-top: 2px; display: flex; align-items: center; gap: 5px; }
+.dual.years { margin-top: 6px; }
+.year-ticks { position: relative; height: 18px; margin: -4px 8px 0; font-size: 11px; font-variant-numeric: tabular-nums; }
+.year-ticks button { position: absolute; transform: translateX(-50%); border: 0; background: transparent; padding: 0 2px;
+  color: var(--muted); cursor: pointer; font-size: 11px; }
+.year-ticks button.in { color: var(--fg); font-weight: 600; }
+.year-ticks button:hover { text-decoration: underline; }
+.range.explore .play { border: 1px solid var(--line); border-radius: 7px; background: var(--bg); width: 34px; height: 28px; cursor: pointer; font-size: 12px; }
+.range.explore .month { flex: 1; font-size: 14px; }
+.range.explore .scrub { width: 100%; margin: 10px 0 2px; accent-color: var(--accent); }
+.counter { top: 72px; right: 12px; padding: 10px 16px; text-align: right; min-width: 190px; }
+.counter .big { font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; }
+
+/* ---- v3: chart polish ---- */
+.tip { position: fixed; z-index: 50; pointer-events: none; background: var(--fg); color: var(--bg); font-size: 12px;
+  font-variant-numeric: tabular-nums; padding: 4px 8px; border-radius: 6px; box-shadow: var(--shadow); white-space: nowrap; }
+.chart { display: grid; grid-template-columns: 30px 1fr; gap: 4px; margin-bottom: 18px; }
+.chart .yaxis { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; height: 90px;
+  font-size: 10px; font-variant-numeric: tabular-nums; margin-top: -5px; margin-bottom: -5px; }
+.chart .mbars { position: relative; height: 90px; margin-bottom: 0; border-bottom: 1px solid var(--line); }
+.chart .gridline { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--line); pointer-events: none; }
+.mcol { cursor: default; }
+.mbars.year { gap: 4px; }
+.mbars.year .mcol { max-width: none; }
+.mbars.year .mlab { left: 50%; transform: translateX(-50%); }
+.mcol:hover .mbar, .hbars li:hover .fill { background: color-mix(in oklab, var(--seq) 60%, var(--fg)); }
+.heat .hh { font-variant-numeric: tabular-nums; }
+.heat .cell { cursor: default; }

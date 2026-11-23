@@ -7,7 +7,7 @@ Docker), a local database (DuckDB), and a local web viewer (FastAPI + React + Ma
 ## Pipeline
 
 ```
-Timeline export ──extract──▶ drives + points ──match──▶ observed road segments + gaps
+Timeline export ──extract──▶ drives + points ──split──▶ ──match──▶ observed road segments + gaps
                                                  │
                                                  └──fill──▶ inferred segments (with confidence)
                                                                │
@@ -23,6 +23,7 @@ Timeline export ──extract──▶ drives + points ──match──▶ obse
 | Stage | Module | What it does |
 |---|---|---|
 | extract | `drivelog/extract.py` | Reads the export with a per-format adapter (iPhone or Android), keeps driving activities, attaches the path points inside each activity window, drops impossible points (speed outliers), and computes each drive's *moving window*. Re-imports are deduplicated by time window. |
+| split | `drivelog/split.py` | Finds activities Google stitched across a stop (10+ minutes standing still, seen in the points or hidden in a gap) and replaces each with its separate drives. |
 | match | `drivelog/match.py` | Map-matches each drive's points with Valhalla `/trace_attributes`. Stores only what the points support (**observed** edges) and records the **gaps** between observed stretches. |
 | fill | `drivelog/fill.py` | Routes each gap with Valhalla `/route` (fastest plus alternates), picks the candidate that best fits the time and your habits, and stores it as **inferred** edges with a confidence label. |
 | aggregate | `drivelog/aggregate.py` | Groups OSM ways into named roads ("road keys"), builds per-traversal, per-road and per-day tables, and records the first drive on every road and way. |
@@ -89,6 +90,24 @@ collapse to the last of them (same place, the latest time the car was known to b
 for the tail. The resulting `moving_start` / `moving_end` time the fills; the original activity times
 are kept for display.
 
+## Stitched activities
+
+Timeline sometimes records several drives, or a whole day, as one driving activity. `drivelog split`
+cuts an activity wherever the car stopped for 10 minutes or more (after allowing a minute for
+timestamp rounding). There are two kinds of stop:
+
+- **observed**: consecutive points staying within `stationary_m` of the first of them;
+- **hidden**: two consecutive points where the time between them exceeds the time to drive between
+  them (Valhalla's route time × pace × 1.6, the top of the time-fit band) by 10+ minutes.
+
+The threshold came from the data: stops inside drives fall away after a few minutes (traffic lights),
+and from 10 minutes up nearly all of them sit at places where other drives start or end. Where a hidden
+stop happened along its gap isn't known; the rule is that the car waited at the earlier point and then
+drove at its usual pace, so the next drive starts there at an estimated time, and fill treats that
+first gap as untimed. A stop at the very start or end trims the drive instead of splitting it. Pieces
+shorter than `min_distance_m` are dropped. Each piece records the activity it came from
+(`drives.split_from`), and a re-import treats the stitched activity as a duplicate of its pieces.
+
 ## Road keys
 
 A numbered route is one road however OSM fragments or spells it: "Route 72", "State Route 72" and
@@ -108,6 +127,8 @@ are in the `drivelog/aggregate.py` docstring.
   the union of its states.
 - Each driven way records the share of its length inside each area, so a way that crosses a boundary
   counts toward both sides by length.
+- On the map, an area's roads are cut to its (simplified) outline, so nothing is drawn past the
+  boundary. That clipping is display-only: miles use the length shares above.
 
 ## Coverage
 
@@ -137,8 +158,13 @@ trip in another time zone shows its local hours. A timestamp without an offset u
   a spatial extension for the boundary work, with no server.
 - **Valhalla in Docker** rather than a public routing API: the only way to map-match a location history
   without sending it anywhere.
-- **The viewer filters by date in the browser.** The server sends every (way, day, drive) traversal
-  once; dragging the date range recounts locally without refetching.
+- **The viewer works from one traversal feed in the browser.** The server sends every (way, day,
+  drive) traversal once. The frequency map's year range, its drives/miles toggle, and the
+  explored-over-time animation (first month per way, running distinct miles) are all recomputed locally
+  and pushed to MapLibre feature state, with no refetch.
+- **Basemaps** are keyless tiles: OpenFreeMap (street map, light and dark) and Esri World Imagery
+  (satellite). Overlay colours follow the ground: the frequency ramp runs light to dark on the street
+  map and flips on dark or satellite ground so busy roads stay brightest.
 - **One map layer model.** Everything drawn (a day, a drive, an area's roads, a year's new roads) is a
   layer in its own colour, listed in "On the map"; routes sharing a road are offset side by side so
   neither hides the other.

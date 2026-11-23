@@ -22,7 +22,9 @@ CREATE TABLE IF NOT EXISTS drives (
     matched_length_m DOUBLE,
     match_detail VARCHAR,
     moving_start TIMESTAMP,             -- UTC; start_time minus parked lead-in (drivelog.extract.moving_window)
-    moving_end TIMESTAMP                -- UTC; end_time minus parked tail
+    moving_end TIMESTAMP,               -- UTC; end_time minus parked tail
+    split_from VARCHAR,                 -- id of the stitched activity this drive was split out of (drivelog.split)
+    est_start BOOLEAN DEFAULT false     -- first point's time is an estimated departure after a hidden stop
 );
 
 CREATE TABLE IF NOT EXISTS drive_points (
@@ -69,6 +71,8 @@ MIGRATIONS = [
     "ALTER TABLE drive_edges ADD COLUMN IF NOT EXISTS confidence VARCHAR DEFAULT 'observed'",
     "ALTER TABLE drives ADD COLUMN IF NOT EXISTS moving_start TIMESTAMP",
     "ALTER TABLE drives ADD COLUMN IF NOT EXISTS moving_end TIMESTAMP",
+    "ALTER TABLE drives ADD COLUMN IF NOT EXISTS split_from VARCHAR",
+    "ALTER TABLE drives ADD COLUMN IF NOT EXISTS est_start BOOLEAN DEFAULT false",
 ]
 
 

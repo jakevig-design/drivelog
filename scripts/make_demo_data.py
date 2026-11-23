@@ -1,7 +1,8 @@
 """Generate the synthetic demo exports: demo/timeline_ios.json and demo/timeline_android.json.
 
-An invented Oahu resident's three weeks of driving (commutes, errands, weekend trips), routed on real
-roads by the demo Valhalla (`drivelog demo --no-serve` starts it on port 8003), then thinned the way
+An invented Oahu resident's driving over eight months (the first week of each month, August 2015 to
+March 2016: commutes, errands, and weekend trips that reach one new part of the island each month, so
+the "Explored" view has something to grow), routed on real roads by the demo Valhalla (`drivelog demo --no-serve` starts it on port 8003), then thinned the way
 Timeline exports are: a point every one to a few minutes, GPS jitter, the odd long gap, and some
 drives that start a few minutes before the car moves. Deterministic (fixed seed).
 
@@ -27,9 +28,19 @@ from drivelog.match import decode_polyline6  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 VALHALLA = "http://localhost:8003"
 TZ = timezone(timedelta(hours=-10))  # Hawaii: no daylight saving
-START = date(2016, 2, 29)            # three weeks, Monday to Sunday
-DAYS = 21
+# The first full week (Monday to Sunday) of each month, Aug 2015 - Mar 2016: all before any real drive,
+# which the privacy gate requires of fixture dates.
+MONTHS = [(2015, 8), (2015, 9), (2015, 10), (2015, 11), (2015, 12), (2016, 1), (2016, 2), (2016, 3)]
 rng = random.Random(20160229)
+
+
+def first_monday(y: int, m: int) -> date:
+    d = date(y, m, 1)
+    return d + timedelta(days=(7 - d.weekday()) % 7)
+
+
+DAYS_LIST = [first_monday(y, m) + timedelta(days=k) for y, m in MONTHS for k in range(7)]
+START = DAYS_LIST[0]
 
 # Public places, used as rough destinations (Valhalla snaps each to the nearest road).
 PLACES = {
@@ -45,7 +56,17 @@ PLACES = {
     "kapolei": (21.3350, -158.0580),
     "waimanalo": (21.3420, -157.7120),
     "airport": (21.3310, -157.9210),
+    "kualoa": (21.5210, -157.8370),
+    "makapuu": (21.3110, -157.6630),
+    "laie": (21.6450, -157.9250),
+    "mililani": (21.4510, -158.0150),
+    "ewa_beach": (21.3156, -158.0072),
+    "makaha": (21.4690, -158.2170),
+    "wahiawa": (21.5030, -158.0240),
+    "kahala": (21.2720, -157.7730),
 }
+# Weekend trips: month k's first Saturday goes somewhere new; later Saturdays pick from what's been seen.
+EXPLORE = ["hawaii_kai", "kualoa", "makapuu", "north_shore", "laie", "mililani", "ewa_beach", "makaha"]
 
 
 def route(a: str, b: str) -> tuple[list[tuple[float, float]], float, float]:
@@ -109,22 +130,25 @@ def week_plan(day: date) -> list[tuple[str, str, int, int]]:
         if wd == 4 and rng.random() < 0.7:
             legs += [("home", "waikiki", 19, m(0)), ("waikiki", "home", 22, m(30))]
     elif wd == 5:
-        trip = rng.choice(["north_shore", "hawaii_kai", "kapolei"])
+        k = next(i for i, (y, mo) in enumerate(MONTHS) if (day.year, day.month) == (y, mo))
+        trip = EXPLORE[k]
         legs += [("home", "grocery", 9, m(30)), ("grocery", "home", 10, m(20)),
                  ("home", trip, 11, m(30)), (trip, "home", 16, m(30))]
     else:
         legs += [("home", "waimanalo", 9, m(0)), ("waimanalo", "home", 12, m(30))]
         if rng.random() < 0.6:
             legs += [("home", "mall", 14, m(0)), ("mall", "home", 16, m(40))]
-    if day == START + timedelta(days=11):
+    if wd == 6 and day.month in (10, 1):
+        legs += [("home", rng.choice(["kahala", "wahiawa", "kapolei"]), 13, m(0))]
+        legs += [(legs[-1][1], "home", 15, m(30))]
+    if day == first_monday(2016, 2) + timedelta(days=4):
         legs += [("home", "airport", 5, m(40)), ("airport", "pearl_city", 7, m(0)), ("pearl_city", "home", 8, m(10))]
     return legs
 
 
 def build() -> list[dict]:
     drives = []
-    for i in range(DAYS):
-        day = START + timedelta(days=i)
+    for day in DAYS_LIST:
         for a, b, h, mnt in week_plan(day):
             hh, mm = divmod(h * 60 + mnt, 60)
             drives.append(drive(a, b, datetime(day.year, day.month, day.day, hh, mm, rng.randint(0, 59), tzinfo=TZ)))
@@ -182,4 +206,4 @@ if __name__ == "__main__":
     (ROOT / "demo/timeline_ios.json").write_text(json.dumps(ios(ds), indent=1, ensure_ascii=False))
     (ROOT / "demo/timeline_android.json").write_text(json.dumps(android(ds), indent=1, ensure_ascii=False))
     print(f"{len(ds)} drives, {sum(len(d['points']) for d in ds)} points, "
-          f"{sum(d['distance'] for d in ds) / 1609.344:,.0f} mi, {START} → {START + timedelta(days=DAYS - 1)}")
+          f"{sum(d['distance'] for d in ds) / 1609.344:,.0f} mi, {DAYS_LIST[0]} → {DAYS_LIST[-1]}")

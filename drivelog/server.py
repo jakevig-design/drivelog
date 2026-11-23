@@ -216,7 +216,11 @@ def area_shape(id: str):
 
 @app.get("/api/area/roads")
 def area_roads(id: str):
-    return _json(areas.area_roads_geojson(con(), id))
+    # Clipping a county's ways to its boundary takes a moment; the result is cached per area.
+    key = f"area_roads:{id}"
+    if key not in _cache:
+        _cache[key] = json.dumps(areas.area_roads_geojson(con(), id), separators=(",", ":")).encode()
+    return Response(_cache[key], media_type="application/json")
 
 
 @app.get("/api/area/day")

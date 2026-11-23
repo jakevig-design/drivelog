@@ -318,34 +318,85 @@ def area_summary(con, area_id: str, top_n: int = 10) -> dict | None:
     return out
 
 
-def area_geojson(con, area_id: str, tolerance: float = 0.0002) -> dict | None:
+OUTLINE_TOLERANCE = 0.0002  # degrees (~20 m): the outline the viewer draws
+
+
+def area_geojson(con, area_id: str, tolerance: float = OUTLINE_TOLERANCE) -> dict | None:
     _spatial(con)
     r = con.execute("SELECT ST_AsGeoJSON(ST_SimplifyPreserveTopology(geom, ?)) FROM areas WHERE area_id = ?",
                     [tolerance, area_id]).fetchone()
     return json.loads(r[0]) if r and r[0] else None
 
 
+def _line_parts(geojson: str) -> list[list]:
+    """Coordinate lists of the line parts of a clipped geometry (points where a way only touches the
+    boundary are dropped)."""
+    g = json.loads(geojson)
+    if g["type"] == "LineString":
+        return [g["coordinates"]]
+    if g["type"] == "MultiLineString":
+        return g["coordinates"]
+    if g["type"] == "GeometryCollection":
+        return [c for part in g["geometries"] for c in _line_parts(json.dumps(part))]
+    return []
+
+
+def _clip(con, area_id: str, rows: list[tuple]) -> list[tuple[tuple, list]]:
+    """[(row, [coords, ...])]: each row's line (its 2nd field, JSON coords) cut to the area's drawn
+    (simplified) outline, so nothing pokes past what the viewer shows. A way that way_areas counts as
+    wholly inside the true boundary can still cross the simplified one by a few metres, so every line is
+    tested; lines inside it pass through unchanged."""
+    import pyarrow as pa
+
+    if not rows:
+        return []
+    _spatial(con)
+    con.register("_clip_in", pa.table({"i": list(range(len(rows))), "g": [r[1] for r in rows]}))
+    res = con.execute("""
+        WITH a AS (SELECT ST_SimplifyPreserveTopology(geom, ?) AS g FROM areas WHERE area_id = ?),
+             l AS (SELECT i, ST_GeomFromGeoJSON('{"type":"LineString","coordinates":' || g || '}') AS line
+                   FROM _clip_in)
+        SELECT l.i, CASE WHEN ST_Within(l.line, a.g) THEN NULL
+                         ELSE ST_AsGeoJSON(ST_Intersection(l.line, a.g)) END
+        FROM l, a""", [OUTLINE_TOLERANCE, area_id]).fetchall()
+    con.unregister("_clip_in")
+    out = []
+    for i, gj in sorted(res):
+        parts = [json.loads(rows[i][1])] if gj is None else _line_parts(gj)
+        if parts:
+            out.append((rows[i], parts))
+    return out
+
+
+def _features(clipped: list, props) -> dict:
+    feats = []
+    for row, parts in clipped:
+        geom = ({"type": "LineString", "coordinates": parts[0]} if len(parts) == 1
+                else {"type": "MultiLineString", "coordinates": parts})
+        feats.append({"type": "Feature", "properties": props(row), "geometry": geom})
+    return {"type": "FeatureCollection", "features": feats}
+
+
 def area_roads_geojson(con, area_id: str) -> dict:
-    """Driven ways in the area (their stored geometry), for the map layer."""
+    """Driven ways in the area, cut to its boundary, for the map layer. Miles don't come from this:
+    they use way_areas.frac, the share of each way inside the (unsimplified) boundary."""
     rows = con.execute("""
         SELECT w.way_id, w.geometry, coalesce(w.name, w.ref) FROM way_areas wa JOIN way_info w USING (way_id)
         WHERE wa.area_id = ?""", [area_id]).fetchall()
-    return {"type": "FeatureCollection", "features": [
-        {"type": "Feature", "properties": {"way_id": str(wid), "name": nm, "inferred": False, "confidence": "observed"},
-         "geometry": {"type": "LineString", "coordinates": json.loads(g)}} for wid, g, nm in rows]}
+    return _features(_clip(con, area_id, rows), lambda r: {
+        "way_id": str(r[0]), "name": r[2], "inferred": False, "confidence": "observed"})
 
 
 def area_day_geojson(con, area_id: str, date: str) -> dict:
-    """That day's drive edges on ways inside the area."""
+    """That day's drive edges on ways inside the area, cut to its boundary."""
     rows = con.execute("""
-        SELECT e.drive_id, e.geometry, e.inferred, e.confidence
+        SELECT e.way_id, e.geometry, e.drive_id, e.inferred, e.confidence
         FROM drive_edges e JOIN drives d USING (drive_id)
         WHERE d.local_date = ?::DATE AND d.match_status IN ('ok', 'partial')
           AND e.way_id IN (SELECT way_id FROM way_areas WHERE area_id = ?)
         ORDER BY e.drive_id, e.seq""", [date, area_id]).fetchall()
-    return {"type": "FeatureCollection", "features": [
-        {"type": "Feature", "properties": {"drive_id": did, "inferred": bool(inf), "confidence": conf},
-         "geometry": {"type": "LineString", "coordinates": json.loads(g)}} for did, g, inf, conf in rows]}
+    return _features(_clip(con, area_id, rows), lambda r: {
+        "drive_id": r[2], "inferred": bool(r[3]), "confidence": r[4]})
 
 
 def areas_driven(con, kinds=("state", "country"), since: str | None = None, until: str | None = None) -> list[dict]:
