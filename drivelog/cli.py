@@ -415,6 +415,37 @@ def cmd_demo(a):
     run(a.format, serve=not a.no_serve, port=a.port)
 
 
+def cmd_start(a):
+    """Quick start: read the export, set up places (no routing needed), open the dashboard."""
+    import os
+
+    from .config import load_config as _lc
+    from .quick import prepare
+
+    if a.demo:
+        # The bundled synthetic export, in its own database (the full demo keeps data/demo/drivelog.duckdb).
+        os.environ["DRIVELOG_CONFIG"] = "demo/config.toml"
+        os.environ.setdefault("DRIVELOG_DB", "data/demo-quick/drivelog.duckdb")
+        cfg = _lc()
+        cfg.raw.setdefault("input", {})["timeline_path"] = "demo/timeline_ios.json"
+    else:
+        cfg = _lc()
+        if not cfg.timeline_path.exists():
+            print(f"No export at {cfg.timeline_path}. Export Timeline from your phone (see the README), save it "
+                  "here as Timeline.json, and run this again. Or try `drivelog start --demo`.")
+            return 1
+    prepare(cfg)
+    print("[3/3] opening the dashboard")
+    if not a.no_open:
+        import threading
+        import webbrowser
+
+        threading.Timer(3, webbrowser.open, [f"http://127.0.0.1:{a.port}"]).start()
+    from .server import serve
+
+    serve(port=a.port)
+
+
 def cmd_serve(a):
     from .server import serve
 
@@ -502,6 +533,12 @@ def main(argv=None):
     sp.add_argument("--no-serve", action="store_true", help="build the demo database but don't open the viewer")
     sp.add_argument("--port", type=int, default=8765)
     sp.set_defaults(fn=cmd_demo)
+
+    sp = sub.add_parser("start", help="read your export and open the dashboard (no Docker needed)")
+    sp.add_argument("--demo", action="store_true", help="use the bundled synthetic export instead of yours")
+    sp.add_argument("--no-open", action="store_true", help="don't open a browser")
+    sp.add_argument("--port", type=int, default=8765)
+    sp.set_defaults(fn=cmd_start)
 
     sp = sub.add_parser("serve", help="run the local viewer")
     sp.add_argument("--host", default="127.0.0.1")

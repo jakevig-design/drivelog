@@ -78,8 +78,8 @@ def main() -> int:
     with sync_playwright() as p:
         browser = p.chromium.launch(channel="chrome", headless=True, args=["--use-angle=swiftshader", "--enable-unsafe-swiftshader"])
 
-        def page_for(theme: str, basemap: str):
-            ctx = browser.new_context(viewport={"width": 1440, "height": 900}, device_scale_factor=1,
+        def page_for(theme: str, basemap: str, width: int = 1440, height: int = 900):
+            ctx = browser.new_context(viewport={"width": width, "height": height}, device_scale_factor=1,
                                       color_scheme=theme)
             ctx.add_init_script(f"localStorage.setItem('drivelog-theme', '{theme}');"
                                 f"localStorage.setItem('drivelog-basemap', '{basemap}');")
@@ -92,9 +92,16 @@ def main() -> int:
         for v in views:
             if v.get("skip"):
                 continue
-            ctx, page = page_for(v.get("theme", "light"), v.get("basemap", "map"))
-            page.goto(a.base + "#" + v.get("hash", ""), wait_until="domcontentloaded")
+            ctx, page = page_for(v.get("theme", "light"), v.get("basemap", "map"), v.get("width", 1440), v.get("height", 900))
+            url = a.base + ("?" + v["query"] if v.get("query") else "") + ("#" + v["hash"] if v.get("hash") else "")
+            page.goto(url, wait_until="domcontentloaded")
             wait_ready(page)
+            if v.get("wait_for"):
+                page.locator(v["wait_for"]).first.wait_for(timeout=30_000)
+                page.wait_for_timeout(800)
+            if v.get("click_sel"):
+                page.locator(v["click_sel"]).first.click()
+                page.wait_for_timeout(1500)
             if v.get("click"):
                 page.mouse.click(*v["click"])
                 page.wait_for_timeout(1500)
@@ -106,7 +113,10 @@ def main() -> int:
                 loc.hover()
                 page.wait_for_timeout(300)
             page.wait_for_timeout(v.get("wait_ms", 0))
-            page.screenshot(path=str(out / f"{v['name']}.png"))
+            page.screenshot(path=str(out / f"{v['name']}.png"), full_page=bool(v.get("full")))
+            if v.get("expect_url"):
+                ok = v["expect_url"] in page.url
+                print(f"  url after clicks: {page.url.split('/', 3)[-1]}  ({'as expected' if ok else 'UNEXPECTED'})", flush=True)
             print("saved", v["name"], flush=True)
             ctx.close()
 

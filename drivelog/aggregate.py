@@ -357,6 +357,11 @@ def run(cfg: Config | None = None) -> dict:
     con.execute("COMMIT")
 
     export_geojson(con, cfg.db_path.parent / "geo/roads.geojson")
+    if con.execute("SELECT count(*) FROM information_schema.tables WHERE table_name IN ('way_areas', 'areas')").fetchone()[0] == 2:
+        from .facets import build_places_from_roads, ensure_path_m
+
+        ensure_path_m(con)
+        build_places_from_roads(con)  # traversals changed: refresh the dashboard's per-drive places
     stats = {
         "ways": con.execute("SELECT count(*) FROM road_stats").fetchone()[0],
         "roads": con.execute("SELECT count(*) FROM named_road_stats").fetchone()[0],

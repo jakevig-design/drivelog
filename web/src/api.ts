@@ -1,4 +1,5 @@
 export type Meta = {
+  mode?: "full" | "quick";
   first_date: string;
   last_date: string;
   drives: number;
@@ -139,6 +140,39 @@ export type Review = {
   places: { area_id: string; kind: AreaKind; name: string; country: string | null; mi: number; drives: number }[] | null;
 };
 
+/** Dashboard filters: facet -> selected ids, plus a date range and per-facet search text. */
+export type Filters = {
+  year?: string[]; month?: string[]; dow?: string[]; tod?: string[]; len?: string[];
+  road?: string[]; town?: string[]; zip?: string[]; county?: string[]; state?: string[]; country?: string[];
+  from?: string; to?: string;
+  search?: Record<string, string>;
+};
+export type FacetKey = "year" | "month" | "dow" | "tod" | "len" | "road" | "town" | "zip" | "county" | "state" | "country";
+export type FacetOption = { id: string; label: string; count: number; selected: boolean };
+export type QueryResult = {
+  mode: "full" | "quick";
+  totals: { drives: number; mi: number; hours: number; days: number; on_road_mi?: number; in_place_mi?: number };
+  months: { month: string; mi: number; drives: number }[];
+  grid: number[][];
+  top_roads: { id: string; label: string; drives: number; mi: number }[];
+  top_towns: { id: string; label: string; drives: number; mi: number }[];
+  records: {
+    longest?: { drive_id: string; date: string; start: string; mi: number; minutes: number };
+    busiest_day?: { date: string; drives: number; mi: number };
+  };
+  drives: { drive_id: string; date: string; start: string; mi: number; minutes: number; towns: string[] }[];
+  page: number;
+  page_size: number;
+  facets?: Record<string, { key: string; options: FacetOption[]; total: number }>;
+  labels: { facet: FacetKey; id: string; label: string }[];
+};
+
+async function post<T>(url: string, body: unknown): Promise<T> {
+  const r = await fetch(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+  if (!r.ok) throw new Error(`${url}: ${r.status}`);
+  return r.json();
+}
+
 async function get<T>(url: string): Promise<T> {
   const r = await fetch(url);
   if (!r.ok) throw new Error(`${url}: ${r.status}`);
@@ -184,6 +218,10 @@ export const api = {
   day: (d: string) => get<DayDrive[]>(`/api/day/${d}`),
   drive: (id: string) => get<DriveDetail>(`/api/drive/${id}`),
   drives: (ids: string[]) => get<GeoJSON.FeatureCollection>(`/api/drives?${qs({ ids: ids.join(",") })}`),
+  query: (filters: Filters, opts: { page?: number; page_size?: number; facets?: boolean } = {}) =>
+    post<QueryResult>("/api/query", { filters, ...opts }),
+  queryIds: (filters: Filters) => post<string[]>("/api/query/ids", { filters }),
+  points: () => get<GeoJSON.FeatureCollection>("/api/points"),
 };
 
 export const fmtMi = (v: number | null | undefined, digits = 1) =>

@@ -9,11 +9,11 @@ import threading
 from datetime import date
 
 import duckdb
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import Body, FastAPI, HTTPException, Query
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import FileResponse, Response
 
-from . import areas, patterns, queries
+from . import areas, facets, patterns, queries
 from .config import ROOT, load_config
 from .db import connect
 
@@ -39,6 +39,18 @@ def con():
     return _con.cursor()
 
 
+_engine = None
+
+
+def engine() -> facets.Engine:
+    """The dashboard's filter engine, loaded once per server process (~0.3 s)."""
+    global _engine
+    with _lock:
+        if _engine is None:
+            _engine = facets.Engine(con())
+        return _engine
+
+
 def _json(obj) -> Response:
     return Response(json.dumps(obj, default=_default, separators=(",", ":")), media_type="application/json")
 
@@ -50,8 +62,13 @@ def _default(o):
 
 
 def _build_roads() -> tuple[bytes, bytes]:
-    """Roads as GeoJSON (feature id = index) and the traversal table the client filters by date."""
+    """Roads as GeoJSON (feature id = index) and the traversal table the client filters by date.
+    Quick mode (no roads matched yet) has neither: both come back empty."""
     c = con()
+    if not c.execute("SELECT count(*) FROM information_schema.tables WHERE table_name = 'road_stats'").fetchone()[0]:
+        empty = json.dumps({"type": "FeatureCollection", "features": []}).encode()
+        return empty, json.dumps({"days": [], "drive_ids": [], "feature": [], "day": [], "drive": [], "length": [],
+                                  "observed": []}).encode()
     ways = c.execute("""
         SELECT s.way_id, s.name, s.ref, s.road_class, s.drive_count, w.geometry,
                (SELECT list(road_key) FROM way_roads wr WHERE wr.way_id = s.way_id) AS keys
@@ -116,8 +133,23 @@ def meta():
     # Where the map opens: the middle 96% of drive points, so a one-off trip doesn't zoom it out.
     b = c.execute("""SELECT quantile_cont(lng, 0.02), quantile_cont(lat, 0.02), quantile_cont(lng, 0.98),
                             quantile_cont(lat, 0.98) FROM drive_points""").fetchone()
-    return _json({"first_date": r[0], "last_date": r[1], "drives": r[2], "mi": (r[3] or 0) / 1.609344,
+    e = engine()
+    # Quick mode (nothing matched yet): miles are the point-path estimate, as on the dashboard.
+    mi = (r[3] or 0) / 1.609344 if e.mode == "full" else e.query({}, facets=False, page_size=1)["totals"]["mi"]
+    return _json({"first_date": r[0], "last_date": r[1], "drives": r[2], "mi": mi, "mode": e.mode,
                   "matched": r[4], "bbox": list(b) if b[0] is not None else None})
+
+
+@app.get("/api/points")
+def points():
+    """Quick mode's map: GPS points (lng, lat, rounded to ~10 m), at most ~200k of them, for a heat map."""
+    c = con()
+    n = c.execute("SELECT count(*) FROM drive_points").fetchone()[0]
+    step = max(1, n // 200_000)
+    rows = c.execute(f"""SELECT round(lng, 4), round(lat, 4) FROM (
+                            SELECT lng, lat, row_number() OVER () AS i FROM drive_points) WHERE i % {step} = 0""").fetchall()
+    return _json({"type": "FeatureCollection", "features": [
+        {"type": "Feature", "properties": {}, "geometry": {"type": "Point", "coordinates": [x, y]}} for x, y in rows]})
 
 
 @app.get("/api/roads")
@@ -196,6 +228,23 @@ def _road_hits(c, q: str) -> list[dict]:
         r["bbox"] = [min(xs), min(ys), max(xs), max(ys)] if xs else None
         out.append(r)
     return out
+
+
+@app.post("/api/query")
+def query(body: dict = Body(default={})):
+    """Dashboard: totals, charts, lists, records, matching drives and facet counts for a filter set.
+    Body: {"filters": {...}, "page": 0, "page_size": 25, "facets": true}."""
+    e = engine()
+    r = e.query(body.get("filters"), page=int(body.get("page", 0)), page_size=min(int(body.get("page_size", 25)), 200),
+                facets=bool(body.get("facets", True)))
+    r["labels"] = e.labels(body.get("filters"))
+    return _json(r)
+
+
+@app.post("/api/query/ids")
+def query_ids(body: dict = Body(default={})):
+    """Drive ids matching a filter set (the map restricts itself to these)."""
+    return _json(engine().drive_ids(body.get("filters")))
 
 
 @app.get("/api/area")
@@ -292,15 +341,23 @@ def spa(path: str):
 
 
 def serve(host: str = "127.0.0.1", port: int = 8765, dev: bool = False) -> None:
+    import shutil
+
     import uvicorn
 
-    if not (WEB / "node_modules").exists():
-        subprocess.run(["npm", "install"], cwd=WEB, check=True)
+    has_npm = shutil.which("npm") is not None
+    if dev or ((not DIST.exists() or _stale()) and has_npm):
+        if not (WEB / "node_modules").exists():
+            subprocess.run(["npm", "install"], cwd=WEB, check=True)
     if dev:
         subprocess.Popen(["npm", "run", "dev"], cwd=WEB)
         print("Vite dev server: http://localhost:5173 (proxies /api to the backend)")
     elif not DIST.exists() or _stale():
-        subprocess.run(["npm", "run", "build"], cwd=WEB, check=True)
+        if has_npm:
+            subprocess.run(["npm", "run", "build"], cwd=WEB, check=True)
+        elif not DIST.exists():
+            raise SystemExit("The viewer isn't built and Node isn't installed: `brew install node`, then run this again.")
+        # else: no Node, but the repo ships a built viewer (web/dist): use it as is.
     print("preparing road data…", flush=True)
     _cached("roads")  # build + compress up front so the first page load doesn't pay for it
     print(f"drivelog viewer: http://{host}:{port}", flush=True)

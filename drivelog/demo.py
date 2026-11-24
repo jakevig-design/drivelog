@@ -26,10 +26,12 @@ def ensure_valhalla(cfg: Config) -> None:
     """Download + verify the extract and build tiles if needed, then start the container."""
     from .valhalla import _status_ok, compose, configure, fetch_extracts, merge_extracts, wait_ready, write_compose
 
-    if _status_ok(cfg.valhalla["url"]):
-        return
+    # The extract is needed for area boundaries too, so fetch it even if a routing engine is already up
+    # (e.g. another checkout's demo container on the same port).
     if not (cfg.valhalla_dir / "merged.osm.pbf").exists():
         merge_extracts(fetch_extracts(cfg), cfg)
+    if _status_ok(cfg.valhalla["url"]):
+        return
     write_compose(cfg)
     subprocess.run(compose(cfg, "up", "-d"), cwd=ROOT, check=True)
     print("waiting for the demo routing tiles (first run builds them: a few minutes)", flush=True)

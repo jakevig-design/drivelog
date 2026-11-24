@@ -7,6 +7,7 @@ import {
   type Confidence,
   type DayDrive,
   type DriveDetail,
+  type Filters,
   type Meta,
   type Road,
   type RoadSeg,
@@ -16,11 +17,13 @@ import {
   type AreaHit,
   type SearchResult,
 } from "./api";
-import Patterns, { type Scope } from "./Patterns";
+import Dashboard from "./Dashboard";
 import Year from "./Year";
 
 type MLMap = maplibregl.Map;
-type Mode = "roads" | "explore" | "day" | "drive" | "area" | "patterns" | "year";
+type Mode = "dash" | "roads" | "explore" | "day" | "drive" | "area" | "year";
+// Area kind -> dashboard filter facet.
+const AREA_FACET: Record<string, string> = { zip: "zip", locality: "town", county: "county", state: "state", country: "country" };
 
 /** Something drawn on the map in one colour: a whole day, a single drive, an area's roads, a year's new roads. */
 type MapLayer = {
@@ -169,11 +172,13 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [hits, setHits] = useState<SearchResult | null>(null);
   const [area, setArea] = useState<Area | null>(null);
-  const [scope, setScope] = useState<Scope>({ kind: "all" });
+  // The map restricted to the dashboard's matching drives ("Show on the map"): drive indexes into trav.
+  const [driveFilter, setDriveFilter] = useState<{ ids: string[]; label: string } | null>(null);
   const [years, setYears] = useState<number[]>([]);
   const [year, setYear] = useState<number | null>(null);
-  const [mode, setMode] = useState<Mode>("roads");
-  const [backMode, setBackMode] = useState<Mode>("roads");
+  // The dashboard opens first, unless a map deep link (#day=…, #road=…) asked for a map view.
+  const [mode, setMode] = useState<Mode>(window.location.hash.length > 1 ? "roads" : "dash");
+  const [backMode, setBackMode] = useState<Mode>("dash");
   const [day, setDay] = useState<string>("");
   const [dayDrives, setDayDrives] = useState<DayDrive[] | null>(null);
   const [drive, setDrive] = useState<DriveDetail | null>(null);
@@ -226,6 +231,12 @@ export default function App() {
 
   // Drives and miles per road within the year range: they colour the frequency map, decide which roads
   // are clickable, and give the range summary.
+  const allowed = useMemo(() => {
+    if (!trav || !driveFilter) return null;
+    const want = new Set(driveFilter.ids);
+    return Uint8Array.from(trav.drive_ids, (id) => (want.has(id) ? 1 : 0));
+  }, [trav, driveFilter]);
+
   const counts = useMemo(() => {
     if (!trav || !roads) return null;
     const c = new Uint32Array(roads.features.length);
@@ -236,6 +247,7 @@ export default function App() {
     for (let i = 0; i < trav.feature.length; i++) {
       const d = trav.day[i];
       if (d < lo || d > hi) continue;
+      if (allowed && !allowed[trav.drive[i]]) continue;
       const f = trav.feature[i];
       c[f]++;
       m[f] += trav.length[i] / 1609.344;
@@ -249,7 +261,7 @@ export default function App() {
       if (m[i] > maxM) maxM = m[i];
     }
     return { c, m, maxC, maxM, drives: drives.size, mi: total / 1609.344 };
-  }, [trav, roads, range]);
+  }, [trav, roads, range, allowed]);
 
   // Explored over time: the month each road was first driven, and the running total of distinct road
   // miles (each way counted once, at its longest traversal, as in the Year tab's "new miles").
@@ -259,6 +271,7 @@ export default function App() {
     const firstDay = new Int32Array(n).fill(-1);
     const len = new Float64Array(n);
     for (let i = 0; i < trav.feature.length; i++) {
+      if (allowed && !allowed[trav.drive[i]]) continue;
       const f = trav.feature[i];
       const d = trav.day[i];
       if (firstDay[f] < 0 || d < firstDay[f]) firstDay[f] = d;
@@ -292,7 +305,7 @@ export default function App() {
       cumN[k] = (k ? cumN[k - 1] : 0) + addN[k];
     }
     return { months, fm, addN, cumMi, cumN };
-  }, [trav, roads]);
+  }, [trav, roads, allowed]);
 
   // Play: one month per tick, 3 months a second at 1x.
   useEffect(() => {
@@ -667,6 +680,37 @@ export default function App() {
     if (j >= 0 && j < trav.days.length) setDay(trav.days[j]);
   };
 
+  // ---------------------------------------------------------------- quick mode (no matched roads yet)
+  const quick = meta?.mode === "quick";
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !quick || !layersVer || map.getSource("pts")) return;
+    api.points().then((fc) => {
+      if (map.getSource("pts")) return;
+      map.addSource("pts", { type: "geojson", data: fc });
+      map.addLayer({ id: "pts-heat", type: "heatmap", source: "pts", paint: {
+        "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 5, 4, 12, 12],
+        "heatmap-intensity": ["interpolate", ["linear"], ["zoom"], 5, 0.4, 12, 1],
+        "heatmap-color": ["interpolate", ["linear"], ["heatmap-density"], 0, "rgba(224,96,26,0)", 0.2, "#fdae6b", 0.5, "#e0601a", 1, "#7a2803"],
+        "heatmap-opacity": 0.75 } });
+    });
+  }, [quick, layersVer]);
+
+  // ---------------------------------------------------------------- dashboard <-> map
+  const openDash = (f: Filters) => {
+    const p = new URLSearchParams();
+    for (const [k, v] of Object.entries(f)) if (Array.isArray(v) && v.length) p.set(k, v.join(","));
+    window.history.pushState(null, "", window.location.pathname + "?" + p.toString().replace(/%2C/g, ",").replace(/%3A/g, ":"));
+    setMode("dash");
+  };
+
+  const showOnMap = async (f: Filters, label: string) => {
+    const ids = await api.queryIds(f);
+    setDriveFilter({ ids, label });
+    setRoad(null);
+    setMode("roads");
+  };
+
   // ---------------------------------------------------------------- deep links
   // #day=2016-03-05 · #road=HI%2072 · #area=zip:96734 · #patterns · #year=2016 open that view on load.
   const linked = useRef(false);
@@ -685,7 +729,7 @@ export default function App() {
       setMode("day");
     } else if (h.get("road")) openRoad({ key: h.get("road")! });
     else if (h.get("area")) openArea(h.get("area")!);
-    else if (h.has("patterns")) setMode("patterns");
+    else if (h.has("patterns")) setMode("dash");
     else if (h.has("year")) {
       if (h.get("year")) setYear(+h.get("year")!);
       setMode("year");
@@ -707,7 +751,7 @@ export default function App() {
 
       <header className="topbar panel">
         <div className="brand">Drivelog</div>
-        <div className="search">
+        <div className="search" hidden={mode === "dash"}>
           <input
             placeholder="Search a road, zip code or place: Kailua Rd, 72, 96734, a town…"
             value={query}
@@ -744,11 +788,11 @@ export default function App() {
           )}
         </div>
         <div className="tabs">
-          <button className={mode === "roads" ? "on" : ""} onClick={() => setMode("roads")}>Roads</button>
+          <button className={mode === "dash" ? "on" : ""} onClick={() => setMode("dash")}>Dashboard</button>
+          <button className={mode === "roads" ? "on" : ""} onClick={() => setMode("roads")}>Map</button>
           <button className={mode === "explore" ? "on" : ""} title="Roads appearing the month you first drove them"
             onClick={() => { if (mode !== "explore" && explore) setMonth(explore.months.length - 1); setMode("explore"); }}>Explored</button>
           <button className={mode === "day" ? "on" : ""} onClick={() => setMode("day")}>Day</button>
-          <button className={mode === "patterns" ? "on" : ""} onClick={() => setMode("patterns")}>Patterns</button>
           <button className={mode === "year" ? "on" : ""} onClick={() => setMode("year")}>Year</button>
           {drive && <button className={mode === "drive" ? "on" : ""} onClick={() => setMode("drive")}>Drive</button>}
           {area && <button className={mode === "area" ? "on" : ""} onClick={() => openArea(area.area_id)}>Area</button>}
@@ -790,7 +834,12 @@ export default function App() {
         </div>
       )}
 
-      {mode === "roads" && trav && (
+      {mode === "roads" && quick && (
+        <div className="range panel small">GPS points from your export, as a heat map. Adding road detail (step 4 of the guide)
+          turns this into the road-by-road frequency map.</div>
+      )}
+
+      {mode === "roads" && trav && !quick && (
         <div className="range panel">
           <div className="range-head">
             <div className="seg-toggle small" role="group" aria-label="Colour roads by">
@@ -836,7 +885,7 @@ export default function App() {
         </div>
       )}
 
-      {mode === "explore" && explore && (
+      {mode === "explore" && explore && !quick && (
         <>
           <div className="counter panel" aria-live="off">
             <div className="big">{Math.round(explore.cumMi[month]).toLocaleString()}</div>
@@ -887,7 +936,7 @@ export default function App() {
                   <dt>GPS-confirmed</dt><dd>{road.observed_drive_count.toLocaleString()}</dd>
                 </div>
                 {road.road_key && (
-                  <div><dt>Patterns</dt><dd><button className="linkbtn" onClick={() => { setScope({ kind: "road", key: road.road_key!, label: road.label }); setMode("patterns"); }}>when ›</button></dd></div>
+                  <div><dt>Dashboard</dt><dd><button className="linkbtn" onClick={() => openDash({ road: [road.road_key!] })}>analyze ›</button></dd></div>
                 )}
               </dl>
               <h3>Dates <span className="muted">(newest first · click a time to add that route to the map)</span></h3>
@@ -928,7 +977,7 @@ export default function App() {
         </aside>
       )}
 
-      {mode === "day" && (
+      {mode === "day" && !quick && (
         <aside className="side panel">
           <div className="daypick">
             <button onClick={() => shiftDay(-1)} title="Previous day with drives">‹</button>
@@ -1020,7 +1069,7 @@ export default function App() {
                 <div><dt>Days</dt><dd>{area.distinct_days.toLocaleString()}</dd></div>
                 <div><dt>First</dt><dd>{area.first_date ?? "–"}</dd></div>
                 <div><dt>Last</dt><dd>{area.last_date ?? "–"}</dd></div>
-                <div><dt>Patterns</dt><dd><button className="linkbtn" onClick={() => { setScope({ kind: "area", key: area.area_id, label: area.label }); setMode("patterns"); }}>when ›</button></dd></div>
+                <div><dt>Dashboard</dt><dd><button className="linkbtn" onClick={() => openDash({ [AREA_FACET[area.kind] ?? "town"]: [area.area_id] } as Filters)}>analyze ›</button></dd></div>
               </dl>
               <h3>Top roads here</h3>
               <ol className="toproads">
@@ -1050,13 +1099,35 @@ export default function App() {
         </aside>
       )}
 
-      {mode === "patterns" && (
+      {mode === "dash" && (
+        <Dashboard quick={meta?.mode === "quick"}
+          onOpenDrive={(id) => openDrive(id)}
+          onOpenDay={(d) => { setDay(d); setMode("day"); }}
+          onOpenYear={(y) => { setYear(y); setMode("year"); }}
+          onShowMap={showOnMap} />
+      )}
+
+      {driveFilter && mode !== "dash" && (
+        <div className="dfbanner panel">
+          <span>Map shows <b>{driveFilter.ids.length.toLocaleString()} drives</b> from the dashboard: {driveFilter.label}</span>
+          <button className="linkbtn" onClick={() => setMode("dash")}>back to dashboard</button>
+          <button className="linkbtn" onClick={() => setDriveFilter(null)}>show all drives</button>
+        </div>
+      )}
+
+      {quick && (mode === "explore" || mode === "day" || mode === "year") && (
         <aside className="side panel">
-          <Patterns scope={scope} setScope={setScope} />
+          <h2>Needs road detail</h2>
+          <p className="muted">{mode === "explore" ? "Explored shows roads appearing the month you first drove them" : mode === "day"
+            ? "Day view lists each drive road by road" : "Year in review counts new roads and top roads"}, so it needs your drives matched to real
+            roads. Until then, the Dashboard and the map's GPS heat map work from your points.</p>
+          <p className="muted">Add road detail with step 4 of the guide in the README (Docker plus map data for your area,
+            about an hour, once). Nothing you've loaded needs to be redone.</p>
+          <button className="btn" onClick={() => setMode("dash")}>Back to the dashboard</button>
         </aside>
       )}
 
-      {mode === "year" && (
+      {mode === "year" && !quick && (
         <aside className="side panel">
           <Year years={years} year={year} setYear={setYear}
             onRoad={(key) => openRoad({ key })}

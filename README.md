@@ -1,190 +1,151 @@
 # Drivelog
 
-Every road you've ever driven, from your Google Timeline export: on a map, searchable by road, zip
-code or town, with the dates you drove each one and when you tend to drive. It runs entirely on your
-own computer; your location history never leaves it.
+**Every drive you've ever taken, from your Google Timeline: a dashboard you can filter like a shopping
+site, and a map of every road you've driven.** It runs on your own computer. Your location history never
+leaves it.
 
-![Frequency map: every road driven, coloured and weighted by how often](docs/screenshots/frequency.png)
+![The dashboard: filters on the left, the answer on the right](docs/screenshots/dashboard.png)
 
-- **Frequency map.** The opening view: every road you've driven, coloured and weighted by how often
-  (drives or miles, log scale, with a legend). A year-range slider recounts it live; click any road
-  for its dates.
-- **Explored over time.** Press play and watch roads appear the month you first drove them, with a
-  running count of distinct road miles explored. Pause, scrub, or change the speed.
-- **Roads.** Search a road ("Kailua Rd", "72", "HI 72") and see every date you drove it; click a time to
-  put that drive on the map. Each road use is marked as seen in your GPS points or inferred across a gap.
-- **Places.** Search a zip code, town, county, state or country: miles, drives, days, top roads, and
-  the dates you were there.
-- **Days and drives.** A day's drives in order, road by road; for any drive, the roads that were new to
-  you and other drives that shared its route.
-- **Patterns.** Hour of day × day of week, miles per month, drive lengths, for everything or for one
-  road or area ("when do I drive the highway", "when am I in this zip code").
-- **Year in review.** Miles, drives, hours, days; new roads (drawn on the map); top roads; busiest month
-  and day; longest drive; states and countries; each compared with the year before.
-- **The map.** Each day, drive or road history you add goes on the map in its own color, so you can
-  compare them side by side. Street map or satellite imagery; light and dark themes.
+<!-- EDIT ME: this intro is a draft. Replace it with your own words: why you built it, what surprised you. -->
+Google has been keeping a record of where I drive for years. I wanted to actually look at it: which roads
+I drive most, when I'm on the road, how my weekdays differ from my weekends, how much of the map I've
+explored. And I didn't want to upload my location history anywhere to do it. Drivelog is what came out
+of that. If I did it, so can you: it's four steps, and the first three take about ten minutes.
 
-| Explored over time | Satellite |
-|---|---|
-| ![Explored over time: roads appear month by month](docs/screenshots/explored.gif) | ![Satellite basemap with the frequency map](docs/screenshots/satellite.png) |
+## What you get
 
-| A day's drives | Search a place | Patterns | Year in review |
-|---|---|---|---|
-| ![Day](docs/screenshots/day.png) | ![Area](docs/screenshots/area.png) | ![Patterns](docs/screenshots/patterns.png) | ![Year](docs/screenshots/year.png) |
+- **A dashboard you filter like a shop.** Tick any mix of year, month, day of week, time of day, road,
+  town, zip code, county, state or country. Every chart, list and total answers for just those drives,
+  and each option shows how many drives it would leave.
+- **Compare.** Weekdays vs weekends, this year vs last, one town vs another, side by side.
+- **The map.** Every road you've driven, coloured by how often. Watch your explored roads grow month by
+  month. Street map or satellite. Click any road for every date you drove it.
 
-All screenshots are from the bundled demo data: an invented driver on Oahu, eight months of drives.
+| Compare two sets of filters | Roads coloured by how often | Explored over time |
+|---|---|---|
+| ![Compare weekdays and weekends](docs/screenshots/compare.png) | ![Frequency map](docs/screenshots/frequency.png) | ![Roads appearing month by month](docs/screenshots/explored.gif) |
 
-## Try it without your own data
+Every screenshot here comes from the bundled demo: an invented driver on Oahu. With your own export the
+filters fill with your own places (the demo only has one state and one country).
+
+---
+
+## Step 1 · Get your data
+
+Google keeps Timeline on your phone, so the export is made on the phone. Google moves these menus now and
+then; if a step doesn't match, search Google's help for "export Timeline data".
+
+**iPhone:** Google Maps → tap your profile picture → **Settings** → **Personal content** → **Export
+Timeline data**. Save the file, then get it onto your Mac (AirDrop works).
+
+<!-- SCREENSHOTS: iPhone export steps go here (see the list in the maintainer's notes). -->
+
+**Android:** your phone's **Settings** → **Location** → **Location services** → **Timeline** → **Export
+Timeline data**. Save the file, then copy it to your Mac.
+
+<!-- SCREENSHOTS: Android export steps go here. -->
+
+The file is usually called `Timeline.json` (or `location-history.json`). Keep it somewhere private: it's
+your whole location history.
+
+## Step 2 · Install (Mac)
+
+Open **Terminal** (press ⌘-Space, type *Terminal*, press Return) and paste this line:
 
 ```sh
-uv sync
-uv run drivelog demo
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-You need the tools listed under [Setup](#setup) (Docker, uv, Node, osmium-tool); the default Docker
-memory is enough for the demo. `drivelog demo` downloads the small Hawaii map extract (~25 MB), builds routing tiles in a separate
-Docker container, loads eight months of synthetic drives (the first week of each month) and opens the viewer at http://127.0.0.1:8765.
-Everything goes under `data/demo/`, with its own routing container on port 8003, so the demo never
-touches your own setup. The first run takes a few minutes; later runs take seconds.
-`--format android` loads the same drives from the synthetic Android-format export instead;
-`--no-serve` builds the demo database without opening the viewer; `--port` picks another port.
+That installs [uv](https://docs.astral.sh/uv/), which runs Drivelog and fetches everything else it needs.
+Close Terminal and open it again so it picks uv up.
 
-## Export your Timeline
+Then download Drivelog: on this repository's page, click the green **Code** button → **Download ZIP**, and
+unzip it (it lands in Downloads). If you use git, `git clone` works too.
 
-Google keeps Timeline on your phone, so the export is made on the phone. Google moves these menus from
-time to time; if the path has changed, search its help for "export Timeline data".
+## Step 3 · Run it
 
-- **iPhone:** Google Maps → your profile picture → **Settings** → **Personal content** → **Export
-  Timeline data**. Save the file and copy it to your computer.
-- **Android:** the phone's **Settings** → **Location** → **Location services** → **Timeline** → **Export
-  Timeline data**. Save the file and copy it to your computer.
+Move your export into the Drivelog folder and name it `Timeline.json`. In Terminal, go to the folder
+and start Drivelog:
 
-Put the file in this folder as `Timeline.json`, or point `timeline_path` in `config.toml` at it. Drivelog
-detects the format itself.
+```sh
+cd ~/Downloads/drivelog-main
+uv run drivelog start
+```
 
-> The Android adapter has only been tested against synthetic data (the demo's Android export). If a real
-> Android export doesn't load, please open an issue with the error, **not the file**.
+The first run downloads free map boundary files (about 60 MB, from the US Census and Natural Earth),
+reads your export, and opens the dashboard in your browser at http://127.0.0.1:8765. Later runs open in
+seconds. To come back another day, run the same two lines.
 
-## Setup
+Want to look around first? `uv run drivelog start --demo` opens the demo data instead.
 
-You need [Docker Desktop](https://www.docker.com/products/docker-desktop/),
-[uv](https://docs.astral.sh/uv/) (it installs Python 3.12), Node 20.19+ or 22.12+ and osmium-tool. On a
-Mac: `brew install uv node osmium-tool`. The viewer installs and builds its own front end the first time
-you run it.
+![Quick mode: the dashboard straight from the export](docs/screenshots/quick.png)
 
-**Docker memory.** Valhalla, the routing engine, needs room to match sparse traces. Give Docker Desktop
-at least **8 GB** (Settings → Resources). With **10 GB or more**, keep `breakage_distance = 10000` in
-`config.toml`. With less, set it to `5000`: more of each drive is then routed by the fill stage instead,
-and with 10 km in a small VM the routing server runs out of memory and restarts in a loop.
+This is **quick mode**: everything is worked out from your phone's GPS points. Miles are marked "≈"
+because the points are minutes apart and the line between them cuts corners, so totals run a little low.
+The road features (top roads, road filters, the road map, "explored") show a lock until step 4.
 
-Once you've copied the config (first line below), set `fallback_tz` in `config.toml` to your usual time
-zone; it's used only for timestamps that carry no UTC offset.
+## Step 4 · Road detail (optional, about an hour, once)
+
+This step matches every drive to the real roads you drove, using an open-source routing engine that runs
+on your Mac. It unlocks top roads, road filters, every date you drove a road, the road-by-road map, and
+exact miles. It takes a while, but it runs unattended.
+
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) and start it. In its
+   Settings → Resources, give it at least **8 GB** of memory (10 GB or more is better; see
+   Troubleshooting).
+2. Install one helper: `brew install osmium-tool` (no Homebrew? see [brew.sh](https://brew.sh)).
+3. In the Drivelog folder, run:
 
 ```sh
 cp config.example.toml config.toml
-uv sync
-
-# Map data for where you drive. After the first extract, let Drivelog pick the rest from your data:
-uv run drivelog extract                 # read your export into data/drivelog.duckdb
-uv run drivelog coverage plan           # which Geofabrik extracts cover your drives, sizes, disk estimate
-uv run drivelog coverage apply          # add them to config.toml, download + verify, build routing tiles
-
-# Or by hand: list extracts in config.toml, then
-uv run drivelog valhalla fetch          # download + checksum + merge the extracts
-uv run drivelog valhalla compose        # writes docker-compose.yml from config.toml
-docker compose up -d                    # first start builds routing tiles (minutes to an hour+)
-uv run drivelog valhalla configure && docker compose restart
-
-uv run drivelog split                   # split activities Google stitched across a stop (needs Valhalla)
-uv run drivelog match                   # match + fill every drive (resumable)
-uv run drivelog aggregate               # road statistics
-uv run drivelog areas build             # zip codes and place boundaries
-uv run drivelog serve                   # the viewer: http://127.0.0.1:8765
+uv run drivelog coverage plan     # which map regions cover your drives, and how much disk they need
+uv run drivelog coverage apply    # downloads them and builds the routing data (the long part)
+uv run drivelog match             # matches every drive to roads
+uv run drivelog areas build       # towns, counties and zip codes from the same map data
+uv run drivelog start             # the same dashboard, now with roads
 ```
 
-`drivelog valhalla health` checks the routing server with a test match of one of your drives.
+Keep the Mac awake and plugged in while `coverage apply` runs: building the routing data takes from a few
+minutes for one state to over an hour for many, and several times the download size on disk (`coverage
+plan` estimates it). Nothing from quick mode needs redoing; the same database is upgraded in place.
 
-The tile build is the slow part: from minutes for one small region to over an hour for many, with disk
-use of several times the extracts' size (`coverage plan` estimates it). A rebuild keeps the previous
-tiles and restores them if the new build fails.
+**After a new export:** replace `Timeline.json` and run `uv run drivelog rebuild` (only new drives are
+processed), then `uv run drivelog start`.
 
-After a new export: replace `Timeline.json` and run `uv run drivelog rebuild` (extracts, splits,
-matches and fills only the new drives, then updates road statistics), then `uv run drivelog areas build`. For a trip
-somewhere new, run `drivelog coverage plan` and `drivelog coverage apply`: only the newly covered drives
-are matched. Then `drivelog areas build` again so the new places are searchable.
+---
 
-## Command line
+## Troubleshooting
 
-The examples use the demo data.
-
-```sh
-uv run drivelog top --n 25 [--since 2016-01-01] [--until …] [--observed-only] [--by way]
-uv run drivelog dates "72" [--limit 20] [--roads 3]   # every date you drove it; ~ / ? mark inferred drives
-uv run drivelog day 2016-03-12          # each drive's roads, in order; *new* = first time on a road
-uv run drivelog drive "2016-03-12 11:35"  # one drive: route, new roads, similar drives (or an id prefix)
-uv run drivelog area 96734              # also "Kailua", "Honolulu County", "Kailua, Honolulu County"
-uv run drivelog patterns [--road 72 | --area 96734] [--miles]
-uv run drivelog review 2015             # or: review all
-uv run drivelog stats --by month        # or year, week, day; --since / --until
-```
-
-`drivelog top` counts a road once however OSM splits it; `--by way` lists the individual OSM ways.
-Every command has `--help`.
-
-Pipeline stages can also be rerun one at a time: `drivelog match --rematch` (match every drive again),
-`drivelog fill --refill` (re-choose the routes across gaps, no rematch needed), `drivelog split
-[--dry-run]` (find and split stitched drives, matching only the pieces), `drivelog aggregate`,
-and `drivelog validate` (matches a fixed sample of drives and writes a quality report under
-`data/reports/`).
+- **`command not found: uv`**: close Terminal and open it again after step 2.
+- **The export menu isn't where step 1 says**: Google moves it. Search its help for "export Timeline data".
+- **"No export at …/Timeline.json"**: the file must be in the Drivelog folder and named exactly
+  `Timeline.json` (or set `timeline_path` in `config.toml`).
+- **Something else is using port 8765**: `uv run drivelog start --port 8770`, then open that port.
+- **Step 4: the routing engine keeps restarting**: Docker needs more memory. With less than 10 GB, set
+  `breakage_distance = 5000` in `config.toml`; more of each drive is then routed in the fill stage.
+- **Android exports** have only been tested with the synthetic demo export. If yours doesn't load, open an
+  issue with the error message. **Never attach the file.**
+- **Windows or Linux**: not covered yet. The Python side should work. The install line and paths above are
+  Mac-specific.
 
 ## Privacy
 
-- **Nothing leaves your machine.** Map matching, routing and area lookups all run locally: Valhalla in
-  Docker, DuckDB, and a local viewer. There is no account, server or telemetry.
-- The only network use is downloading OpenStreetMap extracts and their region index and boundaries
-  (Geofabrik), Census boundary files, packages and the Docker image, plus keyless basemap tiles in the
-  browser: OpenFreeMap for the street map, Esri World Imagery for satellite. Tile requests reveal which
-  map area you're looking at, as with any web map; no drive data is in any request.
-- Satellite imagery is Esri's, under Esri's terms of use (attribution is shown on the map). It's meant
-  here for personal viewing; check Esri's terms before any commercial or high-volume use.
-- The routing server and the viewer listen on `127.0.0.1` only.
-- Your export, the database and everything derived from it stay in gitignored paths (`Timeline*.json`,
+- **Nothing leaves your computer.** No account, no server, no telemetry. The viewer only listens on
+  `127.0.0.1`.
+- The network is used to download the free boundary files and map data (Census, Natural Earth, Geofabrik),
+  packages, the routing engine's Docker image, and map tiles in the browser (OpenFreeMap for the street map,
+  Esri imagery for satellite). Map tiles show those servers which area of the map you're looking at, as with
+  any web map. No drive data is in any request.
+- Your export, the database and everything derived from it stay in folders git ignores (`Timeline*.json`,
   `data/`, `config.toml`).
+- Satellite imagery is Esri's, under Esri's terms (attribution is on the map). It's meant here for personal
+  viewing.
 
-## Limits
+## More
 
-- **Sparse points.** Timeline exports thin the GPS track, so points can be minutes apart. Between them
-  the route is **inferred**: `~` means the route fits the time or your usual roads; `?` means low
-  confidence ("probably"). Roads known only from inferred stretches draw faded on the map, and
-  `drivelog top --observed-only` counts GPS-confirmed use only.
-- **Coverage.** Drives outside your map extracts are listed as out of coverage until you add their
-  region (`drivelog coverage plan`).
-- **Stitched drives.** Timeline sometimes records several drives (or a whole day) as one activity.
-  Drivelog splits an activity wherever the car stood still for 10+ minutes, whether seen in the points
-  or hidden in a gap too long for the drive it covers. After a hidden stop the next drive's start time
-  is estimated, and the route across that first gap is treated as untimed.
-- **Miles** are the length of the matched route. Google's own reported distance is often far too low,
-  so it's used only for drives that couldn't be matched.
-- **Zip codes** are Census ZCTAs, which approximate USPS zip codes; they cover the US only. Elsewhere,
-  search by town, county, state or country.
-- **Places** come from OpenStreetMap boundaries; a place that OSM doesn't map as a boundary can't be
-  searched by name (search its zip code instead).
-- **Same-named streets** in neighbouring towns may split into two roads, or two roads may join, where
-  the drives never connect them.
-
-How it works, including the confidence model: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
-
-## Development
-
-```sh
-uv run pytest                           # unit tests on synthetic data; routing calls are mocked
-uv run drivelog serve --dev             # also runs the Vite dev server with hot reload (port 5173)
-uv run python scripts/inspect.py        # profile an export's structure into data/reports/
-uv run python scripts/make_demo_data.py # regenerate the demo exports (needs the demo's routing server)
-uv run --with playwright --with pillow python scripts/screens.py OUT VIEWS.json  # screenshots + network audit
-```
-
-CI runs the tests and builds the viewer on every push.
+- [docs/REFERENCE.md](docs/REFERENCE.md): every command, limits, and development notes.
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): how it works, including how drives are matched to roads and
+  how confident each match is.
 
 ## License
 

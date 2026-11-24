@@ -29,7 +29,36 @@ Timeline export ──extract──▶ drives + points ──split──▶ ─�
 | aggregate | `drivelog/aggregate.py` | Groups OSM ways into named roads ("road keys"), builds per-traversal, per-road and per-day tables, and records the first drive on every road and way. |
 | areas | `drivelog/areas.py` | Loads zip code (Census ZCTA) and administrative boundaries (from the same OSM extracts) and records how much of each driven way lies in each area. |
 | patterns | `drivelog/patterns.py` | Hour × weekday grids, monthly series, length distributions, year in review. |
-| viewer | `drivelog/server.py`, `web/` | Local-only HTTP API and map UI. |
+| facets | `drivelog/facets.py` | The dashboard's filter engine: which places each drive went through (`drive_places`), and one query that answers totals, charts, lists and per-option counts for any filter set. |
+| quick | `drivelog/quick.py` | Quick mode (`drivelog start`, no routing engine): places from boundary files and each drive's GPS points, miles along the points. |
+| viewer | `drivelog/server.py`, `web/` | Local-only HTTP API, the dashboard, and the map UI. |
+
+## The dashboard's filters
+
+The dashboard filters drives the way a shop filters products. Facets: date range, year, month, day of week,
+time of day, road, town, zip code, county, state/province, country, and length. Options ticked within a
+facet are OR'd, and facets are AND'd. Each option's count is the number of drives it would leave with every
+*other* facet applied. Ticking a country therefore narrows the province, town and road lists to that country,
+and an option that would leave nothing shows 0 instead of disappearing.
+
+Places per drive live in `drive_places(drive_id, area_id, m)`: metres of the drive inside each area. A drive
+counts as "in" an area once 150 m of it is there, so clipping a corner doesn't count. With road detail the
+metres come from matched roads (each road's share inside each area); in quick mode from the steps between GPS
+points (each step credited to the areas containing its midpoint).
+
+The server copies the per-drive facts into an in-memory DuckDB once (about 0.3 s for ten thousand drives).
+A query with every facet's counts then takes around 0.1 s. Roads whose names repeat carry the town where most
+of their driving was ("Bramblewick Street · Wexbury, AA"). The filters live in the page address, so views can be
+bookmarked and Back works. Compare runs the same query for two filter sets.
+
+## Quick mode
+
+`drivelog start` works before any routing is set up. Places come from public boundary files (Census places,
+counties and ZCTAs for the US; Natural Earth provinces/states and countries for everywhere), downloaded once.
+A drive's miles are the length of the path through its points: a little low, since the points are sparse, and
+shown as "≈". Road-based features stay locked until road detail is added. Adding it upgrades the same
+database in place: matched miles replace the estimate, and OpenStreetMap boundaries replace the boundary
+files.
 
 ## Why two stages: match, then fill
 
@@ -158,7 +187,10 @@ trip in another time zone shows its local hours. A timestamp without an offset u
   a spatial extension for the boundary work, with no server.
 - **Valhalla in Docker** rather than a public routing API: the only way to map-match a location history
   without sending it anywhere.
-- **The viewer works from one traversal feed in the browser.** The server sends every (way, day,
+- **The dashboard asks the server; the map works in the browser.** Filter queries need joins across drives,
+  roads and places, so they run in DuckDB on the server. The map's year slider and animation only need
+  per-road counts, so it works from one traversal feed in the browser.
+- **The viewer's map works from one traversal feed in the browser.** The server sends every (way, day,
   drive) traversal once. The frequency map's year range, its drives/miles toggle, and the
   explored-over-time animation (first month per way, running distinct miles) are all recomputed locally
   and pushed to MapLibre feature state, with no refetch.

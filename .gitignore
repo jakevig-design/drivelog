@@ -21,7 +21,7 @@ __pycache__/
 
 # Front end
 web/node_modules/
-web/dist/
+# web/dist is committed: the built viewer, so running Drivelog doesn't need Node
 
 .DS_Store
 .claude/settings.local.json

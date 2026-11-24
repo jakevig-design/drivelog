@@ -66,7 +66,7 @@ def fetch_zcta() -> Path:
     BOUNDARIES.mkdir(parents=True, exist_ok=True)
     if not ZCTA_ZIP.exists():
         tmp = ZCTA_ZIP.with_suffix(".part")
-        subprocess.run(["curl", "-fL", "--retry", "5", "-o", str(tmp), ZCTA_URL], check=True)
+        subprocess.run(["curl", "-fsSL", "--retry", "5", "-o", str(tmp), ZCTA_URL], check=True)
         tmp.rename(ZCTA_ZIP)
     return ZCTA_ZIP
 
@@ -236,6 +236,10 @@ def assign_ways(con) -> None:
         FROM _ways w JOIN areas a ON ST_Intersects(w.line, a.geom)""")
     con.execute("DELETE FROM way_areas WHERE frac <= 0")
     con.execute("DROP TABLE _ways")
+    from .facets import build_places_from_roads, ensure_path_m
+
+    ensure_path_m(con)
+    build_places_from_roads(con)  # the dashboard's per-drive places
 
 
 # ---------------------------------------------------------------- lookup
