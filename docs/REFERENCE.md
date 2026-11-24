@@ -37,6 +37,7 @@ uv run drivelog coverage plan           # which Geofabrik extracts cover your dr
 uv run drivelog coverage apply          # add them, download + verify, build routing tiles, match covered drives
 uv run drivelog extract                 # read the export into data/drivelog.duckdb
 uv run drivelog split [--dry-run]       # split activities Google stitched across a stop (needs the routing engine)
+uv run drivelog clean [--dry-run]       # set aside "drives" that can't be (flights, impossible speeds); kept in not_drives
 uv run drivelog match [--rematch]       # match + fill every drive (resumable)
 uv run drivelog fill --refill           # re-choose the routes across gaps (no rematch needed)
 uv run drivelog aggregate               # road statistics
@@ -74,6 +75,9 @@ The dashboard keeps its filters in the address, so any view can be bookmarked:
 - **Stitched drives.** Timeline sometimes records several drives (or a whole day) as one activity. Drivelog
   splits an activity wherever the car stood still for 10+ minutes, whether seen in the points or hidden in a
   gap too long for the drive it covers.
+- **Not drives.** Timeline sometimes labels a flight or a glitch as driving. An activity with no matched roads
+  is set aside when it would need over 90 mph for 10+ minutes, or its points jump over 300 miles. Drives
+  with matched roads are never set aside, however fast their timestamps make them look.
 - **Miles** are the length of the matched route. Google's own reported distance is often far too low, so
   it's used only for drives that couldn't be matched.
 - **Zip codes** are Census ZCTAs, which approximate USPS zip codes. They cover the US only: elsewhere, filter

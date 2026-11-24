@@ -136,6 +136,10 @@ def prepare(cfg, progress: bool = True) -> dict:
     s = extract.run(cfg)
     log(f"      {s['drives']:,} drives ({s['inserted']:,} new)")
     con = connect(cfg)
+    from .quality import set_aside
+
+    for d, why in set_aside(con):
+        log(f"      set aside {d[:8]} (not a drive): {why}")
     ensure_path_m(con)
     matched = con.execute("SELECT count(*) FROM drives WHERE match_status IN ('ok', 'partial')").fetchone()[0]
     if matched:

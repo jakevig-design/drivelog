@@ -167,8 +167,22 @@ def cmd_rebuild(a):
     print(f"      {split.run(drive_ids=pending, match_after=False, progress=False)}")
     print("[3/4] match + fill (new drives only)")
     print(f"      {match.run(rematch=False)}")
+    from .quality import run as set_aside
+
+    for d, why in set_aside():
+        print(f"      set aside {d[:8]}: {why}")
     print("[4/4] aggregate")
     print(f"      {aggregate.run()}")
+
+
+def cmd_clean(a):
+    from .quality import run
+
+    found = run(dry_run=a.dry_run)
+    for d, why in found:
+        print(f"{'would set aside' if a.dry_run else 'set aside'} {d[:8]}: {why}")
+    print(f"{len(found)} activit{'y' if len(found) == 1 else 'ies'} {'would be' if a.dry_run else ''} set aside as not drives".replace("  ", " ")
+          + ("" if a.dry_run else " (kept in the not_drives table)"))
 
 
 def cmd_split(a):
@@ -497,6 +511,9 @@ def main(argv=None):
     sp.set_defaults(fn=cmd_fill)
     sub.add_parser("aggregate", help="rebuild road statistics and GeoJSON").set_defaults(fn=cmd_aggregate)
     sub.add_parser("rebuild", help="extract + split + match new drives + aggregate").set_defaults(fn=cmd_rebuild)
+    sp = sub.add_parser("clean", help="set aside activities that can't be drives (flights, impossible speeds)")
+    sp.add_argument("--dry-run", action="store_true", help="only list them")
+    sp.set_defaults(fn=cmd_clean)
     sp = sub.add_parser("split", help="split drives the export stitched across a 10+ minute stop, then rematch them")
     sp.add_argument("--dry-run", action="store_true", help="only report what would be split")
     sp.set_defaults(fn=cmd_split)

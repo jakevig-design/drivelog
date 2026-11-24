@@ -289,6 +289,9 @@ def store(drives: list[Drive], con) -> dict:
     time window overlaps an existing drive by more than half of the shorter window."""
     existing = con.execute("SELECT drive_id, start_time, end_time FROM drives").fetchall()
     ids = {r[0] for r in existing}
+    # Activities set aside as not drives (drivelog.quality) stay out on a re-import.
+    if con.execute("SELECT count(*) FROM information_schema.tables WHERE table_name = 'not_drives'").fetchone()[0]:
+        ids |= {r[0] for r in con.execute("SELECT drive_id FROM not_drives").fetchall()}
     windows = sorted((r[1], r[2]) for r in existing)
     starts = [w[0] for w in windows]
 
