@@ -1,0 +1,70 @@
+/* jv design system tokens. Copied from jv-starter/src/styles/jv-tokens.css.
+   Two local changes: fonts are bundled (main.tsx imports @fontsource) so the viewer makes no font requests,
+   and dark mode keys off [data-theme] (the app's own toggle) as well as the OS setting. */
+
+:root, [data-theme="light"] {
+  --paper: #F5F4EF;
+  --card: #FFFFFF;
+  --ink: #14231C;
+  --graphite: #5E6862;
+  --rule: #DAD8CF;
+  --cobalt: #2F5DFF;
+  --on-cobalt: #FFFFFF;
+  --win: #B4FF39;
+  --signature: #C8102E;
+  --danger: #C23B22;
+
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #121A16;
+    --card: #1A2520;
+    --ink: #EDEFEA;
+    --graphite: #A3ABA6;
+    --rule: #2A3530;
+    --cobalt: #6E8CFF;
+    --on-cobalt: #0B1020;
+    --signature: #E5484D;
+    --danger: #FF7A5C;
+  }
+}
+[data-theme="dark"] {
+  --paper: #121A16;
+  --card: #1A2520;
+  --ink: #EDEFEA;
+  --graphite: #A3ABA6;
+  --rule: #2A3530;
+  --cobalt: #6E8CFF;
+  --on-cobalt: #0B1020;
+  --signature: #E5484D;
+  --danger: #FF7A5C;
+}
+
+/* Type styles: sans for words, mono for numbers and labels. */
+.t-display    { font: 500 32px/36px var(--font-sans); }
+.t-heading    { font: 500 22px/28px var(--font-sans); }
+.t-subheading { font: 500 17px/24px var(--font-sans); }
+.t-body       { font: 400 15px/22px var(--font-sans); }
+.t-small      { font: 400 13px/18px var(--font-sans); }
+.t-number-lg  { font: 500 28px/32px var(--font-mono); font-variant-numeric: tabular-nums; }
+.t-number     { font: 500 18px/24px var(--font-mono); font-variant-numeric: tabular-nums; }
+.t-label      { font: 400 12px/16px var(--font-mono); color: var(--graphite); }
+
+/* Logo: the red v does the work. --signature is used here and nowhere else. */
+.jv-wordmark  { font-family: var(--font-mono); font-weight: 500; letter-spacing: -0.01em; color: var(--ink); }
+.jv-tagline   { font-family: var(--font-mono); font-weight: 400; color: var(--graphite); }
+.jv-monogram  { font-family: var(--font-mono); font-weight: 500; font-size: 12px; letter-spacing: -0.01em; color: var(--graphite); text-decoration: none; }
+.jv-v         { color: var(--signature); }

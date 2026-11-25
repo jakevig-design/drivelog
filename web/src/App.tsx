@@ -20,6 +20,11 @@ import {
 } from "./api";
 import Dashboard from "./Dashboard";
 import Year from "./Year";
+import { ramp, resolveColor, tokensFor, type Ground } from "./brand";
+
+// Where the jmv monogram links. Set in web/.env.local for your own builds; the public repo's build leaves it empty
+// (the privacy gate bans a personal name anywhere in the public tree), so the monogram shows unlinked there.
+const JV_HOME = (import.meta.env.VITE_JV_HOME as string | undefined) || "";
 
 type MLMap = maplibregl.Map;
 type Mode = "dash" | "roads" | "explore" | "day" | "drive" | "area" | "year";
@@ -63,12 +68,8 @@ const styleFor = (theme: Theme, basemap: Basemap) => (basemap === "satellite" ? 
 /** Map overlays are drawn for a light or a dark ground: imagery is dark. */
 const groundOf = (theme: Theme, basemap: Basemap): Theme => (basemap === "satellite" ? "dark" : theme);
 
-// Frequency map: one hue (orange, clear of the blue water and of the first layer colour), light to dark
-// on a light ground; on a dark ground the order flips so the busiest roads are the brightest.
-const RAMP = {
-  light: ["#ef8a4c", "#df6118", "#c2410c", "#963009", "#661f05"], // starts darker than the basemap's pale road fills
-  dark: ["#8a3405", "#c2500a", "#ee7424", "#fca15e", "#fed3a8"],
-};
+// Frequency map: rule (driven once) through cobalt to ink (driven most), built from those three tokens only (brand.ts).
+// On the dark ground the tokens flip, so the busiest roads are the brightest.
 type Freq = "drives" | "mi" | "off";
 
 // Each thing put on the map gets the next unused colour.
@@ -76,8 +77,7 @@ const COLORS = ROUTE_COLORS;
 const DASH_PAD = { top: 30, bottom: 30, left: 30, right: 30 }; // the map inside the dashboard
 // Routes that share a road are drawn side by side (px offsets per layer), so neither hides the other.
 const OFFSETS = [0, 5, -5, 10, -10, 15, -15, 20];
-const OUTLINE = { light: "#475569", dark: "#cbd5e1" }; // the searched road, drawn subtly under routes
-const NEW_COLOR = "#84cc16";
+const outline = (g: Ground) => tokensFor(g).graphite; // the searched road, drawn subtly under routes
 const EMPTY: GeoJSON.FeatureCollection = { type: "FeatureCollection", features: [] };
 const PAD = { top: 90, bottom: 60, left: 340, right: 440 };
 
@@ -374,7 +374,7 @@ export default function App() {
     const map = mapRef.current;
     if (!map || !roads || !styleTick || map.getSource("roads")) return;
     const theme = groundRef.current; // overlay colours follow the ground (imagery counts as dark)
-    const casing = theme === "dark" ? "#0b0f17" : "#ffffff";
+    const casing = tokensFor(theme).paper;
     const offset = ["get", "offset"] as unknown as maplibregl.ExpressionSpecification;
     map.addSource("roads", { type: "geojson", data: roads });
     map.addSource("routes", { type: "geojson", data: EMPTY });
@@ -382,11 +382,14 @@ export default function App() {
     map.addSource("area-outline", { type: "geojson", data: EMPTY });
     // The open area's boundary: a light fill and a dashed edge, under everything else we draw.
     map.addLayer({ id: "area-fill", type: "fill", source: "area-outline",
-      paint: { "fill-color": OUTLINE[theme], "fill-opacity": 0.06 } });
+      paint: { "fill-color": outline(theme), "fill-opacity": 0.06 } });
     map.addLayer({ id: "area-edge", type: "line", source: "area-outline",
-      paint: { "line-color": OUTLINE[theme], "line-width": 2, "line-dasharray": [2, 1.5], "line-opacity": 0.8 } });
+      paint: { "line-color": outline(theme), "line-width": 2, "line-dasharray": [2, 1.5], "line-opacity": 0.8 } });
     // Frequency map: every road driven in the year range, coloured and weighted by how often (paint set
     // by the effect below). The busiest roads draw on top.
+    map.addLayer({ id: "freq-casing", type: "line", source: "roads",
+      layout: { "line-cap": "round", "line-join": "round", "line-sort-key": ["get", "dc"] },
+      paint: { "line-opacity": 0 } });
     map.addLayer({ id: "freq", type: "line", source: "roads",
       layout: { "line-cap": "round", "line-join": "round", "line-sort-key": ["get", "dc"] },
       paint: { "line-opacity": 0 } });
@@ -400,10 +403,10 @@ export default function App() {
     // The searched road: a thin neutral outline under the routes.
     map.addLayer({ id: "road-outline", type: "line", source: "roads", filter: ["in", ["get", "way_id"], ["literal", []]],
       layout: { "line-cap": "round", "line-join": "round" },
-      paint: { "line-color": OUTLINE[theme], "line-width": ["interpolate", ["linear"], ["zoom"], 8, 1.5, 14, 4], "line-opacity": 0.55 } });
+      paint: { "line-color": outline(theme), "line-width": ["interpolate", ["linear"], ["zoom"], 8, 1.5, 14, 4], "line-opacity": 0.55 } });
     // New roads on the open drive glow underneath (Drive details only).
     map.addLayer({ id: "new-glow", type: "line", source: "new", layout: { "line-cap": "round", "line-join": "round" },
-      paint: { "line-color": NEW_COLOR, "line-width": 16, "line-opacity": 0.5, "line-blur": 2 } });
+      paint: { "line-color": tokensFor(theme).win, "line-width": 10, "line-opacity": 0.9 } });
     // Everything on the map, one colour per day / drive; inferred stretches dashed.
     map.addLayer({ id: "routes-casing", type: "line", source: "routes", layout: { "line-cap": "round", "line-join": "round" },
       paint: { "line-color": casing, "line-width": 7.5, "line-opacity": 0.85, "line-offset": offset } });
@@ -460,14 +463,23 @@ export default function App() {
     const key = freqBy === "mi" ? "m" : "c";
     const v = ["coalesce", ["feature-state", key], 0] as unknown as maplibregl.ExpressionSpecification;
     const t = ["/", ["ln", ["+", 1, v]], Math.log(1 + Math.max(freqMax, 1))] as unknown as maplibregl.ExpressionSpecification;
-    const r = RAMP[ground];
+    const r = ramp(ground);
     // With drives highlighted on the dashboard, the rest go grey so the coloured routes stand out.
-    map.setPaintProperty("freq", "line-color", dash && routesShown ? OUTLINE[ground]
+    map.setPaintProperty("freq", "line-color", dash && routesShown ? outline(ground)
       : ["interpolate", ["linear"], t, 0, r[0], 0.25, r[1], 0.5, r[2], 0.75, r[3], 1, r[4]]);
     map.setPaintProperty("freq", "line-width", ["interpolate", ["linear"], ["zoom"],
       6, ["+", 0.5, ["*", 1.5, t]], 10, ["+", 0.8, ["*", 3, t]], 15, ["+", 1.5, ["*", 7, t]]]);
     map.setPaintProperty("freq", "line-opacity", ["case", [">", v, 0], routesShown ? 0.35 : 0.92, 0]);
-  }, [freqOn, freqBy, freqMax, ground, routesShown, dash, layersVer]);
+    // Over satellite imagery the ramp gets a 1px paper casing so the quiet roads still read.
+    const cased = basemap === "satellite" && map.getLayer("freq-casing");
+    if (map.getLayer("freq-casing")) {
+      map.setLayoutProperty("freq-casing", "visibility", "visible");
+      map.setPaintProperty("freq-casing", "line-color", tokensFor(ground).paper);
+      map.setPaintProperty("freq-casing", "line-width", ["interpolate", ["linear"], ["zoom"],
+        6, ["+", 2.5, ["*", 1.5, t]], 10, ["+", 2.8, ["*", 3, t]], 15, ["+", 3.5, ["*", 7, t]]]);
+      map.setPaintProperty("freq-casing", "line-opacity", cased ? ["case", [">", v, 0], routesShown ? 0.35 : 0.9, 0] : 0);
+    }
+  }, [freqOn, freqBy, freqMax, ground, basemap, routesShown, dash, layersVer]);
 
   // Explore paint: roads first driven up to the current month; that month's new ones highlighted.
   useEffect(() => {
@@ -478,7 +490,7 @@ export default function App() {
     const fm = ["coalesce", ["feature-state", "fm"], 1e9] as unknown as maplibregl.ExpressionSpecification;
     const fresh = ["==", fm, month] as unknown as maplibregl.ExpressionSpecification;
     map.setPaintProperty("explored", "line-opacity", ["case", ["<=", fm, month], 0.95, 0]);
-    map.setPaintProperty("explored", "line-color", ["case", fresh, NEW_COLOR, RAMP[ground][2]]);
+    map.setPaintProperty("explored", "line-color", ["case", fresh, tokensFor(ground).win, ramp(ground)[2]]);
     map.setPaintProperty("explored", "line-width", ["interpolate", ["linear"], ["zoom"],
       6, ["case", fresh, 4, 1], 12, ["case", fresh, 7, 2.2], 15, ["case", fresh, 10, 4]]);
   }, [mode, month, ground, layersVer]);
@@ -506,12 +518,12 @@ export default function App() {
     const feats = dash
       ? (dashFc?.features ?? []).map((f) => {
         const i = dashSel.indexOf(f.properties?.drive_id);
-        return { ...f, properties: { ...f.properties, color: COLORS[Math.max(0, i) % COLORS.length], offset: 0 } };
+        return { ...f, properties: { ...f.properties, color: resolveColor(COLORS[Math.max(0, i) % COLORS.length], ground), offset: 0 } };
       })
       : layers.flatMap((l, i) =>
-        l.fc.features.map((f) => ({ ...f, properties: { ...f.properties, color: l.color, offset: OFFSETS[i % OFFSETS.length] } })));
+        l.fc.features.map((f) => ({ ...f, properties: { ...f.properties, color: resolveColor(l.kind === "newroads" ? "var(--win)" : l.color, ground), offset: OFFSETS[i % OFFSETS.length] } })));
     (mapRef.current?.getSource("routes") as maplibregl.GeoJSONSource | undefined)?.setData({ type: "FeatureCollection", features: feats });
-  }, [layers, layersVer, dash, dashFc, dashSel]);
+  }, [layers, layersVer, dash, dashFc, dashSel, ground]);
 
   const nextColor = (cur: MapLayer[]) => {
     const used = new Set(cur.map((l) => l.color));
@@ -716,7 +728,7 @@ export default function App() {
       map.addLayer({ id: "pts-heat", type: "heatmap", source: "pts", paint: {
         "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 5, 4, 12, 12],
         "heatmap-intensity": ["interpolate", ["linear"], ["zoom"], 5, 0.4, 12, 1],
-        "heatmap-color": ["interpolate", ["linear"], ["heatmap-density"], 0, "rgba(224,96,26,0)", 0.2, "#fdae6b", 0.5, "#e0601a", 1, "#7a2803"],
+        "heatmap-color": ["interpolate", ["linear"], ["heatmap-density"], 0, "rgba(0,0,0,0)", 0.2, ramp(groundRef.current)[1], 0.5, ramp(groundRef.current)[2], 1, ramp(groundRef.current)[4]],
         "heatmap-opacity": 0.75 } });
     });
   }, [quick, layersVer]);
@@ -909,7 +921,7 @@ export default function App() {
           <ul>
             {layers.map((l) => (
               <li key={l.key}>
-                <span className="dot" style={{ background: l.color }} />
+                <span className="dot" style={{ background: l.kind === "newroads" ? "var(--win)" : l.color }} />
                 <span className="what">
                   {l.kind === "area" || l.kind === "newroads" ? l.label : l.kind === "day" ? fmtDate(l.label) : `${fmtDate(l.label)} ${l.sub}`}
                   {l.kind !== "drive" && <span className="muted"> · {l.sub}</span>}
@@ -949,7 +961,7 @@ export default function App() {
           </div>
           {freqOn && counts && freqMax > 0 && (
             <div className="freq-legend" aria-label={`Colour scale: ${freq === "mi" ? "miles" : "drives"} per road`}>
-              <span className="bar" style={{ background: `linear-gradient(90deg, ${RAMP[ground].join(", ")})` }} />
+              <span className="bar steps">{ramp(ground).map((c, k) => <i key={k} style={{ background: c }} />)}</span>
               <div className="ticks">
                 {[0, 0.5, 1].map((t) => {
                   const v = Math.exp(t * Math.log(1 + freqMax)) - 1;
@@ -1005,8 +1017,8 @@ export default function App() {
               onChange={(e) => { setPlaying(false); setMonth(+e.target.value); }} />
             <div className="range-labels muted"><span>{explore.months[0]}</span><span>{explore.months[explore.months.length - 1]}</span></div>
             <div className="legend-note muted">
-              <span className="swatch" style={{ background: NEW_COLOR }} /> first driven this month
-              <span className="swatch" style={{ background: RAMP[ground][2], marginLeft: 10 }} /> earlier
+              <span className="swatch win" /> first driven this month
+              <span className="swatch" style={{ background: "var(--cobalt)", marginLeft: 10 }} /> earlier
             </div>
           </div>
         </>
@@ -1053,7 +1065,7 @@ export default function App() {
                           const c = colorOfDrive(x.drive_id);
                           return (
                             <button key={x.drive_id} className={`chip conf-${x.confidence}${c ? " sel" : ""}`}
-                              style={c ? { background: c, borderColor: c } : undefined} title={CONF_TITLE[x.confidence]}
+                              style={c ? { background: c, borderColor: c, color: "var(--paper)" } : undefined} title={CONF_TITLE[x.confidence]}
                               onClick={(e) => {
                                 e.stopPropagation();
                                 toggleLayer({ key: `drive:${x.drive_id}`, kind: "drive", label: d.date, sub: x.start, driveIds: [x.drive_id] });
@@ -1229,6 +1241,12 @@ export default function App() {
             newRoadsColor={year != null ? colorOfKey(`new:${year}`) : undefined} />
         </aside>
       )}
+
+      <div className="jv-foot">
+        {JV_HOME
+          ? <a className="jv-monogram" href={JV_HOME} target="_blank" rel="noopener" aria-label="Home site">jm<span className="jv-v">v</span></a>
+          : <span className="jv-monogram" aria-hidden>jm<span className="jv-v">v</span></span>}
+      </div>
 
       {meta && !dash && (
         <div className="foot muted">

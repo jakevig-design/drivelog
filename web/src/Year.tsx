@@ -57,6 +57,10 @@ export default function Year({ years, year, setYear, onRoad, onDay, onDrive, onN
       {!r && <div className="muted">Loading…</div>}
       {r && t && (
         <>
+          <div className="year-headline">
+            <div className="t-number-lg">{fmtMi(t.mi, 0)} mi</div>
+            <span className="t-label">driven in {year}</span>
+          </div>
           <dl className="stats two">
             <div><dt>Miles</dt><dd>{fmtMi(t.mi, 0)} <Change v={r.change.mi} /></dd></div>
             <div><dt>Drives</dt><dd>{t.drives.toLocaleString()} <Change v={r.change.drives} /></dd></div>
@@ -94,7 +98,7 @@ export default function Year({ years, year, setYear, onRoad, onDay, onDrive, onN
           <div className="newroads">
             <span><b>{r.new_roads.count.toLocaleString()}</b> roads · <b>{fmtMi(r.new_roads.mi)}</b> mi driven for the first time</span>
             <button className="chip" onClick={() => onNewRoads(year, r.new_roads.count)}
-              style={newRoadsColor ? { background: newRoadsColor, borderColor: newRoadsColor, color: "#fff" } : undefined}>
+              style={newRoadsColor ? { background: "var(--win)", borderColor: "var(--win)", color: "var(--ink)" } : undefined}>
               {newRoadsColor ? "on map" : "show on map"}
             </button>
           </div>

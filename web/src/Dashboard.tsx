@@ -397,7 +397,7 @@ export default function Dashboard({ quick, onOpenDrive, onMatch, selected, onSel
         <main className="dmain">
           <div className="dhead">
             <div>
-              <h1>{total ? `${total.drives.toLocaleString()} drive${total.drives === 1 ? "" : "s"} · ${approx}${Math.round(total.mi).toLocaleString()} mi` : "Loading…"}</h1>
+              <h1 className="t-number-lg">{total ? `${total.drives.toLocaleString()} drive${total.drives === 1 ? "" : "s"} · ${approx}${Math.round(total.mi).toLocaleString()} mi` : "Loading…"}</h1>
               <div className="muted">{isEmpty(f) ? "All drives · tick filters on the left to narrow" : "matching your filters"}{loading && " · updating…"}</div>
             </div>
             <div className="dhead-actions">

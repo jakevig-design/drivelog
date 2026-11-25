@@ -231,5 +231,4 @@ export const fmtMi = (v: number | null | undefined, digits = 1) =>
 export const fmtDate = (d: string) =>
   new Date(d + "T12:00:00").toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric" });
 
-/** Route colours, in order: drives and days put on a map get the next unused one. */
-export const ROUTE_COLORS = ["#2563eb", "#f97316", "#16a34a", "#9333ea", "#dc2626", "#0891b2", "#db2777", "#a16207"];
+export { ROUTE_COLORS } from "./brand";
