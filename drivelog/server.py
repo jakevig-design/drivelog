@@ -336,8 +336,10 @@ def spa(path: str):
     f = (DIST / path).resolve()
     if path and f.is_file() and f.is_relative_to(DIST.resolve()):
         return FileResponse(f)  # hashed asset names: safe to cache
-    # index.html must revalidate, or a rebuilt front end keeps loading the old bundle.
-    return FileResponse(DIST / "index.html", headers={"Cache-Control": "no-cache"})
+    # index.html is sent in full every time, never "not modified": its ETag would come from size and mtime,
+    # which can both stay the same across builds (same-length bundle names; hosts that reset mtimes), and a
+    # stale page loads a bundle that no longer exists.
+    return Response((DIST / "index.html").read_bytes(), media_type="text/html", headers={"Cache-Control": "no-store"})
 
 
 def serve(host: str = "127.0.0.1", port: int = 8765, dev: bool = False) -> None:
