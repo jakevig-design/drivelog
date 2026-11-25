@@ -771,8 +771,8 @@ export default function App() {
       if (meta?.bbox) map.fitBounds(meta.bbox, { padding: DASH_PAD, animate: false });
       return;
     }
-    // Frame where most of the driving is: the 1st to 99th percentile of road use each way, so two drives on a
-    // trip don't shrink the rest to a dot (zoom out to see them). A filter on the trip itself frames the trip.
+    // Frame where most of the driving is: the 5th to 95th percentile of road use each way, plus a margin, so a
+    // trip or two doesn't shrink the rest to a dot (zoom out to see them). A filter on the trip frames the trip.
     const xs: [number, number][] = [];
     const ys: [number, number][] = [];
     let total = 0;
@@ -790,8 +790,11 @@ export default function App() {
       return v[v.length - 1][0];
     };
     if (xs.length) {
-      const b: [number, number, number, number] = [pct(xs, 0.01), pct(ys, 0.01), pct(xs, 0.99), pct(ys, 0.99)];
-      map.fitBounds(b, { padding: DASH_PAD, maxZoom: 15 });
+      let [x0, y0, x1, y1] = [pct(xs, 0.05), pct(ys, 0.05), pct(xs, 0.95), pct(ys, 0.95)];
+      const mx = (x1 - x0) * 0.15;
+      const my = (y1 - y0) * 0.15;
+      [x0, y0, x1, y1] = [x0 - mx, y0 - my, x1 + mx, y1 + my];
+      map.fitBounds([x0, y0, x1, y1], { padding: DASH_PAD, maxZoom: 15 });
     }
     else if (meta?.bbox) map.fitBounds(meta.bbox, { padding: DASH_PAD });
   }, [dash, mapSlot, counts, featBox, dashFc, dashSel.length, meta, fitTo]);
