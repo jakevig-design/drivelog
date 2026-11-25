@@ -106,3 +106,27 @@ def test_repeated_road_names_carry_their_place(eng):
 def test_search_within_a_facet(eng):
     r = eng.query({"search": {"town": "emb"}})
     assert [o["id"] for o in r["facets"]["town"]["options"]] == ["town:emb"]
+
+
+def test_each_drive_names_its_longest_road(eng):
+    rows = {d["drive_id"]: d for d in eng.query({}, page_size=10)["drives"]}
+    assert rows["c"]["top_road"] == {"label": "Route 991", "mi": 50.0}
+    assert rows["b"]["top_road"]["mi"] == 15.0  # a tie: 15 mi on each road
+    assert rows["d"]["top_road"]["label"] == "Bramblewick Street · Lonmoor, PP"
+
+
+def test_matching_drives_sort(eng):
+    order = lambda **k: [d["drive_id"] for d in eng.query({}, facets=False, **k)["drives"]]
+    assert order() == ["e", "d", "c", "b", "a"]                       # newest first
+    assert order(sort="mi") == ["c", "b", "a", "e", "d"]              # longest first
+    assert order(sort="mi", desc=False)[0] == "d"
+    assert order(sort="start", desc=False) == ["d", "a", "b", "c", "e"]  # by time of day
+    assert order(sort="nonsense") == order()
+
+
+def test_a_picked_option_past_the_list_end_keeps_its_count(eng, monkeypatch):
+    import drivelog.facets as facets
+    monkeypatch.setattr(facets, "LIST_LIMIT", 1)
+    r = eng.query({"road": ["Bramblewick Street"]})
+    assert opt(r, "road", "Bramblewick Street") == {"id": "Bramblewick Street", "label": "Bramblewick Street · Lonmoor, PP",
+                                                     "count": 1, "selected": True}

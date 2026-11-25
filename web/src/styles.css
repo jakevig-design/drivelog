@@ -399,3 +399,28 @@ button, input { font: inherit; color: inherit; }
 
 .dash.quick .dtable tbody tr { cursor: default; }
 .dash.quick .dtable tbody tr:hover { background: none; }
+
+/* ---- dashboard map (the app's map, moved into the page) ---- */
+.map-home { position: absolute; inset: 0; }
+.dmap-card { padding-bottom: 10px; }
+.dmap-slot { position: relative; height: min(560px, 62vh); min-height: 320px; border-radius: 9px; overflow: hidden; margin-top: 4px; background: var(--hover); }
+.dmap-cap { margin-top: 6px; }
+.dcard-h .linkbtn { font-size: 13px; }
+
+/* Miles per month as a thin strip above the map */
+.strip { padding: 10px 16px 8px; }
+.strip .vchart { margin-top: 2px; }
+.strip .vaxis, .strip .vbars { height: 56px; }
+
+/* Matching drives: sortable headers, picked rows, the open button */
+.dtable th .sortbtn { border: 0; background: transparent; font: inherit; color: inherit; padding: 0; cursor: pointer; }
+.dtable th .sortbtn.on { color: var(--fg); font-weight: 600; }
+.dtable th.num .sortbtn { width: 100%; text-align: right; }
+.dtable tbody tr.sel { background: color-mix(in oklab, var(--hover) 70%, transparent); }
+.dtable td .sdot { width: 8px; height: 8px; margin-right: 2px; vertical-align: 1px; }
+.dtable td.road { max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dtable td.go { width: 1%; padding: 2px 4px; }
+.dtable td.go button { border: 1px solid var(--line); background: var(--bg); color: var(--fg); border-radius: 7px; width: 30px; height: 28px; cursor: pointer; font-size: 16px; line-height: 1; }
+.dtable td.go button:hover { border-color: var(--fg); }
+.dtable tbody tr { user-select: none; }
+.dtable td:first-child { white-space: nowrap; }

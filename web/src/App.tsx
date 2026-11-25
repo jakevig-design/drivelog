@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import * as maplibregl from "maplibre-gl";
 import {
   api,
   fmtDate,
   fmtMi,
+  ROUTE_COLORS,
   type Confidence,
   type DayDrive,
   type DriveDetail,
@@ -71,7 +72,8 @@ const RAMP = {
 type Freq = "drives" | "mi" | "off";
 
 // Each thing put on the map gets the next unused colour.
-const COLORS = ["#2563eb", "#f97316", "#16a34a", "#9333ea", "#dc2626", "#0891b2", "#db2777", "#a16207"];
+const COLORS = ROUTE_COLORS;
+const DASH_PAD = { top: 30, bottom: 30, left: 30, right: 30 }; // the map inside the dashboard
 // Routes that share a road are drawn side by side (px offsets per layer), so neither hides the other.
 const OFFSETS = [0, 5, -5, 10, -10, 15, -15, 20];
 const OUTLINE = { light: "#475569", dark: "#cbd5e1" }; // the searched road, drawn subtly under routes
@@ -149,6 +151,7 @@ function RoadList({ roads, onRoad }: { roads: RoadSeg[]; onRoad?: (key: string) 
 
 export default function App() {
   const mapDiv = useRef<HTMLDivElement>(null);
+  const mapHome = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MLMap | null>(null);
   const [theme, setTheme] = useState<Theme>(initialTheme);
   const [basemap, setBasemap] = useState<Basemap>(() =>
@@ -172,8 +175,13 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [hits, setHits] = useState<SearchResult | null>(null);
   const [area, setArea] = useState<Area | null>(null);
-  // The map restricted to the dashboard's matching drives ("Show on the map"): drive indexes into trav.
-  const [driveFilter, setDriveFilter] = useState<{ ids: string[]; label: string } | null>(null);
+  // The dashboard's map: the drives matching its filters (null: every drive), the drives picked in its table,
+  // their routes, and the spot on the page the map moves into.
+  const [dashMatch, setDashMatch] = useState<string[] | null>(null);
+  const [dashSel, setDashSel] = useState<string[]>([]);
+  const [dashFc, setDashFc] = useState<GeoJSON.FeatureCollection | null>(null);
+  const [mapSlot, setMapSlot] = useState<HTMLDivElement | null>(null);
+  const addRoadFilter = useRef<((key: string) => void) | null>(null);
   const [years, setYears] = useState<number[]>([]);
   const [year, setYear] = useState<number | null>(null);
   // The dashboard opens first, unless a map deep link (#day=…, #road=…) asked for a map view.
@@ -231,11 +239,13 @@ export default function App() {
 
   // Drives and miles per road within the year range: they colour the frequency map, decide which roads
   // are clickable, and give the range summary.
+  // On the dashboard, only the drives matching its filters count (and every year, not the Map tab's range).
+  const dash = mode === "dash";
   const allowed = useMemo(() => {
-    if (!trav || !driveFilter) return null;
-    const want = new Set(driveFilter.ids);
+    if (!trav || !dash || !dashMatch) return null;
+    const want = new Set(dashMatch);
     return Uint8Array.from(trav.drive_ids, (id) => (want.has(id) ? 1 : 0));
-  }, [trav, driveFilter]);
+  }, [trav, dash, dashMatch]);
 
   const counts = useMemo(() => {
     if (!trav || !roads) return null;
@@ -243,7 +253,7 @@ export default function App() {
     const m = new Float64Array(roads.features.length);
     const drives = new Set<number>();
     let total = 0;
-    const [lo, hi] = range;
+    const [lo, hi] = dash ? [0, trav.days.length - 1] : range;
     for (let i = 0; i < trav.feature.length; i++) {
       const d = trav.day[i];
       if (d < lo || d > hi) continue;
@@ -261,7 +271,7 @@ export default function App() {
       if (m[i] > maxM) maxM = m[i];
     }
     return { c, m, maxC, maxM, drives: drives.size, mi: total / 1609.344 };
-  }, [trav, roads, range, allowed]);
+  }, [trav, roads, range, allowed, dash]);
 
   // Explored over time: the month each road was first driven, and the running total of distinct road
   // miles (each way counted once, at its longest traversal, as in the Year tab's "new miles").
@@ -437,22 +447,27 @@ export default function App() {
 
   // Frequency map paint: a log scale normalised to the busiest road in the range (so a short range still
   // uses the whole ramp), on drive count or miles. It dims while routes are on the map so they stay legible.
-  const freqOn = freq !== "off" && mode === "roads"; // other views have their own layers on the map
-  const freqMax = counts ? (freq === "mi" ? counts.maxM : counts.maxC) : 0;
+  // The dashboard's map is always the frequency map, by drives.
+  const freqOn = dash || (freq !== "off" && mode === "roads"); // other views have their own layers on the map
+  const freqBy = dash ? "drives" : freq;
+  const freqMax = counts ? (freqBy === "mi" ? counts.maxM : counts.maxC) : 0;
+  const routesShown = dash ? dashSel.length : layers.length;
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !map.getLayer("freq")) return;
     map.setLayoutProperty("freq", "visibility", freqOn ? "visible" : "none");
     if (!freqOn) return;
-    const key = freq === "mi" ? "m" : "c";
+    const key = freqBy === "mi" ? "m" : "c";
     const v = ["coalesce", ["feature-state", key], 0] as unknown as maplibregl.ExpressionSpecification;
     const t = ["/", ["ln", ["+", 1, v]], Math.log(1 + Math.max(freqMax, 1))] as unknown as maplibregl.ExpressionSpecification;
     const r = RAMP[ground];
-    map.setPaintProperty("freq", "line-color", ["interpolate", ["linear"], t, 0, r[0], 0.25, r[1], 0.5, r[2], 0.75, r[3], 1, r[4]]);
+    // With drives highlighted on the dashboard, the rest go grey so the coloured routes stand out.
+    map.setPaintProperty("freq", "line-color", dash && routesShown ? OUTLINE[ground]
+      : ["interpolate", ["linear"], t, 0, r[0], 0.25, r[1], 0.5, r[2], 0.75, r[3], 1, r[4]]);
     map.setPaintProperty("freq", "line-width", ["interpolate", ["linear"], ["zoom"],
       6, ["+", 0.5, ["*", 1.5, t]], 10, ["+", 0.8, ["*", 3, t]], 15, ["+", 1.5, ["*", 7, t]]]);
-    map.setPaintProperty("freq", "line-opacity", ["case", [">", v, 0], layers.length ? 0.35 : 0.92, 0]);
-  }, [freqOn, freq, freqMax, ground, layers.length, layersVer]);
+    map.setPaintProperty("freq", "line-opacity", ["case", [">", v, 0], routesShown ? 0.35 : 0.92, 0]);
+  }, [freqOn, freqBy, freqMax, ground, routesShown, dash, layersVer]);
 
   // Explore paint: roads first driven up to the current month; that month's new ones highlighted.
   useEffect(() => {
@@ -475,22 +490,28 @@ export default function App() {
     map.setLayoutProperty("new-glow", "visibility", mode === "drive" ? "visible" : "none");
   }, [road, mode, layersVer]);
 
-  const fitTo = useCallback((fc: GeoJSON.FeatureCollection) => {
+  const fitTo = useCallback((fc: GeoJSON.FeatureCollection, pad: maplibregl.PaddingOptions = PAD) => {
     const b = new maplibregl.LngLatBounds();
     const add = (c: unknown): void => {
       if (Array.isArray(c) && typeof c[0] === "number") b.extend(c as [number, number]);
       else if (Array.isArray(c)) c.forEach(add);
     };
     fc.features.forEach((f) => add((f.geometry as GeoJSON.LineString | GeoJSON.MultiLineString).coordinates));
-    if (!b.isEmpty()) mapRef.current?.fitBounds(b, { padding: PAD, maxZoom: 15 });
+    if (!b.isEmpty()) mapRef.current?.fitBounds(b, { padding: pad, maxZoom: 15 });
   }, []);
 
   // ---------------------------------------------------------------- map layers (days and drives)
   useEffect(() => {
-    const feats = layers.flatMap((l, i) =>
-      l.fc.features.map((f) => ({ ...f, properties: { ...f.properties, color: l.color, offset: OFFSETS[i % OFFSETS.length] } })));
+    // The dashboard shows only the drives picked in its table; the other views, the "On the map" layers.
+    const feats = dash
+      ? (dashFc?.features ?? []).map((f) => {
+        const i = dashSel.indexOf(f.properties?.drive_id);
+        return { ...f, properties: { ...f.properties, color: COLORS[Math.max(0, i) % COLORS.length], offset: 0 } };
+      })
+      : layers.flatMap((l, i) =>
+        l.fc.features.map((f) => ({ ...f, properties: { ...f.properties, color: l.color, offset: OFFSETS[i % OFFSETS.length] } })));
     (mapRef.current?.getSource("routes") as maplibregl.GeoJSONSource | undefined)?.setData({ type: "FeatureCollection", features: feats });
-  }, [layers, layersVer]);
+  }, [layers, layersVer, dash, dashFc, dashSel]);
 
   const nextColor = (cur: MapLayer[]) => {
     const used = new Set(cur.map((l) => l.color));
@@ -562,7 +583,11 @@ export default function App() {
           }
         }
       }
-      if (best) openRoad({ way_id: String(best.properties.way_id) });
+      if (!best) return;
+      // On the dashboard a road click filters by that road; elsewhere it opens the road.
+      if (modeRef.current === "dash") {
+        if (best.properties.road) addRoadFilter.current?.(String(best.properties.road));
+      } else openRoad({ way_id: String(best.properties.way_id) });
     };
     map.on("click", onClick);
     return () => {
@@ -696,19 +721,87 @@ export default function App() {
     });
   }, [quick, layersVer]);
 
+  // ---------------------------------------------------------------- the dashboard's map
+  const modeRef = useRef(mode);
+  modeRef.current = mode;
+
+  // The one map moves into the dashboard's slot while the dashboard shows, and back behind the other views.
+  useLayoutEffect(() => {
+    const el = mapDiv.current;
+    const target = dash && mapSlot ? mapSlot : mapHome.current;
+    const map = mapRef.current;
+    if (!el || !target || !map) return;
+    if (el.parentElement !== target) target.appendChild(el);
+    map.resize();
+    // In the page, scrolling scrolls the page: zooming the map takes Cmd/Ctrl + scroll, or two fingers.
+    if (dash) map.cooperativeGestures.enable();
+    else map.cooperativeGestures.disable();
+  }, [dash, mapSlot]);
+
+  // Routes of the drives picked in the dashboard's table.
+  useEffect(() => {
+    let live = true;
+    if (!dashSel.length) setDashFc(null);
+    else api.drives(dashSel).then((fc) => { if (live) setDashFc(fc); });
+    return () => { live = false; };
+  }, [dashSel]);
+
+  // Frame the dashboard's map: the picked drives, else every road the matching drives used.
+  const featBox = useMemo(() => {
+    if (!roads) return null;
+    const b = new Float64Array(roads.features.length * 4);
+    roads.features.forEach((f, i) => {
+      let [x0, y0, x1, y1] = [Infinity, Infinity, -Infinity, -Infinity];
+      for (const [x, y] of (f.geometry as GeoJSON.LineString).coordinates) {
+        if (x < x0) x0 = x;
+        if (x > x1) x1 = x;
+        if (y < y0) y0 = y;
+        if (y > y1) y1 = y;
+      }
+      b.set([x0, y0, x1, y1], i * 4);
+    });
+    return b;
+  }, [roads]);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!dash || !map || !mapSlot) return;
+    if (dashFc?.features.length) return fitTo(dashFc, DASH_PAD);
+    if (dashSel.length) return; // routes on their way
+    if (!counts || !featBox) {
+      if (meta?.bbox) map.fitBounds(meta.bbox, { padding: DASH_PAD, animate: false });
+      return;
+    }
+    // Frame where most of the driving is: the 1st to 99th percentile of road use each way, so two drives on a
+    // trip don't shrink the rest to a dot (zoom out to see them). A filter on the trip itself frames the trip.
+    const xs: [number, number][] = [];
+    const ys: [number, number][] = [];
+    let total = 0;
+    for (let i = 0; i < counts.c.length; i++) {
+      const w = counts.c[i];
+      if (!w) continue;
+      xs.push([featBox[i * 4], w], [featBox[i * 4 + 2], w]);
+      ys.push([featBox[i * 4 + 1], w], [featBox[i * 4 + 3], w]);
+      total += 2 * w;
+    }
+    const pct = (v: [number, number][], q: number) => {
+      v.sort((a, b) => a[0] - b[0]);
+      let acc = 0;
+      for (const [x, w] of v) if ((acc += w) >= q * total) return x;
+      return v[v.length - 1][0];
+    };
+    if (xs.length) {
+      const b: [number, number, number, number] = [pct(xs, 0.01), pct(ys, 0.01), pct(xs, 0.99), pct(ys, 0.99)];
+      map.fitBounds(b, { padding: DASH_PAD, maxZoom: 15 });
+    }
+    else if (meta?.bbox) map.fitBounds(meta.bbox, { padding: DASH_PAD });
+  }, [dash, mapSlot, counts, featBox, dashFc, dashSel.length, meta, fitTo]);
+
   // ---------------------------------------------------------------- dashboard <-> map
   const openDash = (f: Filters) => {
     const p = new URLSearchParams();
     for (const [k, v] of Object.entries(f)) if (Array.isArray(v) && v.length) p.set(k, v.join(","));
     window.history.pushState(null, "", window.location.pathname + "?" + p.toString().replace(/%2C/g, ",").replace(/%3A/g, ":"));
     setMode("dash");
-  };
-
-  const showOnMap = async (f: Filters, label: string) => {
-    const ids = await api.queryIds(f);
-    setDriveFilter({ ids, label });
-    setRoad(null);
-    setMode("roads");
   };
 
   // ---------------------------------------------------------------- deep links
@@ -747,7 +840,7 @@ export default function App() {
   // ---------------------------------------------------------------- render
   return (
     <div className="app">
-      <div ref={mapDiv} className="map" />
+      <div ref={mapHome} className="map-home"><div ref={mapDiv} className="map" /></div>
 
       <header className="topbar panel">
         <div className="brand">Drivelog</div>
@@ -804,7 +897,7 @@ export default function App() {
         </button>
       </header>
 
-      {layers.length > 0 && (
+      {layers.length > 0 && !dash && (
         <div className="onmap panel">
           <div className="onmap-head">
             <h3>On the map</h3>
@@ -1102,17 +1195,11 @@ export default function App() {
       {mode === "dash" && (
         <Dashboard quick={meta?.mode === "quick"}
           onOpenDrive={(id) => openDrive(id)}
-          onOpenDay={(d) => { setDay(d); setMode("day"); }}
-          onOpenYear={(y) => { setYear(y); setMode("year"); }}
-          onShowMap={showOnMap} />
-      )}
-
-      {driveFilter && mode !== "dash" && (
-        <div className="dfbanner panel">
-          <span>Map shows <b>{driveFilter.ids.length.toLocaleString()} drives</b> from the dashboard: {driveFilter.label}</span>
-          <button className="linkbtn" onClick={() => setMode("dash")}>back to dashboard</button>
-          <button className="linkbtn" onClick={() => setDriveFilter(null)}>show all drives</button>
-        </div>
+          onMatch={setDashMatch}
+          selected={dashSel}
+          onSelect={setDashSel}
+          mapSlot={setMapSlot}
+          addRoad={addRoadFilter} />
       )}
 
       {quick && (mode === "explore" || mode === "day" || mode === "year") && (
@@ -1140,7 +1227,7 @@ export default function App() {
         </aside>
       )}
 
-      {meta && (
+      {meta && !dash && (
         <div className="foot muted">
           {meta.drives.toLocaleString()} drives · {Math.round(meta.mi).toLocaleString()} mi · {meta.first_date} → {meta.last_date}
           {loadMs !== null && ` · loaded in ${(loadMs / 1000).toFixed(1)} s`}

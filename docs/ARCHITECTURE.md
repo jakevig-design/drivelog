@@ -49,7 +49,12 @@ points (each step credited to the areas containing its midpoint).
 The server copies the per-drive facts into an in-memory DuckDB once (about 0.3 s for ten thousand drives).
 A query with every facet's counts then takes around 0.1 s. Roads whose names repeat carry the town where most
 of their driving was ("Bramblewick Street · Wexbury, AA"). The filters live in the page address, so views can be
-bookmarked and Back works. Compare runs the same query for two filter sets.
+bookmarked and Back works.
+
+The dashboard's map is the viewer's one map, moved into the page while the dashboard shows (so the road
+geometry loads once). It draws the frequency map for the drive ids matching the filters (`/api/query/ids`),
+framed on the 1st to 99th percentile of their road use so a far-off trip doesn't shrink the rest. Drives
+picked in the table draw as routes on top, with the other roads greyed.
 
 ## Quick mode
 

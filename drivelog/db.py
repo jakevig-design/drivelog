@@ -79,7 +79,12 @@ MIGRATIONS = [
 def connect(cfg: Config | None = None, read_only: bool = False) -> duckdb.DuckDBPyConnection:
     cfg = cfg or load_config()
     cfg.db_path.parent.mkdir(parents=True, exist_ok=True)
-    con = duckdb.connect(str(cfg.db_path), read_only=read_only)
+    import os
+
+    # A hosted copy ships its extensions (spatial) in a folder of its own: it can't install them at runtime.
+    ext = os.environ.get("DRIVELOG_DUCKDB_EXT")
+    config = {"extension_directory": ext, "autoinstall_known_extensions": False} if ext else {}
+    con = duckdb.connect(str(cfg.db_path), read_only=read_only, config=config)
     if not read_only:
         con.execute(SCHEMA)
         for m in MIGRATIONS:

@@ -47,6 +47,7 @@ MONTHS = ["January", "February", "March", "April", "May", "June", "July", "Augus
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 PLACE_FACETS = {"town": "locality", "zip": "zip", "county": "county", "state": "state", "country": "country"}
 SPECIFIC = ["zip", "town", "county", "state", "country"]  # most specific first
+SORTS = {"date": "d.ts", "start": "strftime(d.ts, '%H:%M:%S')", "mi": "d.mi", "minutes": "d.minutes"}
 FACETS = ["year", "month", "dow", "tod", "road", "town", "zip", "county", "state", "country", "len"]
 LIST_LIMIT = 100        # options returned for a long facet (roads, towns, zips); its search box narrows it
 MIN_PLACE_M = 150       # a drive "went through" an area when at least this much of it is inside
@@ -253,18 +254,25 @@ class Engine:
                             WHERE x.drive_id IN (SELECT drive_id FROM drv WHERE {w}) {kind_filter} {s_sql}""", p + s_p)[0][0]
         options = [{"id": i, "label": lab, "count": n, "selected": i in sel} for i, lab, n in rows]
         missing = sel - {o["id"] for o in options}
-        if missing:  # selected but now 0: keep them listed so they can be unticked
+        if missing:  # selected but past the list's end (or now 0): keep them listed, with their real counts
             table = "road_label" if key == "road" else "area_label"
             col = "road_key" if key == "road" else "area_id"
+            ms, mp = _in(idcol, list(missing))
+            counts = dict(self._q(f"""SELECT {idcol}, count(DISTINCT x.drive_id) FROM {src}
+                                      WHERE x.drive_id IN (SELECT drive_id FROM drv WHERE {w}) AND {ms} GROUP BY 1""", p + mp))
             for i, lab in self._q(f"SELECT {col}, label FROM {table} WHERE {_in(col, list(missing))[0]}", list(missing)):
-                options.insert(0, {"id": i, "label": lab, "count": 0, "selected": True})
+                options.insert(0, {"id": i, "label": lab, "count": counts.get(i, 0), "selected": True})
         options.sort(key=lambda o: (not o["selected"], -o["count"], o["label"]))
         return {"key": key, "options": options, "total": max(total, len(options))}
 
     # ------------------------------------------------------------ the answer
 
-    def query(self, filters: dict | None = None, page: int = 0, page_size: int = 25, facets: bool = True) -> dict:
+    def query(self, filters: dict | None = None, page: int = 0, page_size: int = 25, facets: bool = True,
+              sort: str = "date", desc: bool = True) -> dict:
+        """sort: date | start (time of day) | mi | minutes; newest / largest first unless desc is False."""
         f = self.normalize(filters)
+        sort = sort if sort in SORTS else "date"
+        order = f"{SORTS[sort]} {'DESC' if desc else 'ASC'}, d.ts DESC"
         w, p = self._where(f)
         n, mi, minutes, days = self._q(
             f"SELECT count(*), coalesce(sum(mi), 0), coalesce(sum(minutes), 0), count(DISTINCT date) FROM drv WHERE {w}", p)[0]
@@ -284,37 +292,25 @@ class Engine:
                  m AS (SELECT strftime(date, '%Y-%m') AS month, sum(mi) AS mi, count(*) AS n FROM drv WHERE {w} GROUP BY 1)
             SELECT span.month, m.mi, m.n FROM span LEFT JOIN m USING (month) ORDER BY 1""",
             [self.span[0], self.span[1]] + p)] if self.span[0] else []
-        grid = [[0] * 24 for _ in range(7)]
-        for dow, hour, c in self._q(f"SELECT dow, hour, count(*) FROM drv WHERE {w} GROUP BY 1, 2", p):
-            grid[dow][hour] = c
-        top_roads = [{"id": k, "label": lab, "drives": c, "mi": round(m_, 1)} for k, lab, c, m_ in self._q(f"""
-            SELECT x.road_key, any_value(l.label), count(DISTINCT x.drive_id) AS c, sum(x.mi)
-            FROM droad x JOIN road_label l USING (road_key)
-            WHERE x.drive_id IN (SELECT drive_id FROM drv WHERE {w}) GROUP BY 1 ORDER BY c DESC, 2 LIMIT 10""", p)]
-        top_towns = [{"id": k, "label": lab, "drives": c, "mi": round(m_, 1)} for k, lab, c, m_ in self._q(f"""
-            SELECT x.area_id, any_value(l.label), count(DISTINCT x.drive_id), sum(x.mi) AS s
-            FROM dplace x JOIN area_label l USING (area_id)
-            WHERE x.kind = 'locality' AND x.drive_id IN (SELECT drive_id FROM drv WHERE {w})
-            GROUP BY 1 ORDER BY s DESC LIMIT 10""", p)]
         records = {}
         r = self._q(f"SELECT drive_id, date, strftime(ts, '%H:%M'), mi, minutes FROM drv WHERE {w} ORDER BY mi DESC LIMIT 1", p)
         if r:
             d = r[0]
             records["longest"] = {"drive_id": d[0], "date": d[1].isoformat(), "start": d[2], "mi": round(d[3], 1),
                                   "minutes": round(d[4])}
-        r = self._q(f"SELECT date, count(*), sum(mi) AS s FROM drv WHERE {w} GROUP BY 1 ORDER BY s DESC LIMIT 1", p)
-        if r:
-            records["busiest_day"] = {"date": r[0][0].isoformat(), "drives": r[0][1], "mi": round(r[0][2], 1)}
         rows = self._q(f"""
             SELECT d.drive_id, d.date, strftime(d.ts, '%H:%M'), d.mi, d.minutes,
                    (SELECT list(l.label ORDER BY x.mi DESC)[1:3] FROM dplace x JOIN area_label l USING (area_id)
-                    WHERE x.drive_id = d.drive_id AND x.kind = 'locality') AS towns
-            FROM drv d WHERE {w} ORDER BY d.ts DESC LIMIT {int(page_size)} OFFSET {int(page) * int(page_size)}""", p)
+                    WHERE x.drive_id = d.drive_id AND x.kind = 'locality') AS towns,
+                   (SELECT [arg_max(l.label, x.mi)::VARCHAR, max(x.mi)::VARCHAR] FROM droad x JOIN road_label l USING (road_key)
+                    WHERE x.drive_id = d.drive_id) AS top
+            FROM drv d WHERE {w} ORDER BY {order} LIMIT {int(page_size)} OFFSET {int(page) * int(page_size)}""", p)
         drives = [{"drive_id": i, "date": dt.isoformat(), "start": st, "mi": round(m_, 1), "minutes": round(mn),
-                   "towns": [t.split(" · ")[0] for t in (towns or [])]} for i, dt, st, m_, mn, towns in rows]
+                   "towns": [t.split(" · ")[0] for t in (towns or [])],
+                   "top_road": {"label": top[0], "mi": round(float(top[1]), 1)} if top and top[0] else None}
+                  for i, dt, st, m_, mn, towns, top in rows]
         out = {
-            "mode": self.mode, "filters": f, "totals": totals, "months": months, "grid": grid,
-            "top_roads": top_roads, "top_towns": top_towns, "records": records,
+            "mode": self.mode, "filters": f, "totals": totals, "months": months, "records": records, "sort": sort,
             "drives": drives, "page": page, "page_size": page_size,
         }
         if facets:

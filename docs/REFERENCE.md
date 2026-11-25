@@ -57,8 +57,7 @@ Android-format export instead.
 ## Dashboard links
 
 The dashboard keeps its filters in the address, so any view can be bookmarked:
-`http://127.0.0.1:8765/?year=2024&dow=5,6`, `?town=…&len=l20p`, and for compare
-`?dow=0,1,2,3,4&compare=1&b_dow=5,6` (`b_` marks the second set). Map views open from links like `#day=2016-03-12`,
+`http://127.0.0.1:8765/?year=2024&dow=5,6` or `?town=…&len=l20p`. Map views open from links like `#day=2016-03-12`,
 `#road=HI%2072`, `#area=zip:96734`, `#year=2016` and `#explore=2016-01`; add `&sat` for satellite.
 
 ## Limits

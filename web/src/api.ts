@@ -149,18 +149,19 @@ export type Filters = {
 };
 export type FacetKey = "year" | "month" | "dow" | "tod" | "len" | "road" | "town" | "zip" | "county" | "state" | "country";
 export type FacetOption = { id: string; label: string; count: number; selected: boolean };
+export type SortKey = "date" | "start" | "mi" | "minutes";
+export type QueryDrive = {
+  drive_id: string; date: string; start: string; mi: number; minutes: number; towns: string[];
+  top_road: { label: string; mi: number } | null; // the road that carried most of the drive's miles
+};
 export type QueryResult = {
   mode: "full" | "quick";
   totals: { drives: number; mi: number; hours: number; days: number; on_road_mi?: number; in_place_mi?: number };
   months: { month: string; mi: number; drives: number }[];
-  grid: number[][];
-  top_roads: { id: string; label: string; drives: number; mi: number }[];
-  top_towns: { id: string; label: string; drives: number; mi: number }[];
   records: {
     longest?: { drive_id: string; date: string; start: string; mi: number; minutes: number };
-    busiest_day?: { date: string; drives: number; mi: number };
   };
-  drives: { drive_id: string; date: string; start: string; mi: number; minutes: number; towns: string[] }[];
+  drives: QueryDrive[];
   page: number;
   page_size: number;
   facets?: Record<string, { key: string; options: FacetOption[]; total: number }>;
@@ -218,7 +219,7 @@ export const api = {
   day: (d: string) => get<DayDrive[]>(`/api/day/${d}`),
   drive: (id: string) => get<DriveDetail>(`/api/drive/${id}`),
   drives: (ids: string[]) => get<GeoJSON.FeatureCollection>(`/api/drives?${qs({ ids: ids.join(",") })}`),
-  query: (filters: Filters, opts: { page?: number; page_size?: number; facets?: boolean } = {}) =>
+  query: (filters: Filters, opts: { page?: number; page_size?: number; facets?: boolean; sort?: SortKey; desc?: boolean } = {}) =>
     post<QueryResult>("/api/query", { filters, ...opts }),
   queryIds: (filters: Filters) => post<string[]>("/api/query/ids", { filters }),
   points: () => get<GeoJSON.FeatureCollection>("/api/points"),
@@ -229,3 +230,6 @@ export const fmtMi = (v: number | null | undefined, digits = 1) =>
 
 export const fmtDate = (d: string) =>
   new Date(d + "T12:00:00").toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+
+/** Route colours, in order: drives and days put on a map get the next unused one. */
+export const ROUTE_COLORS = ["#2563eb", "#f97316", "#16a34a", "#9333ea", "#dc2626", "#0891b2", "#db2777", "#a16207"];

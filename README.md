@@ -15,15 +15,18 @@ of that. If I did it, so can you: it's four steps, and the first three take abou
 ## What you get
 
 - **A dashboard you filter like a shop.** Tick any mix of year, month, day of week, time of day, road,
-  town, zip code, county, state or country. Every chart, list and total answers for just those drives,
-  and each option shows how many drives it would leave.
-- **Compare.** Weekdays vs weekends, this year vs last, one town vs another, side by side.
-- **The map.** Every road you've driven, coloured by how often. Watch your explored roads grow month by
-  month. Street map or satellite. Click any road for every date you drove it.
+  town, zip code, county, state or country. The totals, the miles per month and the map answer for just
+  those drives, and each option shows how many drives it would leave.
+- **A map that follows your filters.** It draws the roads the matching drives used, darker where you
+  drove more. Click a road on it to filter by that road. Click a drive in the list to see its route.
+- **Every matching drive**, with the road it spent the most miles on. Sort by date, start time, miles
+  or minutes.
+- **The full map.** Every road you've driven, coloured by how often. Watch your explored roads grow month
+  by month. Street map or satellite. Click any road for every date you drove it.
 
-| Compare two sets of filters | Roads coloured by how often | Explored over time |
+| Click a drive to see its route | Roads coloured by how often | Explored over time |
 |---|---|---|
-| ![Compare weekdays and weekends](docs/screenshots/compare.png) | ![Frequency map](docs/screenshots/frequency.png) | ![Roads appearing month by month](docs/screenshots/explored.gif) |
+| ![One drive picked from the list, drawn on the map](docs/screenshots/picked.png) | ![Frequency map](docs/screenshots/frequency.png) | ![Roads appearing month by month](docs/screenshots/explored.gif) |
 
 Every screenshot here comes from the bundled demo: an invented driver on Oahu. With your own export the
 filters fill with your own places (the demo only has one state and one country).
@@ -82,12 +85,13 @@ Want to look around first? `uv run drivelog start --demo` opens the demo data in
 
 This is **quick mode**: everything is worked out from your phone's GPS points. Miles are marked "≈"
 because the points are minutes apart and the line between them cuts corners, so totals run a little low.
-The road features (top roads, road filters, the road map, "explored") show a lock until step 4.
+The road features (road filters, the road map, "explored") show a lock until step 4, and the
+dashboard's map shows your GPS points as a heat map.
 
 ## Step 4 · Road detail (optional, about an hour, once)
 
 This step matches every drive to the real roads you drove, using an open-source routing engine that runs
-on your Mac. It unlocks top roads, road filters, every date you drove a road, the road-by-road map, and
+on your Mac. It unlocks road filters, every date you drove a road, the road-by-road map, and
 exact miles. It takes a while, but it runs unattended.
 
 1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) and start it. In its

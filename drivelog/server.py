@@ -233,10 +233,10 @@ def _road_hits(c, q: str) -> list[dict]:
 @app.post("/api/query")
 def query(body: dict = Body(default={})):
     """Dashboard: totals, charts, lists, records, matching drives and facet counts for a filter set.
-    Body: {"filters": {...}, "page": 0, "page_size": 25, "facets": true}."""
+    Body: {"filters": {...}, "page": 0, "page_size": 25, "facets": true, "sort": "date", "desc": true}."""
     e = engine()
     r = e.query(body.get("filters"), page=int(body.get("page", 0)), page_size=min(int(body.get("page_size", 25)), 200),
-                facets=bool(body.get("facets", True)))
+                facets=bool(body.get("facets", True)), sort=str(body.get("sort", "date")), desc=bool(body.get("desc", True)))
     r["labels"] = e.labels(body.get("filters"))
     return _json(r)
 
