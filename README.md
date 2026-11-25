@@ -12,6 +12,9 @@ I drive most, when I'm on the road, how my weekdays differ from my weekends, how
 explored. And I didn't want to upload my location history anywhere to do it. Drivelog is what came out
 of that. If I did it, so can you: it's four steps, and the first three take about ten minutes.
 
+**Prefer one page?** The [Drivelog field guide](https://drivelog.jvtestspace.com/help) has the four steps
+and a picture of where your data goes (it stays on your Mac).
+
 ## What you get
 
 - **A dashboard you filter like a shop.** Tick any mix of year, month, day of week, time of day, road,
